@@ -37,7 +37,7 @@ class App extends React.Component {
 
   render() {
     return <div>
-      <NavButton onSearchTermChange={(term) => { }} />
+      {/* <NavButton onSearchTermChange={(term) => { }} /> */}
 
       <Router>
         <div>
