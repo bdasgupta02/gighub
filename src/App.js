@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import './App.css';
-import NavButton from './components/navButton.js'
+
 
 /* General Pages */
 import Homepage from './pages/homepage';
@@ -58,7 +58,7 @@ class App extends React.Component {
             <Route path="/sign-in">
               <SignIn />
             </Route>
-            
+
             {/* User Pages */}
             <Route path="/user/applications">
               <MyApplications />
@@ -86,7 +86,7 @@ class App extends React.Component {
             <Route path="/company/search">
               <CompanyDashboard />
             </Route>
-            
+
             {/* Home Page */}
             <Route path="/">
               <Homepage />

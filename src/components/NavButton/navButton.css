@@ -1,0 +1,21 @@
+.navbutton{
+font-weight: bold;
+font-size: 14px;
+line-height: 16px;
+color: #55E1EA;
+height: 16px;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  width: 240px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  align-self: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 12px 35px 0 rgba(16, 39, 112, 0.25);
+  outline: 0;
+  text-transform: capitalize;
+}

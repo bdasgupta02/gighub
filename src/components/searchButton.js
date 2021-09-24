@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 
 
-class NavButton extends React.Component {
+class SearchButton extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ class NavButton extends React.Component {
 
 
     return (
-      <div className="nav-button" id="nav-button">
+      <div className="search-button" id="search-button">
       <input
         style = {this.state.BarStyling}
         onFocus= {() => this.setState({BarStyling: focusedStyling})}
@@ -66,8 +66,8 @@ class NavButton extends React.Component {
   // }
 }
 
-export default NavButton;
+export default SearchButton;
 
 //To use:
 
-//<NavButton onSearchTermChange={term => this.functionToSearch(term)} />
+//<SearchButton onSearchTermChange={term => this.functionToSearch(term)} />

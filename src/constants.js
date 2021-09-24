@@ -17,3 +17,4 @@ export const BRIGHT_BLUE = '#55E1EA';
 export const LIGHT_BLUE = '#08F0FF'; //USE WITH 18% OPACITY
 export const TEXT_BLUE = '#00A9B4'; //blue for texts
 export const DARK_GREEN = '#174B4F';
+export const GREY = '#B8B8B8';
