@@ -1,11 +1,3 @@
-import React, { useState } from 'react'
+import GigListingTile from './GigListingTile'
 
-const GigListingTile = (props) => {
-    const [isHovering, setIsHovering] = useState(false)
-
-    return (
-        <div></div>
-    )
-}
-
-export default GigListingTile;
+export default GigListingTile
