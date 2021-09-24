@@ -2,6 +2,12 @@
 import React from 'react';
 import  * as Constants from '../constants.js';
 import styles from '../App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 
 class NavButton extends React.Component {
