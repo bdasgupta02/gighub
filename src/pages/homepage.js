@@ -4,9 +4,9 @@ import NavButton from '../components/NavButton/NavButton.js';
 export default function Homepage(props) {
   return (
     <div>
-      <Row debug style={{ height: "100vh" }}>
-        <Col debug md={2} >
-          <Container style={{height: "100%", width: "100%"}}>
+      <Row style={{ height: "100vh" }}>
+        <Col xs={2}>
+          <Container fluid style={{height: "100%", width: "100%"}}>
             <Row style={{height: "20%"}}>
               GigHub Logo
             </Row>
@@ -20,7 +20,7 @@ export default function Homepage(props) {
           </Container>
         </Col>
 
-        <Col debug md={10}>
+        <Col xs={10} style={{ backgroundColor: "#E8F0F2"}}>
           Main Page
         </Col>
       </Row>
