@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import React from 'react';
 import NavBar from './components/NavBar';
 import {SearchIcon} from '@primer/octicons-react';
+import {Container, Row, Col} from 'react-grid-system';
 import {
   BrowserRouter as Router,
   Switch,
@@ -40,12 +41,17 @@ class App extends React.Component {
 
   render() {
     return <div>
-      {/* <NavButton onSearchTermChange={(term) => { }} /> */}
+      {/* <SearchBar onSearchTermChange={(term) => { }} /> */}
 
       <Router>
-      <NavBar />
-
+        {/* Go to NavBar/index.js to edit links for the navbuttons */}
         <div>
+        <Container>
+        <Row debug>
+        <Col xs={3} debug>
+        <NavBar />
+        </Col>
+        <Col>
           <Switch>
             {/* General Pages */}
             <Route path="/gig/details">
@@ -65,7 +71,7 @@ class App extends React.Component {
             </Route>
 
             {/* User Pages */}
-            <Route path="/user/applications">
+            <Route path="/user/applications" >
               <MyApplications />
             </Route>
             <Route path="/user/gigs">
@@ -97,7 +103,11 @@ class App extends React.Component {
               <Homepage />
             </Route>
           </Switch>
+          </Col>
+          </Row>
+              </Container>
         </div>
+
       </Router>
 
     </div>
