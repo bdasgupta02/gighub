@@ -1,10 +1,14 @@
 import logo from './logo.svg';
 import React from 'react';
+import NavBar from './components/NavBar';
+import {SearchIcon} from '@primer/octicons-react';
+import {Container, Row, Col} from 'react-grid-system';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  NavLink
 } from "react-router-dom";
 
 import './App.css';
@@ -32,10 +36,17 @@ class App extends React.Component {
 
   render() {
     return <div>
-      {/* <NavButton onSearchTermChange={(term) => { }} /> */}
+      {/* <SearchBar onSearchTermChange={(term) => { }} /> */}
 
       <Router>
+        {/* Go to NavBar/index.js to edit links for the navbuttons */}
         <div>
+        <Container>
+        <Row debug>
+        <Col xs={3} debug>
+        <NavBar />
+        </Col>
+        <Col>
           <Switch>
             {/* Basic Functions  */}
             <Route path="/sign-in">
@@ -68,7 +79,7 @@ class App extends React.Component {
               <CompanyDetails />
             </Route>
 
-            {/* User Only */}
+            {/* Worker Only */}
             <Route path="/dashboard">
               <WorkerDashboard />
             </Route>
@@ -90,8 +101,13 @@ class App extends React.Component {
               <Homepage />
             </Route>
           </Switch>
+          </Col>
+          </Row>
+              </Container>
         </div>
+
       </Router>
+
     </div>
   }
 }

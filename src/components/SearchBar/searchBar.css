@@ -1,0 +1,100 @@
+.BorderRadius {
+    border-radius: 12px;
+}
+
+#SearchText {
+    width: 505px;
+    height: 40px;
+    margin-left: 16px;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+#Keyword {
+    height: 36px;
+    font-size: 19px;
+    font-weight: bold;
+    margin-right: 8px;
+    background-color: #08F0FF2E;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 12px;
+    color: #00A9B4;
+}
+
+.IconBox {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.2);
+}
+
+#SearchIconBox {
+    padding-right: 16px;
+}
+
+#Keyword {
+    height: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 8px;
+    background-color: #08F0FF2E;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+    color: #00A9B4;
+}
+
+.SideBox {
+    height: 40px;
+    width: 40px;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#SorterBox {
+    height: 40px;
+    width: 150px;
+    margin-left: 11px;
+    display: flex;
+    align-items: center;
+}
+
+#SearchTextBox {
+    margin-right: 20px
+}
+
+.DropDown {
+    background-color: white;
+    position: absolute;
+    width: 50px;
+    margin-top: 10px;
+}
+
+#FilterBox {
+    padding-left: 20px
+}
+
+#SorterIconBox {
+    margin-right: 16px;
+}
+
+#SorterText {
+    color: #9E9E9E;
+    flex-grow: 1;
+    margin-left: 16px;
+    margin-bottom: 2px;
+}
