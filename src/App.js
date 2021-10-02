@@ -13,25 +13,20 @@ import {
 
 import './App.css';
 
-
-/* General Pages */
 import Homepage from './pages/homepage';
 import SignIn from './pages/signIn';
 import GigDetails from './pages/gigDetails';
 import SearchGigs from './pages/searchGigs';
 import SearchWorkers from './pages/searchWorkers';
 import Settings from './pages/settings';
-
-/* User Pages */
 import MyApplications from './pages/myApplications';
 import MyGigs from './pages/myGigs';
 import WorkerDashboard from './pages/workerDashboard';
 import WorkerDetails from './pages/workerDetails';
-
-/* Company Pages */
 import CompanyDashboard from './pages/companyDashboard';
 import CompanyDetails from './pages/companyDetails';
 import ListedGigs from './pages/listedGigs';
+import SearchCompanies from './pages/searchCompanies';
 
 class App extends React.Component {
   constructor(props) {
@@ -53,50 +48,53 @@ class App extends React.Component {
         </Col>
         <Col>
           <Switch>
-            {/* General Pages */}
-            <Route path="/gig/details">
-              <GigDetails />
-            </Route>
-            <Route path="/gig/search">
-              <SearchGigs />
-            </Route>
-            <Route path="/user/search">
-              <SearchWorkers />
+            {/* Basic Functions  */}
+            <Route path="/sign-in">
+              <SignIn />
             </Route>
             <Route path="/settings">
               <Settings />
             </Route>
-            <Route path="/sign-in">
-              <SignIn />
-            </Route>
 
-            {/* User Pages */}
-            <Route path="/user/applications" >
-              <MyApplications />
+            {/* Common Pages */}
+            <Route path="/search-users">
+              <SearchWorkers />
             </Route>
-            <Route path="/user/gigs">
-              <MyGigs />
-            </Route>
-            <Route path="/user/dashboard">
-              <WorkerDashboard />
-            </Route>
-            <Route path="/user/details">
+            <Route path="/user/">
               <WorkerDetails />
             </Route>
-
-            {/* Company Pages */}
-            <Route path="/company/dashboard">
-              <CompanyDashboard />
+            <Route path="/search-gigs">
+              <SearchGigs />
             </Route>
-            <Route path="/company/details">
-              <CompanyDetails />
+            <Route path="/gig/">
+              <GigDetails />
+            </Route>
+            <Route path="/search-companies">
+              <SearchCompanies />
             </Route>
             <Route path="/company/gigs">
               <ListedGigs />
             </Route>
-            <Route path="/company/search">
+            <Route path="/company/">
+              <CompanyDetails />
+            </Route>
+
+            {/* Worker Only */}
+            <Route path="/dashboard">
+              <WorkerDashboard />
+            </Route>
+            <Route path="/my-applications">
+              <MyApplications />
+            </Route>
+            <Route path="/my-gigs">
+              <MyGigs />
+            </Route>
+
+            {/* Company Only */}
+            <Route path="/company-dashboard">
               <CompanyDashboard />
             </Route>
+
 
             {/* Home Page */}
             <Route path="/">
