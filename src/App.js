@@ -37,13 +37,12 @@ class App extends React.Component {
   render() {
     return <div>
       {/* <SearchBar onSearchTermChange={(term) => { }} /> */}
-
       <Router>
         {/* Go to NavBar/index.js to edit links for the navbuttons */}
-        <div>
+        <div >
         <Container>
         <Row debug>
-        <Col xs={3} debug>
+        <Col xs={3}>
         <NavBar />
         </Col>
         <Col>

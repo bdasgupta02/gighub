@@ -2,7 +2,7 @@ import React, {useState, Button} from 'react';
 import  * as Constants from '../../constants.js';
 import {BeakerIcon, ZapIcon} from '@primer/octicons-react';
 import { Container, Row, Col } from 'react-grid-system'
-import './navButton.css';
+
 import {NavLink as Link}from "react-router-dom";
 import { animated, useSpring, config } from 'react-spring'
 import styled from "styled-components";
@@ -21,12 +21,9 @@ background-color: white;
 text-decoration: none;
 color: #B8B8B8;
 height: 48px;
-padding-left:  26px;
-padding-right:  260px;
-padding-top:  16px;
-padding-bottom:  16px;
-font-weight:  bold;
+
 font-size:  14px;
+margin: 10px;
 cursor: pointer;
 &:hover {
   color: #B8B8B8;
@@ -87,7 +84,12 @@ const NavButton = (props) => {
 const AnimatedContainer = animated(Container)
 	return (
     <NavLink exact to={props.to ?? "/"}>
-    {props.icon} {" " + props.buttonText}
+    <div style={{width: '140px', textAlign: 'left', marginLeft: '15px'}}>
+      {props.icon}
+      <div style={{display: 'inline', marginLeft: '10px'}}>
+        {props.buttonText}
+      </div>
+    </div>
     </NavLink>
 	);
 };
