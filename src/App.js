@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import React from 'react';
-import NavBar from './components/NavBar';
+import WorkerNavBar from './components/NavBar';
 import {SearchIcon} from '@primer/octicons-react';
 import {Container, Row, Col} from 'react-grid-system';
 import {
@@ -43,7 +43,7 @@ class App extends React.Component {
         <Container>
         <Row debug>
         <Col xs={3}>
-        <NavBar />
+        <WorkerNavBar />
         </Col>
         <Col>
           <Switch>
