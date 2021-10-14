@@ -1,0 +1,22 @@
+#ButtonBox {
+    border-radius: 8px;
+    justify-content: center;
+    align-content: center;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-right: 26px;
+    padding-left: 26px;
+    cursor: pointer;
+}
+
+#ButtonText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Chrome, Edge, Opera and Firefox */
+}
