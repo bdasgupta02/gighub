@@ -8,15 +8,16 @@ import './button.css'
  * - isBlock: stretch 100% width of parentif true
  * - onClick: func
  * - text
+ * - forceWidth
  */
 const Button = (props) => {
     const [isHovering, setIsHovering] = useState(false)
     const [isPressed, setIsPressed] = useState(false)
-    const { isBlock, type, onClick, text } = props
+    const { isBlock, type, onClick, text, forceWidth } = props
 
     const boxStyle = {
-        display: isBlock ? 'flex' : 'inline-block',
-        
+        display: isBlock || forceWidth !== null  ? 'flex' : 'inline-block',
+        width: forceWidth !== null ? forceWidth : null,
     }
 
     const animatedBackground = useSpring({
