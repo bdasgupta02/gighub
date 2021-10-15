@@ -35,6 +35,7 @@ const ToggleSwitch = (props) => {
         color: '#8A8A8A',
         fontWeight: 'normal',
         backgroundColor: '#ECECEC00',
+        boxShadow: "0px 0px 0px #00000000"
     }
 
     const leftStyle = useSpring(isLeft ? selectedTextStyle : unselectedTextStyle)
