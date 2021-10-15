@@ -2,8 +2,8 @@
     border-radius: 8px;
     justify-content: center;
     align-content: center;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     padding-right: 26px;
     padding-left: 26px;
     cursor: pointer;
@@ -11,7 +11,7 @@
 
 #ButtonText {
     font-family: 'Roboto', sans-serif;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: bold;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
