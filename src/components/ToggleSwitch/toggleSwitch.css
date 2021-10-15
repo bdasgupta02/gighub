@@ -1,0 +1,12 @@
+#ToggleBackground {
+    background-color: #ECECEC;
+    border-radius: 8px;
+}
+
+.ToggleSide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
