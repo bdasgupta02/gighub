@@ -1,0 +1,53 @@
+.TileText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.Buttons {
+    padding-left: 10px;
+}
+
+#DashTileBackground {
+    height: 190px;
+    width: 280px;
+    border-radius: 12px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#MainColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 16px;
+    padding-top: 55px;
+}
+
+#DashTileBackground:hover {
+    cursor: pointer;
+}
+
+#HighlightsValue {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+    color: #321313;
+}
+
+#HighlightsDesc {
+    margin-top: 2px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #ABABAB;
+}
