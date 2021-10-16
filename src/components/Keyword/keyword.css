@@ -3,14 +3,29 @@
     color: #00A9B4;
     height: 36px;
     border-radius: 18px;
-    display: flex;
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
     font-size: 14px;
+    display: table;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #Spacer {
-    width: 16px;
+    width: 0px;
     height: 1px;
+}
+
+#KeywordRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#KeywordCol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

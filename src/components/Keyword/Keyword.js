@@ -16,15 +16,17 @@ const Keyword = (props) => {
 
     return (
         <Container id="Keyword">
-            <Col>
-                {keyword}
-            </Col>
-            <div id="Spacer" />
-            {isReadOnly === true ? null : (
-                <Col onClick={() => onClose(keyword)}>
-                    <XCircleFillIcon size="small" />
+            <Row id="KeywordRow">
+                <Col id="KeywordCol">
+                    {keyword}
                 </Col>
-            )}
+                <div id="Spacer" />
+                {isReadOnly === true ? null : (
+                    <Col id="KeywordCol" onClick={() => onClose(keyword)}>
+                        <XCircleFillIcon size="small" />
+                    </Col>
+                )}
+            </Row>
         </Container>
     )
 }
