@@ -1,0 +1,16 @@
+#Keyword {
+    background-color: #08F0FF2E;
+    color: #00A9B4;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 14px;
+}
+
+#Spacer {
+    width: 16px;
+    height: 1px;
+}
