@@ -21,7 +21,7 @@ const Keyword = (props) => {
             </Col>
             <div id="Spacer" />
             {isReadOnly === true ? null : (
-                <Col onClick={onClose}>
+                <Col onClick={() => onClose(keyword)}>
                     <XCircleFillIcon size="small" />
                 </Col>
             )}
