@@ -22,7 +22,7 @@ const Button = (props) => {
 
     const animatedBackground = useSpring({
         // elevation animation
-        boxShadow: isHovering ? "4px 10px 30px #00000040" : "0px 0px 0px #00000000",
+        boxShadow: isHovering ? "4px 10px 15px #00000026" : "0px 0px 0px #00000000",
         config: config.stiff
     })
 
