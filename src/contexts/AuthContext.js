@@ -19,8 +19,6 @@ export const AuthProvider = ({ children }) => {
 
     const signup = (details, isWorker) => {
         const user = auth.createUserWithEmailAndPassword(details.email, details.password).then((res) => {
-            console.log('ID: ' )
-            console.log(res)
             if (isWorker !== undefined && isWorker) {
                 return accessDB.collection('workers').doc(res.user.uid).set(details)
             } else {
