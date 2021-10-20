@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import React from 'react';
-import WorkerNavBar from './components/NavBar';
-import {SearchIcon} from '@primer/octicons-react';
-import {Container, Row, Col} from 'react-grid-system';
+import NavBar from './components/NavBar';
+import { SearchIcon } from '@primer/octicons-react';
+import { Container, Row, Col } from 'react-grid-system';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,6 +10,8 @@ import {
   Link,
   NavLink
 } from "react-router-dom";
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import PrivateRoute from './PrivateRoute';
 
 import './App.css';
 
@@ -21,94 +23,114 @@ import SearchWorkers from './pages/searchWorkers';
 import Settings from './pages/settings';
 import MyApplications from './pages/myApplications';
 import MyGigs from './pages/myGigs';
+
+// don't make dashboard separate
 import WorkerDashboard from './pages/workerDashboard';
-import WorkerDetails from './pages/workerDetails';
 import CompanyDashboard from './pages/companyDashboard';
+
+
+import WorkerDetails from './pages/workerDetails';
 import CompanyDetails from './pages/companyDetails';
 import ListedGigs from './pages/listedGigs';
 import SearchCompanies from './pages/searchCompanies';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {} //add stateful items here
-  }
 
-  render() {
-    return <div>
-      {/* <SearchBar onSearchTermChange={(term) => { }} /> */}
+import Button from './components/Button';
+import SignInBox from './components/SignInBox'
+
+const App = (props) => {
+  return (
+    <Router>
+      <AuthProvider>
+        <Switch>
+          {/* Put your private routes here (dashboard should be root at "/") */}
+          <PrivateRoute exact path="/" component={WorkerDashboard} />
+
+          {/* This is for the sign-in */}
+          <Route path="/signin" component={SignInBox} />
+        </Switch>
+      </AuthProvider>
+    </Router>
+  )
+}
+
+export default App;
+
+/**
+ *
+ *
+ * <Button text={"Button"} onClick={() => null} type="PRIMARY" isBlock />
+ *
+return <AuthProvider>
+      {/* <SearchBar onSearchTermChange={(term) => { }} /> }
+
       <Router>
-        {/* Go to NavBar/index.js to edit links for the navbuttons */}
-        <div >
-        <Container>
-        <Row debug>
-        <Col xs={3}>
-        <WorkerNavBar />
-        </Col>
-        <Col>
-          <Switch>
-            {/* Basic Functions  */}
-            <Route path="/sign-in">
-              <SignIn />
-            </Route>
-            <Route path="/settings">
-              <Settings />
-            </Route>
+        {/* Go to NavBar/index.js to edit links for the navbuttons }
+        <div>
+          <Container>
+            <Row debug>
+              <Col xs={3} debug>
+                <NavBar />
+              </Col>
+              <Col>
+                <Switch>
+                  {/* Basic Functions  }
 
-            {/* Common Pages */}
-            <Route path="/search-users">
-              <SearchWorkers />
-            </Route>
-            <Route path="/user/">
-              <WorkerDetails />
-            </Route>
-            <Route path="/search-gigs">
-              <SearchGigs />
-            </Route>
-            <Route path="/gig/">
-              <GigDetails />
-            </Route>
-            <Route path="/search-companies">
-              <SearchCompanies />
-            </Route>
-            <Route path="/company/gigs">
-              <ListedGigs />
-            </Route>
-            <Route path="/company/">
-              <CompanyDetails />
-            </Route>
+                  <PrivateRoute path="/settings">
+                    <Settings />
+                  </PrivateRoute>
 
-            {/* Worker Only */}
-            <Route path="/dashboard">
-              <WorkerDashboard />
-            </Route>
-            <Route path="/my-applications">
-              <MyApplications />
-            </Route>
-            <Route path="/my-gigs">
-              <MyGigs />
-            </Route>
+                  {/* Common Pages }
+                  <PrivateRoute path="/search-users">
+                    <SearchWorkers />
+                  </PrivateRoute>
+                  <PrivateRoute path="/user/">
+                    <WorkerDetails />
+                  </PrivateRoute>
+                  <PrivateRoute path="/search-gigs">
+                    <SearchGigs />
+                  </PrivateRoute>
+                  <PrivateRoute path="/gig/">
+                    <GigDetails />
+                  </PrivateRoute>
+                  <PrivateRoute path="/search-companies">
+                    <SearchCompanies />
+                  </PrivateRoute>
+                  <PrivateRoute path="/company/gigs">
+                    <ListedGigs />
+                  </PrivateRoute>
+                  <PrivateRoute path="/company/">
+                    <CompanyDetails />
+                  </PrivateRoute>
 
-            {/* Company Only */}
-            <Route path="/company-dashboard">
-              <CompanyDashboard />
-            </Route>
+                  {/* Worker Only }
+                  <PrivateRoute path="/dashboard">
+                    <WorkerDashboard />
+                  </PrivateRoute>
+                  <PrivateRoute path="/my-applications">
+                    <MyApplications />
+                  </PrivateRoute>
+                  <PrivateRoute path="/my-gigs">
+                    <MyGigs />
+                  </PrivateRoute>
+
+                  {/* Company Only }
+                  <PrivateRoute path="/company-dashboard">
+                    <CompanyDashboard />
+                  </PrivateRoute>
+
+                  <Route path="/sign-in">
+                    <SignIn />
+                  </Route>
 
 
-            {/* Home Page */}
-            <Route path="/">
-              <Homepage />
-            </Route>
-          </Switch>
-          </Col>
-          </Row>
-              </Container>
+                </Switch>
+              </Col>
+            </Row>
+          </Container>
         </div>
 
       </Router>
 
-    </div>
-  }
-}
-
-export default App;
+    </AuthProvider>
+ */
