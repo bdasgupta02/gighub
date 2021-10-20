@@ -18,11 +18,6 @@ export const AuthProvider = ({ children }) => {
     const [pending, setPending] = useState(true);
 
     const signup = (details, isWorker) => {
-        // if (isWorker !== undefined && isWorker) {
-        //     createWorker(details)
-        // } else {
-        //     createCompany(details)
-        // }
         const user = auth.createUserWithEmailAndPassword(details.email, details.password).then((res) => {
             console.log('ID: ' )
             console.log(res)
