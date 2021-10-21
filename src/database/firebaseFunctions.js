@@ -10,9 +10,13 @@ import {
   writeBatch,
   updateDoc,
 } from '@firebase/firestore';
+import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 import React, { useState } from 'react';
+import {v4 as uuidv4} from 'uuid';
 import db from './firebase';
 import * as constants from '../constants';
+
+const storage = getStorage();
 
 /*
 RETRIEVE
@@ -78,28 +82,32 @@ export async function getReviewTags() {
 /*
 STILL NOT WORKING AS INTENDED
 Displayed functions as per documentation do not seem to work
+Returns an array of applied gigs
 */
 export async function getWorkerAppliedGigs(workerId) {
   const workerSubCol = collection(
     db,
-    constants.WORKERS + '/' + workerId + '/' + constants.ARCHIVED_GIGS
+    constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS
   );
   const workerSubSnapshot = await getDocs(workerSubCol);
-  //console.log("pre-call");
-  const workerSubList = workerSubSnapshot.docs.map((doc) => {
+  console.log("workerSubSnapshot: " + workerSubSnapshot);
+  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+    //looking at indivisual gigs in AppliedGig subcollection
+    console.log("in workerSubList, each doc is: " + (doc.get('data')));
     let gig = doc.get('gig');
+    console.log('gig: ' + JSON.stringify(gig))
     let includedGigDoc = getDoc(gig);
-    let includedGig = includedGigDoc.then((x) => x.data());
-
-    console.log('map return');
-    console.log(includedGig);
-
-    return includedGig;
-    //includedGig contains correct promise, but when returned to workerSubList the resulting array does not correctly display. Likely an issue with mapping into a promise?
+    console.log("IncludedGigDoc: " + includedGigDoc) //this returns a promise.
+    let includedGig = [];
+    includedGigDoc.then((x) => {
+      includedGig.push(x.data());
+      console.log("in includedGigDocs : data is : " + JSON.stringify(x.data()));
+    }).then(() => {
+      console.log('getWorkerAppliedGigs: returning: ');
+      console.log(includedGig);
+      return includedGig;
+    });
   });
-
-  console.log(workerSubList);
-
   return workerSubList;
 }
 
@@ -209,6 +217,35 @@ export async function createReview(reviewDetails) {
     //update user's numReviews and avgReview(technically total review score)
 }
 
+/**
+ * While not enforced in db function, enforce that the uploaded file is actually a picture file. 
+ * https://roufid.com/javascript-check-file-image/ shows how to check for images in general or a specific image type (may want to limit it to jpeg, png, svg)
+ * May want to limit file size as well.
+ * uuidv4() used to ensure that there is no duplicate reference name
+ * @param {File} picture a File, preferably of an image type. No error will be thrown even if the file is not an image type.
+ * @returns {String} the download link (in HTTPS:// format) to be stored as a String in firestore
+ */
+export async function createProfilePicture(picture) {
+    let picName = picture.name + uuidv4();
+    const storageRef = ref(storage, 'profile_pics/' + picName)
+
+    let url = await uploadBytes(storageRef, picture).then(() => getDownloadURL(storageRef));
+    return url;
+}
+
+/**
+ * While not enforced in db function, should enforce the uploaded file is actually a document type.
+ * @param {File} resume a File, preferably of pdf type. No error will be thrown even if the file is not a pdf.
+ * @returns {string} the download link (in HTTPS:// format) to be stored as a String in firestore
+ */
+export async function createResume(resume) {
+  let resumeName = resume.name + uuidv4();
+  const storageRef = ref(storage, 'resumes/' + resumeName);
+
+  let url = await uploadBytes(storageRef, resume).then(() => getDownloadURL(storageRef));
+  return url;
+}
+
 /*
 UPDATE
 */
@@ -250,6 +287,7 @@ export async function archiveGig(gigId) {
 /*
 DELETE
 need to decide on how to handle deletions. i.e. if skills/tags are kept as references there would need to be handling of referencing issues to prevent null references
+decided as marked for deletion. 
 */
 
 export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies. 
