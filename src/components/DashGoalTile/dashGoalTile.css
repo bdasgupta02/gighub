@@ -1,0 +1,61 @@
+.TileText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.Buttons {
+    padding-left: 10px;
+}
+
+#DashTileBackground {
+    height: 100px;
+    width: 95%;
+    border-radius: 12px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#MainColumn {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px;
+}
+
+#DashTileBackground:hover {
+    cursor: pointer;
+}
+
+#GoalNo {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    color: #545454;
+}
+
+#GoalDetails {
+    margin-top: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    color: #545454;
+}
+
+#BottomRow {
+    margin-top: 10px;
+}
+
+#GoalDeadline {
+    margin-top: 3px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    color: #ABABAB;
+}
+
+#GoalOptions {
+    float: right;
+}
