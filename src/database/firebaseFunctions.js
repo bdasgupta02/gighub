@@ -81,7 +81,7 @@ export async function getReviewTags() {
 }
 
 /**
- * 
+ *
  * @param {String} workerId id of worker as listed in db
  * @returns array of workers applied gigs
  */
@@ -145,7 +145,6 @@ export async function getWorkerArchivedGigs(workerId) {
       });
   });
   return workerSubList;
-
 }
 
 export async function getWorkerBookedGigs(workerId) {
@@ -179,14 +178,9 @@ export async function getWorkerBookedGigs(workerId) {
   return workerSubList;
 }
 
-export async function getWorkerGoals(workerId) {
-  
-}
+export async function getWorkerGoals(workerId) {}
 
-export async function getWorkerReviews(workerId) {
-  
-
-}
+export async function getWorkerReviews(workerId) {}
 
 export async function getCompanyArchivedGigs(companyId) {
   const companySubCol = collection(
@@ -222,7 +216,7 @@ export async function getCompanyArchivedGigs(companyId) {
 export async function getCompanyPostedGigs(companyId) {
   const companySubCol = collection(
     db,
-    constants.COMPANIES + '/' + companyId + '/' + constants.ARCHIVED_GIGS
+    constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS
   );
   const companySubSnapshot = await getDocs(companySubCol);
   console.log('companySubSnapshot: ' + companySubSnapshot);
@@ -250,8 +244,41 @@ export async function getCompanyPostedGigs(companyId) {
   return companySubList;
 }
 
+//untested with multiple reviews, not sure how the data will be structured
 export async function getCompanyReviews(companyId) {
-
+  let companySubCol = collection(
+    db,
+    constants.COMPANIES + '/' + companyId + '/' + constants.REVIEWS
+  );
+  let companySubSnapshot = await getDocs(companySubCol);
+  let companySubList = companySubSnapshot.docs.map((doc) => {
+    let gig = doc.get('gig');
+    let includedGigDoc = getDoc(gig);
+    let includedGig = [];
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+      })
+      .then((x) => {
+        return includedGig;
+      });
+    let tags = doc.get('reviewTags');
+    let includedTagDocs = [];
+    tags.array.forEach((element) => {
+      includedTagDocs.push(await getDoc(element));
+    });
+    let includedTags = [];
+    includedTagDocs.forEach((includedTagDoc) => {
+      includedTagDoc
+        .then((x) => {
+          includedTags.push(x.data());
+        })
+        .then((x) => {
+          return includedTags;
+        });
+    });
+  });
+  return companySubList;
 }
 
 /*
@@ -448,17 +475,17 @@ Meant to facilitate specific functionality with a lower usage
 export async function getActiveGig(gigId) {
   let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
   let gigDoc = await getDoc(gigRef);
-  
+
   let gig = [];
   gig.push(gigDoc.data());
-  
+
   return gig;
 }
 
 export async function getArchivedGig(gigId) {
   let gigRef = doc(db, constants.ARCHIVED_GIGS, gigId);
   let gigDoc = await getDoc(gigRef);
-  
+
   let gig = [];
   gig.push(gigDoc.data());
 
@@ -486,7 +513,7 @@ export async function getCompany(companyId) {
 }
 
 /**
- * 
+ *
  * @param {String} workerId id of worker as listed in db
  * @param {Array<String>} skills array of skills to be added
  */
@@ -498,7 +525,7 @@ export async function addSkillsToWorker(workerId, skills) {
   oldSkills.push(skills);
 
   await updateDoc(workerRef, {
-    skills: oldSkills
+    skills: oldSkills,
   });
 }
 
@@ -512,9 +539,8 @@ export async function removeSkillsFromWorker(workerId, skills) {
   });
 
   await updateDoc(workerRef, {
-    skills: newSkills
+    skills: newSkills,
   });
-
 }
 
 /**
@@ -527,7 +553,7 @@ export async function removeSkillsFromWorker(workerId, skills) {
  * textReview(String)
  * @param {String} companyId id of company as listed in database
  */
- export async function createCompanyReview(reviewDetails, companyId) {
+export async function createCompanyReview(reviewDetails, companyId) {
   try {
     await runTransaction(db, async (transaction) => {
       const companyDocRef = doc(db, constants.COMPANIES, companyId);
@@ -535,9 +561,12 @@ export async function removeSkillsFromWorker(workerId, skills) {
       if (!companyDoc.exists()) {
         throw 'Document does not exist!';
       }
-      const reviewRef = doc(collection(db, constants.COMPANIES, companyID + '/' + constants.REVIEWS));
-      let oldNumReviews = companyDoc.data().numReviews;
-      let oldAvg = companyDoc.data().avgReview;
+      const reviewRef = doc(
+        collection(db, constants.COMPANIES, companyID + '/' + constants.REVIEWS)
+      );
+      let companyData = companyDoc.data();
+      let oldNumReviews = companyData.numReviews;
+      let oldAvg = companyData.avgReview;
       let newAvgReviews;
       let newNumReviews;
 
@@ -548,7 +577,7 @@ export async function removeSkillsFromWorker(workerId, skills) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews + 1;
       } else {
-        throw 'Error in recorded review scores stored in database!'
+        throw 'Error in recorded review scores stored in database!';
       }
 
       transaction.update(companyDocRef, { avgReview: newAvgReviews });
@@ -579,9 +608,12 @@ export async function createWorkerReview(reviewDetails, workerId) {
       if (!workerDoc.exists()) {
         throw 'Document does not exist!';
       }
-      let reviewRef = doc(collection(db, constants.WORKERS, workerId + '/' + constants.REVIEWS));
-      let oldNumReviews = workerDoc.data().numReviews;
-      let oldAvg = workerDoc.data().avgReview;
+      let reviewRef = doc(
+        collection(db, constants.WORKERS, workerId + '/' + constants.REVIEWS)
+      );
+      let workerData = workerDoc.data();
+      let oldNumReviews = workerData.numReviews;
+      let oldAvg = workerDoata.avgReview;
       let newAvgReviews;
       let newNumReviews;
 
@@ -592,9 +624,9 @@ export async function createWorkerReview(reviewDetails, workerId) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews + 1;
       } else {
-        throw 'Error in recorded review scores stored in database!'
+        throw 'Error in recorded review scores stored in database!';
       }
-      
+
       transaction.update(companyDocRef, { avgReview: newAvgReviews });
       transaction.update(companyDocRef, { numReviews: newNumReviews });
       transaction.set(reviewRef, reviewDetails);
