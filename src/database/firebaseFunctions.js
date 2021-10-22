@@ -9,10 +9,11 @@ import {
   setDoc,
   writeBatch,
   updateDoc,
+  runTransaction,
 } from '@firebase/firestore';
-import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import db from './firebase';
 import * as constants from '../constants';
 
@@ -58,7 +59,7 @@ export async function getCompanies() {
 export async function getSkills() {
   const skillsCol = collection(db, constants.SKILLS);
   const skillsSnapshot = await getDocs(skillsCol);
-  const skillsList = skillsSnapshot.docs.map((doc) => doc.id);
+  const skillsList = skillsSnapshot.docs.map((doc) => doc.data());
 
   return skillsList;
 }
@@ -79,36 +80,178 @@ export async function getReviewTags() {
   return reviewTagList;
 }
 
-/*
-STILL NOT WORKING AS INTENDED
-Displayed functions as per documentation do not seem to work
-Returns an array of applied gigs
-*/
+/**
+ * 
+ * @param {String} workerId id of worker as listed in db
+ * @returns array of workers applied gigs
+ */
 export async function getWorkerAppliedGigs(workerId) {
   const workerSubCol = collection(
     db,
     constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS
   );
   const workerSubSnapshot = await getDocs(workerSubCol);
-  console.log("workerSubSnapshot: " + workerSubSnapshot);
+  console.log('workerSubSnapshot: ' + workerSubSnapshot);
   var workerSubList = workerSubSnapshot.docs.map((doc) => {
     //looking at indivisual gigs in AppliedGig subcollection
-    console.log("in workerSubList, each doc is: " + (doc.get('data')));
+    console.log('in workerSubList, each doc is: ' + doc.get('data'));
     let gig = doc.get('gig');
-    console.log('gig: ' + JSON.stringify(gig))
+    console.log('gig: ' + JSON.stringify(gig));
     let includedGigDoc = getDoc(gig);
-    console.log("IncludedGigDoc: " + includedGigDoc) //this returns a promise.
+    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
     let includedGig = [];
-    includedGigDoc.then((x) => {
-      includedGig.push(x.data());
-      console.log("in includedGigDocs : data is : " + JSON.stringify(x.data()));
-    }).then(() => {
-      console.log('getWorkerAppliedGigs: returning: ');
-      console.log(includedGig);
-      return includedGig;
-    });
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+        console.log(
+          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
+        );
+      })
+      .then(() => {
+        console.log('getWorkerAppliedGigs: returning: ');
+        console.log(includedGig);
+        return includedGig;
+      });
   });
   return workerSubList;
+}
+
+export async function getWorkerArchivedGigs(workerId) {
+  const workerSubCol = collection(
+    db,
+    constants.WORKERS + '/' + workerId + '/' + constants.ARCHIVED_GIGS
+  );
+  const workerSubSnapshot = await getDocs(workerSubCol);
+  console.log('workerSubSnapshot: ' + workerSubSnapshot);
+  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+    //looking at indivisual gigs in AppliedGig subcollection
+    console.log('in workerSubList, each doc is: ' + doc.get('data'));
+    let gig = doc.get('gig');
+    console.log('gig: ' + JSON.stringify(gig));
+    let includedGigDoc = getDoc(gig);
+    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    let includedGig = [];
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+        console.log(
+          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
+        );
+      })
+      .then(() => {
+        console.log('getWorkerArchivedGigs: returning: ');
+        console.log(includedGig);
+        return includedGig;
+      });
+  });
+  return workerSubList;
+
+}
+
+export async function getWorkerBookedGigs(workerId) {
+  const workerSubCol = collection(
+    db,
+    constants.WORKERS + '/' + workerId + '/' + constants.BOOKED_GIGS
+  );
+  const workerSubSnapshot = await getDocs(workerSubCol);
+  console.log('workerSubSnapshot: ' + workerSubSnapshot);
+  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+    //looking at indivisual gigs in AppliedGig subcollection
+    console.log('in workerSubList, each doc is: ' + doc.get('data'));
+    let gig = doc.get('gig');
+    console.log('gig: ' + JSON.stringify(gig));
+    let includedGigDoc = getDoc(gig);
+    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    let includedGig = [];
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+        console.log(
+          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
+        );
+      })
+      .then(() => {
+        console.log('getWorkerAppliedGigs: returning: ');
+        console.log(includedGig);
+        return includedGig;
+      });
+  });
+  return workerSubList;
+}
+
+export async function getWorkerGoals(workerId) {
+  
+}
+
+export async function getWorkerReviews(workerId) {
+  
+
+}
+
+export async function getCompanyArchivedGigs(companyId) {
+  const companySubCol = collection(
+    db,
+    constants.COMPANIES + '/' + companyId + '/' + constants.ARCHIVED_GIGS
+  );
+  const companySubSnapshot = await getDocs(companySubCol);
+  console.log('companySubSnapshot: ' + companySubSnapshot);
+  var companySubList = companySubSnapshot.docs.map((doc) => {
+    //looking at indivisual gigs in AppliedGig subcollection
+    console.log('in companySubList, each doc is: ' + doc.get('data'));
+    let gig = doc.get('gig');
+    console.log('gig: ' + JSON.stringify(gig));
+    let includedGigDoc = getDoc(gig);
+    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    let includedGig = [];
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+        console.log(
+          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
+        );
+      })
+      .then(() => {
+        console.log('getWorkerAppliedGigs: returning: ');
+        console.log(includedGig);
+        return includedGig;
+      });
+  });
+  return companySubList;
+}
+
+export async function getCompanyPostedGigs(companyId) {
+  const companySubCol = collection(
+    db,
+    constants.COMPANIES + '/' + companyId + '/' + constants.ARCHIVED_GIGS
+  );
+  const companySubSnapshot = await getDocs(companySubCol);
+  console.log('companySubSnapshot: ' + companySubSnapshot);
+  var companySubList = companySubSnapshot.docs.map((doc) => {
+    //looking at indivisual gigs in AppliedGig subcollection
+    console.log('in companySubList, each doc is: ' + doc.get('data'));
+    let gig = doc.get('gig');
+    console.log('gig: ' + JSON.stringify(gig));
+    let includedGigDoc = getDoc(gig);
+    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    let includedGig = [];
+    includedGigDoc
+      .then((x) => {
+        includedGig.push(x.data());
+        console.log(
+          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
+        );
+      })
+      .then(() => {
+        console.log('getWorkerAppliedGigs: returning: ');
+        console.log(includedGig);
+        return includedGig;
+      });
+  });
+  return companySubList;
+}
+
+export async function getCompanyReviews(companyId) {
+
 }
 
 /*
@@ -140,7 +283,7 @@ export async function createWorker(workerDetails) {
 }
 
 /**
- * 
+ *
  * @param {json_object} companyDetails should contain in json:
  * UEN (String),
  * avgReview(-1),
@@ -153,7 +296,7 @@ export async function createWorker(workerDetails) {
  * profilePicture(Storage link)
  */
 export async function createCompany(companyDetails) {
-    await addDoc(collection(db, constants.COMPANIES), companyDetails);
+  await addDoc(collection(db, constants.COMPANIES), companyDetails);
 }
 
 //May want to change tags in gig to String, since having a live reference of tags is not very important
@@ -181,7 +324,11 @@ export async function createGig(gigDetails) {
   batch.set(gigRef, gigDetails);
 
   let gigId = gigRef.id;
-  const companyRef = doc(db, constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS, gigId);
+  const companyRef = doc(
+    db,
+    constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS,
+    gigId
+  );
   batch.set(companyRef, gigRef);
 
   await batch.commit();
@@ -193,7 +340,10 @@ export async function createGig(gigDetails) {
  * name(String)
  */
 export async function createCategory(categoryTagDetails) {
-  await setDoc(doc(db, constants.CATEGORY_TAGS, categoryTagDetails.name), categoryTagDetails)
+  await setDoc(
+    doc(db, constants.CATEGORY_TAGS, categoryTagDetails.name),
+    categoryTagDetails
+  );
 }
 
 /**
@@ -201,7 +351,10 @@ export async function createCategory(categoryTagDetails) {
  * name(String)
  */
 export async function createReviewTag(reviewTagDetails) {
-    await setDoc(doc(db, constants.REVIEW_TAGS, reviewTagDetails.name), reviewTagDetails)
+  await setDoc(
+    doc(db, constants.REVIEW_TAGS, reviewTagDetails.name),
+    reviewTagDetails
+  );
 }
 
 /**
@@ -209,16 +362,11 @@ export async function createReviewTag(reviewTagDetails) {
  * name(String)
  */
 export async function createSkill(skillDetails) {
-    await setDoc(doc(db, constants.SKILLS, skillDetails.name), skillDetails);
-}
-
-export async function createReview(reviewDetails) {
-    //requires transactions to update relevant user or company
-    //update user's numReviews and avgReview(technically total review score)
+  await setDoc(doc(db, constants.SKILLS, skillDetails.name), skillDetails);
 }
 
 /**
- * While not enforced in db function, enforce that the uploaded file is actually a picture file. 
+ * While not enforced in db function, enforce that the uploaded file is actually a picture file.
  * https://roufid.com/javascript-check-file-image/ shows how to check for images in general or a specific image type (may want to limit it to jpeg, png, svg)
  * May want to limit file size as well.
  * uuidv4() used to ensure that there is no duplicate reference name
@@ -226,11 +374,13 @@ export async function createReview(reviewDetails) {
  * @returns {String} the download link (in HTTPS:// format) to be stored as a String in firestore
  */
 export async function createProfilePicture(picture) {
-    let picName = picture.name + uuidv4();
-    const storageRef = ref(storage, 'profile_pics/' + picName)
+  let picName = picture.name + uuidv4();
+  const storageRef = ref(storage, 'profile_pics/' + picName);
 
-    let url = await uploadBytes(storageRef, picture).then(() => getDownloadURL(storageRef));
-    return url;
+  let url = await uploadBytes(storageRef, picture).then(() =>
+    getDownloadURL(storageRef)
+  );
+  return url;
 }
 
 /**
@@ -242,7 +392,9 @@ export async function createResume(resume) {
   let resumeName = resume.name + uuidv4();
   const storageRef = ref(storage, 'resumes/' + resumeName);
 
-  let url = await uploadBytes(storageRef, resume).then(() => getDownloadURL(storageRef));
+  let url = await uploadBytes(storageRef, resume).then(() =>
+    getDownloadURL(storageRef)
+  );
   return url;
 }
 
@@ -250,46 +402,219 @@ export async function createResume(resume) {
 UPDATE
 */
 /**
- * 
- * @param {json_object} newCompanyDetails json object with at minimum requires companyId as field id. 
+ *
+ * @param {json_object} newCompanyDetails json object with at minimum requires companyId as field id.
  * Other fields can simply include fields which require updates. Non-updated fields may be excluded
  */
 export async function updateCompanyDetails(newCompanyDetails) {
-    const companyRef = doc(db, constants.COMPANIES, newCompanyDetails.id)
-    await updateDoc(companyRef, newCompanyDetails);
+  const companyRef = doc(db, constants.COMPANIES, newCompanyDetails.id);
+  await updateDoc(companyRef, newCompanyDetails);
 }
 
 /**
  * Only updates active gigs (updating archived gigs may require separate function)
- * @param {json_object} newGigDetails json object with at minimum requires gigId as field id. 
+ * @param {json_object} newGigDetails json object with at minimum requires gigId as field id.
  * Other fields can simply include fields which require updates. Non-updated fields may be excluded
  */
 export async function updateGigDetails(newGigDetails) {
-    const gigRef = doc (db, constants.ACTIVE_GIGS, newGigDetails.id);
-    await updateDoc(gigRef, newGigDetails);
+  const gigRef = doc(db, constants.ACTIVE_GIGS, newGigDetails.id);
+  await updateDoc(gigRef, newGigDetails);
 }
 
 /**
- * 
- * @param {json_object} newWorkerDetails json object with at minimum requires worker Id as field id. 
+ *
+ * @param {json_object} newWorkerDetails json object with at minimum requires worker Id as field id.
  * Other fields can simply include fields which require updates. Non-updated fields may be excluded
  */
 export async function updateWorkerDetails(newWorkerDetails) {
-    const workerRef = doc(db, constants.WORKERS, newWorkerDetails.id);
-    await updateDoc(workerRef, newWorkerDetails);
+  const workerRef = doc(db, constants.WORKERS, newWorkerDetails.id);
+  await updateDoc(workerRef, newWorkerDetails);
 }
-//maybe want to update worker skills separately?
-export async function archiveGig(gigId) {
-
-}
-//will need to transact references in workers and companies
-
 /*
 DELETE
 need to decide on how to handle deletions. i.e. if skills/tags are kept as references there would need to be handling of referencing issues to prevent null references
 decided as marked for deletion. 
 */
 
-export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies. 
+export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies.
 export async function deleteGig(gigId) {} //point at archiveGig?
 export async function deleteWorker(workerId) {} //need to decide on how to handle deleted workers.
+
+/*
+FUNCTIONAL
+Meant to facilitate specific functionality with a lower usage
+*/
+
+export async function getActiveGig(gigId) {
+  let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let gigDoc = await getDoc(gigRef);
+  
+  let gig = [];
+  gig.push(gigDoc.data());
+  
+  return gig;
+}
+
+export async function getArchivedGig(gigId) {
+  let gigRef = doc(db, constants.ARCHIVED_GIGS, gigId);
+  let gigDoc = await getDoc(gigRef);
+  
+  let gig = [];
+  gig.push(gigDoc.data());
+
+  return gig;
+}
+
+export async function getWorker(workerId) {
+  let workerRef = doc(db, constants.WORKERS, workerId);
+  let workerDoc = await getDoc(workerRef);
+
+  let worker = [];
+  worker.push(workerDoc.data());
+
+  return worker;
+}
+
+export async function getCompany(companyId) {
+  let companyRef = doc(db, constants.COMPANIES, companyId);
+  let companyDoc = await getDoc(companyRef);
+
+  let company = [];
+  company.push(companyDoc.data());
+
+  return company;
+}
+
+/**
+ * 
+ * @param {String} workerId id of worker as listed in db
+ * @param {Array<String>} skills array of skills to be added
+ */
+export async function addSkillsToWorker(workerId, skills) {
+  let workerRef = doc(db, constants.WORKERS, workerId);
+  let workerDoc = await getDoc(workerRef);
+
+  let oldSkills = workerDoc.get('skills');
+  oldSkills.push(skills);
+
+  await updateDoc(workerRef, {
+    skills: oldSkills
+  });
+}
+
+export async function removeSkillsFromWorker(workerId, skills) {
+  let workerRef = doc(db, constants.WORKERS, workerId);
+  let workerDoc = await getDoc(workerRef);
+
+  let oldSkills = workerDoc.get('skills');
+  newSkills = oldSkills.filter((x) => {
+    return !skills.includes(x);
+  });
+
+  await updateDoc(workerRef, {
+    skills: newSkills
+  });
+
+}
+
+/**
+ *
+ * @param {json_object} reviewDetails reviewDetails should contain in json:
+ * date(Date),
+ * gig(reference as /activeGigs/gigId or /archivedGigs/gigId. However, reviewing archived gigs should be rare),
+ * numStars(Number)
+ * reviewTags(array of references as /reviewTags/reviewTagId)
+ * textReview(String)
+ * @param {String} companyId id of company as listed in database
+ */
+ export async function createCompanyReview(reviewDetails, companyId) {
+  try {
+    await runTransaction(db, async (transaction) => {
+      const companyDocRef = doc(db, constants.COMPANIES, companyId);
+      const companyDoc = await transaction.get(companyDocRef);
+      if (!companyDoc.exists()) {
+        throw 'Document does not exist!';
+      }
+      const reviewRef = doc(collection(db, constants.COMPANIES, companyID + '/' + constants.REVIEWS));
+      let oldNumReviews = companyDoc.data().numReviews;
+      let oldAvg = companyDoc.data().avgReview;
+      let newAvgReviews;
+      let newNumReviews;
+
+      if (oldNumReviews == 0 && oldAvg < 0) {
+        newAvgReviews = reviewDetails.numStars;
+        newNumReviews = 1;
+      } else if (oldNumReviews != 0 && oldAvg >= 0) {
+        newAvgReviews = oldAvg + reviewDetails.numStars;
+        newNumReviews = oldNumReviews + 1;
+      } else {
+        throw 'Error in recorded review scores stored in database!'
+      }
+
+      transaction.update(companyDocRef, { avgReview: newAvgReviews });
+      transaction.update(companyDocRef, { numReviews: newNumReviews });
+      transaction.set(reviewRef, reviewDetails);
+    });
+    //console.log('Transaction successfully committed!');
+  } catch (e) {
+    console.log('Transaction failed: ', e);
+  }
+}
+
+/**
+ *
+ * @param {json_object} reviewDetails reviewDetails should contain in json:
+ * date(Date),
+ * gig(reference as /activeGigs/gigId or /archivedGigs/gigId. However, reviewing archived gigs should be rare),
+ * numStars(Number)
+ * reviewTags(reference as /reviewTags/reviewTagId)
+ * textReview(String)
+ * @param {String} workerId workerID as listed in db
+ */
+export async function createWorkerReview(reviewDetails, workerId) {
+  try {
+    await runTransaction(db, async (transaction) => {
+      let workerDocRef = doc(db, constants.WORKERS, workerId);
+      let workerDoc = await transaction.get(workerDocRef);
+      if (!workerDoc.exists()) {
+        throw 'Document does not exist!';
+      }
+      let reviewRef = doc(collection(db, constants.WORKERS, workerId + '/' + constants.REVIEWS));
+      let oldNumReviews = workerDoc.data().numReviews;
+      let oldAvg = workerDoc.data().avgReview;
+      let newAvgReviews;
+      let newNumReviews;
+
+      if (oldNumReviews == 0 && oldAvg < 0) {
+        newAvgReviews = reviewDetails.numStars;
+        newNumReviews = 1;
+      } else if (oldNumReviews != 0 && oldAvg >= 0) {
+        newAvgReviews = oldAvg + reviewDetails.numStars;
+        newNumReviews = oldNumReviews + 1;
+      } else {
+        throw 'Error in recorded review scores stored in database!'
+      }
+      
+      transaction.update(companyDocRef, { avgReview: newAvgReviews });
+      transaction.update(companyDocRef, { numReviews: newNumReviews });
+      transaction.set(reviewRef, reviewDetails);
+    });
+    console.log('Transaction successfully committed!');
+  } catch (e) {
+    console.log('Transaction failed: ', e);
+  }
+}
+
+//maybe want to update worker skills separately?
+export async function archiveGig(gigId) {
+  //transact/batch update. Should we store a subcoll of workers who applied/booked the gig
+}
+//will need to transact references in workers and companies
+
+export async function applyToGig(gigId, workerId) {
+  //batch update. Add gig to worker's appliedGigs ref, add worker to appliedGigs subcoll?
+}
+
+export async function hireWorker(gigId, workerId) {
+  //batch update. set all applied workers application status to REJECTED (or other language), delete workerID's appliedGigs ref, add workerID's bookedGigs ref
+}
