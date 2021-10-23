@@ -1,13 +1,13 @@
-.TileText {
+.HLTileText {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }
 
-.Buttons {
+.HLButtons {
     padding-left: 10px;
 }
 
-#DashTileBackground {
+#HLDashTileBackground {
     height: 190px;
     width: 280px;
     border-radius: 12px;
@@ -18,7 +18,7 @@
     -o-user-select: none;
 }
 
-#MainColumn {
+#HLMainColumn {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,11 +27,11 @@
     padding-top: 55px;
 }
 
-#DashTileBackground:hover {
+#HLDashTileBackground:hover {
     cursor: pointer;
 }
 
-#HighlightsValue {
+#HLHighlightsValue {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
@@ -41,7 +41,7 @@
     color: #321313;
 }
 
-#HighlightsDesc {
+#HLHighlightsDesc {
     margin-top: 2px;
     font-family: Roboto;
     font-style: normal;

@@ -16,15 +16,15 @@ const DashHighlightsTile = (props) => {
     })
 
     const AnimatedContainer = animated(Container)
-    return (<AnimatedContainer className="TileText" id="DashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-        <Col id="MainColumn">
+    return (<AnimatedContainer className="HLTileText" id="HLDashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+        <Col id="HLMainColumn">
             <Row>
-                <div id="HighlightsValue">
-                    #{value}
+                <div id="HLHighlightsValue">
+                    {value}
                 </div>
             </Row>
             <Row>
-                <div id="HighlightsDesc">
+                <div id="HLHighlightsDesc">
                     {desc}
                 </div>
             </Row>
