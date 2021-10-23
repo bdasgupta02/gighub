@@ -25,8 +25,7 @@ import MyApplications from './pages/myApplications';
 import MyGigs from './pages/myGigs';
 
 // don't make dashboard separate
-import WorkerDashboard from './pages/workerDashboard';
-import CompanyDashboard from './pages/companyDashboard';
+import Dashboard from './pages/Dashboard';
 
 
 import WorkerDetails from './pages/workerDetails';
@@ -44,7 +43,8 @@ const App = (props) => {
       <AuthProvider>
         <Switch>
           {/* Put your private routes here (dashboard should be root at "/") */}
-          <PrivateRoute exact path="/" component={WorkerDashboard} />
+          {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
+          <Route path="/dashboard" component={Dashboard} />
 
           {/* This is for the sign-in */}
           <Route path="/signin" component={SignInBox} />

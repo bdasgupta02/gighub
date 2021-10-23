@@ -265,7 +265,7 @@ export async function getCompanyReviews(companyId) {
     let tags = doc.get('reviewTags');
     let includedTagDocs = [];
     tags.array.forEach((element) => {
-      includedTagDocs.push(await getDoc(element));
+      includedTagDocs.push(getDoc(element));
     });
     let includedTags = [];
     includedTagDocs.forEach((includedTagDoc) => {
@@ -534,7 +534,7 @@ export async function removeSkillsFromWorker(workerId, skills) {
   let workerDoc = await getDoc(workerRef);
 
   let oldSkills = workerDoc.get('skills');
-  newSkills = oldSkills.filter((x) => {
+  let newSkills = oldSkills.filter((x) => {
     return !skills.includes(x);
   });
 
@@ -562,7 +562,7 @@ export async function createCompanyReview(reviewDetails, companyId) {
         throw 'Document does not exist!';
       }
       const reviewRef = doc(
-        collection(db, constants.COMPANIES, companyID + '/' + constants.REVIEWS)
+        collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS)
       );
       let companyData = companyDoc.data();
       let oldNumReviews = companyData.numReviews;
@@ -603,6 +603,12 @@ export async function createCompanyReview(reviewDetails, companyId) {
 export async function createWorkerReview(reviewDetails, workerId) {
   try {
     await runTransaction(db, async (transaction) => {
+      const companyDocRef = doc(db, constants.COMPANIES, reviewDetails.companyId);
+      const companyDoc = await transaction.get(companyDocRef);
+      if (!companyDoc.exists()) {
+        throw 'Document does not exist!';
+      }
+
       let workerDocRef = doc(db, constants.WORKERS, workerId);
       let workerDoc = await transaction.get(workerDocRef);
       if (!workerDoc.exists()) {
@@ -613,7 +619,7 @@ export async function createWorkerReview(reviewDetails, workerId) {
       );
       let workerData = workerDoc.data();
       let oldNumReviews = workerData.numReviews;
-      let oldAvg = workerDoata.avgReview;
+      let oldAvg = workerData.avgReview;
       let newAvgReviews;
       let newNumReviews;
 
