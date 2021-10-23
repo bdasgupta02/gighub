@@ -15,6 +15,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
+    const [isSignedIn, setIsSignedIn] = useState(false)
     const [pending, setPending] = useState(true);
 
     const signup = (details, isWorker) => {
@@ -52,6 +53,7 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setPending(false)
             setCurrentUser(user)
+            setIsSignedIn(typeof user !== undefined && user !== null)
 
             console.log('USER')
             console.log(user)
@@ -66,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const value = {
+        isSignedIn,
         currentUser,
         signup,
         signin,
