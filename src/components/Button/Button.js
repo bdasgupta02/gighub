@@ -4,7 +4,7 @@ import './button.css'
 
 /**
  * Props:
- * - type: PRIMARY, SECONDARY
+ * - type: PRIMARY, SECONDARY, WHITE
  * - isBlock: stretch 100% width of parentif true
  * - onClick: func
  * - text
