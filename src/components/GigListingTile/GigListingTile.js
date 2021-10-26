@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import Highlight from './Highlight';
-import logo from '../../assets/google.svg';
+import logo from '../../assets/GighubLogo.js';
 import './gigListingTile.css'
+import Button from '../../components/Button'
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
@@ -24,6 +25,7 @@ const GigListingTile = (props) => {
     const isFlexible = props.isFlexible;
     // check how to handle link (should this go to the gig details page automatically)
     const link = props.link
+    const pendingReview
     */
 
     // placeholders for now:
@@ -32,6 +34,7 @@ const GigListingTile = (props) => {
     let companyCity = "Singapore"
     let jobTitle = "Freelance designer"
     let jobDesc = "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+    let pendingReview = false;
     const payAmt = "S$ 1,000"
     const payFor = "10 days"
     const isNew = true;
@@ -78,7 +81,9 @@ const GigListingTile = (props) => {
     }
 
     const AnimatedContainer = animated(Container)
-    return (<AnimatedContainer className="TileText" id="TileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+    return (
+      <div>
+      <AnimatedContainer className="TileText" id="TileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn">
             <Row>
                 <div id="LogoBox">
@@ -115,7 +120,11 @@ const GigListingTile = (props) => {
                 ))}
             </Row>
         </Col>
-    </AnimatedContainer>)
+
+    </AnimatedContainer>
+
+    </div>
+  )
 }
 
 export default GigListingTile

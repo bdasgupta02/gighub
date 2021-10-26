@@ -1,13 +1,13 @@
-.TileText {
+.TileText2 {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
 
-.Spacer {
+.Spacer2 {
     margin-top: auto;
 }
 
-.Bottom {
+.Bottom2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,9 +15,9 @@
     padding-right: 16px;
 }
 
-#TileBackground {
-    height: 280px;
-    width: 280px;
+#TileBackground2 {
+    height: 40%;
+    width: 100%;
     border-radius: 12px;
     user-select: none;
     -moz-user-select: none;
@@ -26,89 +26,90 @@
     -o-user-select: none;
 }
 
-#MainColumn {
+#MainColumn2 {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 16px;
 }
 
-#TileBackground:hover {
+#TileBackground2:hover {
     cursor: pointer;
 }
 
-#LogoBox {
+#LogoBox2 {
     box-shadow: inset 4px 10px 40px #00000020;
     background-color: '#E8F0F2';
     height: 50px;
     width: 50px;
     border-radius: 6px;
     margin-left: 16px;
+    margin-bottom: 30px;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
 }
 
-#LogoImg {
+#LogoImg2 {
     height: 26px;
     width: 26px;
     display: block;
     margin: 0 auto;
 }
 
-#CompanyName {
+#CompanyName2 {
     font-size: 20px;
     font-weight: bold;
     color: #545454;
     margin-top: 3px;
 }
 
-#CompanyLocation {
+#CompanyLocation2 {
     font-weight: bold;
     color: #ABABAB;
 }
 
-#JobTitle {
+#JobTitle2 {
     color: #545454;
     font-weight: bold;
-    margin-top: 26px;
 }
 
-#JobDesc {
+#JobDesc2 {
     color: #ABABAB;
 }
 
-#PayTextBox {
+#PayTextBox2 {
     margin-top: auto;
     margin-bottom: 16px;
 }
 
-.PayText {
+.PayText2 {
     font-size: 18px;
     font-weight: bold;
 }
 
-#PayForCol {
+#PayForCol2 {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-#PayForText {
+#PayForText2 {
     align-self: flex-start;
     text-align: start;
     color: #ABABAB;
 }
 
-#Highlights {
+#Highlights2 {
 
 }
 
-#Highlight {
+#Highlight2 {
     height: 18px;
     font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: center;
     margin-right: 8px;
     background-color: #08F0FF2E;
     display: flex;

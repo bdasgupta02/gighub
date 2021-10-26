@@ -40,13 +40,13 @@ import SignInBox from './components/SignInBox'
 
 const App = (props) => {
   return (
-    <Container style='background-color:orange'>
+    <div>
     <Router>
-    <Row  style='background-color:orange'>
-     <Col xs={3}>
+    <Row>
+     <Col xs={2}>
     <WorkerNavBar />
     </Col>
-    <Col>
+    <Col xs={10}>
       <AuthProvider>
         <Switch>
           {/* Put your private routes here (dashboard should be root at "/") */}
@@ -63,7 +63,7 @@ const App = (props) => {
       </Row>
 
     </Router>
-    </Container>
+    </div>
   )
 }
 

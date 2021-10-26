@@ -12,7 +12,7 @@ import {
  class WorkerNavBar extends React.Component {
   render() {
     return (
-      <Container>
+      <div>
         <nav>
           <Col xs={2} justify="center" align="center" >
             <Row xs={3}> <NavButton to="/gig/details" buttonText="Dashboard" icon={<BrowserIcon />} /> </Row>
@@ -23,7 +23,7 @@ import {
             <Row> <NavButton to="/settings" buttonText="Settings" icon={<GearIcon />} /> </Row>
           </Col>
         </nav>
-      </Container>
+      </div>
 
     )
   }
@@ -34,7 +34,7 @@ export default WorkerNavBar
 export class CompanyNavBar extends React.Component {
   render() {
     return (
-      <Container>
+      <div>
         <nav>
           <Col xs={4} justify="center" align="center">
             <Row debug xs={3}> <NavButton to="/gig/details" buttonText="Dashboard" icon={<BrowserIcon />} /> </Row>
@@ -45,7 +45,7 @@ export class CompanyNavBar extends React.Component {
             <Row> <NavButton to="/settings" buttonText="Settings" icon={<GearIcon />} /> </Row>
           </Col>
         </nav>
-      </Container>
+      </div>
 
     )
   }

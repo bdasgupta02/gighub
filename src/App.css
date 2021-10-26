@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.ReviewTag{
+  position: absolute;
+  left: 23%;
+  top: 41%;
+
+  }
