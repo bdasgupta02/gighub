@@ -40,9 +40,9 @@ import SignInBox from './components/SignInBox'
 
 const App = (props) => {
   return (
-    <Container>
+    <Container style='background-color:orange'>
     <Router>
-    <Row>
+    <Row  style='background-color:orange'>
      <Col xs={3}>
     <WorkerNavBar />
     </Col>
