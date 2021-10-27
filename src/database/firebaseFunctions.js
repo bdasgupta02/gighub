@@ -685,8 +685,25 @@ export async function archiveGig(gigId) {
 
 export async function applyToGig(gigId, workerId) {
   let batch = writeBatch(db);
+  let inGigRef = doc(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS + '/' + workerId);
   let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let inWorkerRef = doc(db, constants.WORKERS, workerId + '/' + constants.APPLIED_GIGS + '/' + gigId);
   let workerRef = doc(db, constants.WORKERS, workerId);
+
+  let currentDate = new Date();
+
+  let gigData = {
+    'gig': gigRef,
+    'dateApplied': currentDate,
+    'status': 'pending'
+  };
+
+  let workerData = {
+    'worker': workerRef
+  }
+
+  batch.set(inWorkerRef, gigData);
+  batch.set(inGigRef. workerData);
   //batch add to worker's applied gig
   //batch add to gig's application list
   
