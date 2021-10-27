@@ -85,7 +85,7 @@ export async function getReviewTags() {
  * @param {String} workerId id of worker as listed in db
  * @returns array of workers applied gigs
  */
-export async function getWorkerAppliedGigs(workerId) {
+ export async function getWorkerAppliedGigs(workerId) {
   const workerSubCol = collection(
     db,
     constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS
@@ -333,7 +333,7 @@ export async function createCompany(companyDetails) {
  * @param {json_object} gigDetails should contain in json:
  * companyId(String),
  * contractLink(String),
- * dailyPay(number),
+ * dailyPay(number >= 0),
  * description(string),
  * endDate(TimeStamp),
  * endDeliverable(String),
@@ -341,7 +341,10 @@ export async function createCompany(companyDetails) {
  * startDate(TimeStamp),
  * tags(array of tag references),
  * title(String),
- * totalPay(number)
+ * totalPay(number >= 0),
+ * numSpots (number > 0),
+ * numTaken(number = 0), 
+ * completeBy(TimeStamp)
  */
 export async function createGig(gigDetails) {
   let companyId = gigDetails.companyId;
@@ -577,7 +580,7 @@ export async function createCompanyReview(reviewDetails, companyId) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews + 1;
       } else {
-        throw 'Error in recorded review scores stored in database!';
+        throw new Error('Error in recorded review scores stored in database!');
       }
 
       transaction.update(companyDocRef, { avgReview: newAvgReviews });
@@ -603,16 +606,11 @@ export async function createCompanyReview(reviewDetails, companyId) {
 export async function createWorkerReview(reviewDetails, workerId) {
   try {
     await runTransaction(db, async (transaction) => {
-      const companyDocRef = doc(db, constants.COMPANIES, reviewDetails.companyId);
-      const companyDoc = await transaction.get(companyDocRef);
-      if (!companyDoc.exists()) {
-        throw 'Document does not exist!';
-      }
 
       let workerDocRef = doc(db, constants.WORKERS, workerId);
       let workerDoc = await transaction.get(workerDocRef);
       if (!workerDoc.exists()) {
-        throw 'Document does not exist!';
+        throw new Error('Document does not exist!');
       }
       let reviewRef = doc(
         collection(db, constants.WORKERS, workerId + '/' + constants.REVIEWS)
@@ -630,11 +628,11 @@ export async function createWorkerReview(reviewDetails, workerId) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews + 1;
       } else {
-        throw 'Error in recorded review scores stored in database!';
+        throw new Error('Error in recorded review scores stored in database!');
       }
 
-      transaction.update(companyDocRef, { avgReview: newAvgReviews });
-      transaction.update(companyDocRef, { numReviews: newNumReviews });
+      transaction.update(workerDocRef, { avgReview: newAvgReviews });
+      transaction.update(workerDocRef, { numReviews: newNumReviews });
       transaction.set(reviewRef, reviewDetails);
     });
     console.log('Transaction successfully committed!');
@@ -643,16 +641,61 @@ export async function createWorkerReview(reviewDetails, workerId) {
   }
 }
 
-//maybe want to update worker skills separately?
+//still untested, incl compile test
 export async function archiveGig(gigId) {
-  //transact/batch update. Should we store a subcoll of workers who applied/booked the gig
+
+  let batch = writeBatch(db);
+  let hiredColSnapshot = await getDocs(collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.HIRED));
+  let appliedColSnapshot = await getDocs(collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS));
+  let oldGigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let newGigRef = doc(db, constants.ARCHIVED_GIGS, gigId);
+  let gig = await getDoc(oldGigRef);
+  let gigData = gig.data();
+
+  //copy main document
+  batch.set(newGigRef, gigData);
+
+  //copy hired subscollection
+  hiredColSnapshot.forEach((document) => {
+    //console.log(doc.id + " contains: " + doc.data());
+    let workerDocRefString = document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
+    let workerDocRef = doc(db, workerDocRefString, gigId);
+    let workerGigRef = (getDoc(workerDocRef)).get('gig');
+    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
+    batch.update(workerDocRef, {'gig': newGigRef});
+  });
+
+  //copy applied subcollection
+  appliedColSnapshot.forEach((document) => {
+    //console.log(doc.id + " contains: " + doc.data());
+    let workerDocRefString = document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
+    let workerDocRef = doc(db, workerDocRefString, gigId);
+    let workerGigRef = (getDoc(workerDocRef)).get('gig');
+    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
+    batch.update(workerDocRef, {'gig': newGigRef});
+  });
+
+  
+  //delete old gig
+  batch.delete(oldGigRef);
+  //forEach in gig's hired list, change /constants.ACTIVE_GIG/ reference to /constants.ARCHIVED_GIG/
+  //forEach in gig's application list, change /constants.ACTIVE_GIG/ reference to /constants.ARCHIVED_GIG/
 }
 //will need to transact references in workers and companies
 
 export async function applyToGig(gigId, workerId) {
+  let batch = writeBatch(db);
+  let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let workerRef = doc(db, constants.WORKERS, workerId);
+  //batch add to worker's applied gig
+  //batch add to gig's application list
+  
   //batch update. Add gig to worker's appliedGigs ref, add worker to appliedGigs subcoll?
 }
 
 export async function hireWorker(gigId, workerId) {
-  //batch update. set all applied workers application status to REJECTED (or other language), delete workerID's appliedGigs ref, add workerID's bookedGigs ref
+  //batch remove + add: remove from worker's applied, add to worker's bookedGig
+  //batch remove + add: remove from gig's application list, add to gig's hired
+  //batch update: +1 to gig's taken spots
+  //if gig's new taken spots = gig's total spots, batch update for each still in application to rejected
 }

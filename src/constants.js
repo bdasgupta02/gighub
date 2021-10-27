@@ -31,6 +31,10 @@ export const SKILLS = 'skills';
 export const CATEGORY_TAGS = 'categoryTags';
 export const REVIEW_TAGS = 'reviewTags';
 
+export const HIRED = 'hiredWorkers';
+export const APPLICANTS = 'applicants';
+export const GIG_WORKER = 'worker';
+
 
 export const BRIGHT_BLUE = '#55E1EA';
 export const LIGHT_BLUE = '#08F0FF'; //USE WITH 18% OPACITY
