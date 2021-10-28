@@ -9,12 +9,12 @@ import {
 
 //https://primer.style/octicons/
 
- class WorkerNavBar extends React.Component {
+class WorkerNavBar extends React.Component {
   render() {
     return (
       <div>
         <nav>
-          <Col xs={2} justify="center" align="center" >
+          <Col xs={2} justify="center" align="center">
             <Row xs={3}> <NavButton to="/gig/details" buttonText="Dashboard" icon={<BrowserIcon />} /> </Row>
             <Row> <NavButton to="/user/gigs" buttonText="Search gigs" icon={<SearchIcon />} /> </Row>
             <Row> <NavButton to="/user/myGigs" buttonText="My gigs" icon={<NoteIcon />} /> </Row>

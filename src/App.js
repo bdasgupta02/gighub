@@ -41,28 +41,28 @@ import SignInBox from './components/SignInBox'
 const App = (props) => {
   return (
     <div>
-    <Router>
-    <Row>
-     <Col xs={2}>
-    <WorkerNavBar />
-    </Col>
-    <Col xs={10}>
-      <AuthProvider>
-        <Switch>
-          {/* Put your private routes here (dashboard should be root at "/") */}
-          {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/user/myGigs" component={MyGigs} />
+      <Router>
+        <Row>
+          <Col xs={1.8}>
+            <WorkerNavBar />
+          </Col>
+          <Col xs={10.2}>
+            <AuthProvider>
+              <Switch>
+                {/* Put your private routes here (dashboard should be root at "/") */}
+                {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
+                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/user/myGigs" component={MyGigs} />
 
-          {/* This is for the sign-in */}
-          <Route path="/signin" component={SignInBox} />
-        </Switch>
+                {/* This is for the sign-in */}
+                <Route path="/signin" component={SignInBox} />
+              </Switch>
 
-      </AuthProvider>
-      </Col>
-      </Row>
+            </AuthProvider>
+          </Col>
+        </Row>
 
-    </Router>
+      </Router>
     </div>
   )
 }
