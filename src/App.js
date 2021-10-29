@@ -32,9 +32,9 @@ import WorkerDetails from './pages/workerDetails';
 import CompanyDetails from './pages/companyDetails';
 import ListedGigs from './pages/listedGigs';
 import SearchCompanies from './pages/searchCompanies';
-import WorkerNavBar from './components/NavBar';
 
 
+import WorkerNavBar from "./components/NavBar/index"
 import Button from './components/Button';
 import SignInBox from './components/SignInBox'
 
