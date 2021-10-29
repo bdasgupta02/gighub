@@ -4,30 +4,41 @@ import GigListingTile from '../components/GigListingTile'
 import Button from '../components/Button'
 import OngoingGigTile from '../components/OngoingGigTile'
 import * as fbFunctions from '../database/firebaseFunctions';
+import React, { useEffect, useState } from 'react';
 
 export default function MyGigs(props) {
   /* Props:
   pendingReview: true or false
-
-
    */
 
-  const allBooked = fbFunctions.getWorkerAppliedGigs('5ornuxQ4USWJujeQxXnJ');
-
-  allBooked.then((data) => { console.log("allBookedGigs is: " + JSON.stringify(data)) });
-
+  const [allBooked, setAllBooked] = useState({});
+  const allBookedPromise = fbFunctions.getWorkerBookedGigs('5ornuxQ4USWJujeQxXnJ');
 
 
+  useEffect(() => {
+    allBookedPromise.then(data => {
+      setAllBooked(data[0]);
+      console.log("allBooked is: " + JSON.stringify(allBooked[0]))
+    })
+  }, [])
+  //console.log('here') });
+
+  // allBooked.then((data) => { console.log("allBookedGigs is: " + JSON.stringify(data[0])) });
+
+
+  const sampleJson = { 'hi': "hello" };
   let pendingReview = true;
   return (
-    <div style={{ height: '100%' }}>
+
+    < div style={{ height: '100%' }}>
+      {     console.log(Object.keys(allBooked))}
       <h1> Your Gigs</h1>
       <div style={{ height: '50px' }}></div>
       <h3 style={{ color: Constants.BRIGHT_BLUE }}> Ongoing gigs </h3>
       <Row style={{ height: '30%', overflow: 'scroll' }}>
         <Col>
 
-          <OngoingGigTile />
+          <OngoingGigTile jobTitle={allBooked.title} />
           <OngoingGigTile />
         </Col>
       </Row>
@@ -68,6 +79,6 @@ export default function MyGigs(props) {
         </Col>
       </Row>
 
-    </div>
+    </div >
   );
 }

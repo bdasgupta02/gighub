@@ -33,20 +33,18 @@ const OngoingGigTile = (props) => {
   */
 
   // placeholders for now:
-  let companyName = "Google"
-  const companyLogo = logo
-  let companyCity = "Singapore"
-  let jobTitle = "Freelance designer"
-  let jobDesc = "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-  let pendingReview = false;
-  let startDate = '2021/07/02'
-  let endDate = '2021/07/02'
-  const payAmt = "S$ 1,000"
-  const payFor = "10 days"
-  const isNew = true;
-  const isGoodMatch = true;
-  const isFlexible = false;
-  const link = null
+  let companyName = props.companyName ?? "Google"
+  const companyLogo = props.companyLogo ?? logo
+  let companyCity = props.companyCity ?? "Singapore"
+  let jobTitle = props.jobTitle ?? "Freelance designer"
+  let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+  let pendingReview = props.pendingReview ?? false;
+  let startDate = props.startDate ?? '2021/07/02'
+  let endDate = props.endDate ?? '2021/07/02'
+  const payAmt = props.payAmt ?? "S$ 1,000"
+  const payFor = props.payFor ?? "10 days"
+  const isFlexible = props.isFlexible ?? false;
+  const link = props.contractLink ?? 'https://google.com'
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -106,6 +104,8 @@ const OngoingGigTile = (props) => {
               <div id="JobDesc2">
                 {jobDesc}
               </div>
+              <div style={{ height: '40%' }}></div>
+              <a href={link}> View contract </a>
             </Col>
             <Col xs={4}>
               <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
