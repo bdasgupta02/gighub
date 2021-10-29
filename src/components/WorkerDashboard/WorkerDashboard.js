@@ -36,7 +36,7 @@ const WorkerDashboard = (props) => {
             </Col>
           </Row>
 
-          <Row id="WDOngoingGigsBG">
+          <Row id="WDSectionBG">
             <Col>
               <Row>
                 <Col>
@@ -49,13 +49,13 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
               </Row>
@@ -72,11 +72,11 @@ const WorkerDashboard = (props) => {
             </Col>
           </Row>
 
-          <Row id="WDOngoingGigsBG">
+          <Row id="WDSectionBG">
             <Col>
               <Row>
                 <Col>
-                  Ongoing Gigs
+                  Applications
                 </Col>
               </Row>
               <Row className="emptyRow">
@@ -85,13 +85,13 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
-                <Col className="WDOngoingGigsTile" xs={2.2}>
+                <Col className="WDSectionTile" xs={2.2}>
                   <DashListingTile />
                 </Col>
               </Row>
@@ -102,13 +102,58 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row>
                 <Col>
-                  <Button text="View all gigs" forceWidth="120px" />
+                  <Button text="View all applications" forceWidth="120px" />
                 </Col>
               </Row>
             </Col>
           </Row>
 
-          
+
+          <Row id="WDSectionBG">
+            <Col>
+              <Row>
+                <Col>
+                  Goals
+                </Col>
+              </Row>
+              <Row className="spacer">
+                <Col>
+                  
+                </Col>
+              </Row>
+              <Row>
+                <Col className="WDGoalsTile" xs={7}>
+                  <DashGoalTile />
+                </Col>
+              </Row>
+              <Row className="spacer">
+                <Col>
+                  
+                </Col>
+              </Row>
+              <Row>
+                <Col className="WDGoalsTile" xs={7}>
+                  <DashGoalTile />
+                </Col>
+              </Row>
+              <Row className="spacer">
+                <Col>
+                  
+                </Col>
+              </Row>
+              <Row>
+                <Col className="WDGoalsTile" xs={7}>
+                  <DashGoalTile />
+                </Col>
+              </Row>
+              <Row className="spacer">
+                <Col>
+                  
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+
         </Col>
       </Row>
     </div>)
