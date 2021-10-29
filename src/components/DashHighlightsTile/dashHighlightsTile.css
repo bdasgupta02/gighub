@@ -8,14 +8,15 @@
 }
 
 #HLDashTileBackground {
-    height: 190px;
-    width: 280px;
+    height: 140px;
+    width: 278px;
     border-radius: 12px;
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
+    
 }
 
 #HLMainColumn {
@@ -24,7 +25,7 @@
     align-items: center;
     height: 100%;
     padding: 16px;
-    padding-top: 55px;
+    padding-top: 35px;
 }
 
 #HLDashTileBackground:hover {
