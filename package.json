@@ -17,6 +17,7 @@
     "react-icons": "^4.2.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-search-input": "^0.11.3",
     "react-spring": "^9.2.4",
     "styled": "^1.0.0",
     "styled-components": "^5.3.1",
