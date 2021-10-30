@@ -29,6 +29,7 @@
   height: 30%;
   align-items: center;
   font-size: 24px;
+  padding-left: 60px;
 }
 
 #CDHeaderTexts {
@@ -36,8 +37,8 @@
   font-style: normal;
   font-weight: bold;
   margin-top: 5%;
-  margin-left: 40px;
   color: white;
+  margin-left: 15px;
 }
 
 #CDHeaderTitle {
@@ -59,6 +60,7 @@
 
 #CDBody {
   height: 70%;
+  padding-left: 60px;
 }
 
 #CDHighlightsBG {
