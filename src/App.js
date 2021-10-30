@@ -42,7 +42,7 @@ const App = (props) => {
   return (
     <div>
       <Router>
-        <Row>
+        <Row gutterWidth={14}>
           <Col xs={1.8}>
             <WorkerNavBar />
           </Col>
