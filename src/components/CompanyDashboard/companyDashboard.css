@@ -1,0 +1,81 @@
+.emptyRow {
+  height: 30px;
+  line-height: 30px;
+}
+
+.spacer {
+  height: 20px;
+  line-height: 20px;
+}
+
+.CDGoalsTile {
+
+}
+
+#CDBase {
+  height: calc(100vh - 3px);
+  width: 100%;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: #E8F0F2;
+  margin: 0;
+  padding: 0;
+}
+
+#CDHeader {
+  background-color: #174B4F;
+  height: 30%;
+  align-items: center;
+  font-size: 24px;
+}
+
+#CDHeaderTexts {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-left: 40px;
+  color: white;
+}
+
+#CDHeaderTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;;
+}
+
+#CDHeaderSubtitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #47CAD2;
+}
+
+#CDBody {
+  height: 70%;
+}
+
+#CDHighlightsBG {
+  height: 140px;
+  padding: 0px;
+  margin-top: -70px;
+}
+
+#CDSectionBG {
+  height: 292px;
+  padding: 0px;
+  margin-top: 100px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  
+  color: #31CAD3;
+}

@@ -2,7 +2,7 @@ import WorkerDashboard from "../components/WorkerDashboard/index"
 import CompanyDashboard from "../components/CompanyDashboard/index"
 
 export default function Dashboard(props) {
-  let type = 'user'
+  let type = 'users'
 
   if (type == 'user') {
     return (
