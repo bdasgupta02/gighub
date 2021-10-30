@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 
-import WorkerNavBar from "../NavBar/index"
 import DashGoalTile from '../DashGoalTile/index'
 import DashHighlightsTile from "../DashHighlightsTile/index"
 import DashListingTile from '../DashListingTile/index'

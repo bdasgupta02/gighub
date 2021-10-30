@@ -17,7 +17,7 @@ import './App.css';
 
 import Homepage from './pages/homepage';
 import SignIn from './pages/signIn';
-import GigDetails from './pages/gigDetails';
+import ViewGig from './pages/viewGig';
 import SearchGigs from './pages/searchGigs';
 import SearchWorkers from './pages/searchWorkers';
 import Settings from './pages/settings';
@@ -42,7 +42,7 @@ const App = (props) => {
   return (
     <div>
       <Router>
-        <Row>
+        <Row gutterWidth={14}>
           <Col xs={1.8}>
             <WorkerNavBar />
           </Col>
@@ -53,6 +53,7 @@ const App = (props) => {
                 {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/user/myGigs" component={MyGigs} />
+                <Route path="/viewgig" component={ViewGig} />
 
                 {/* This is for the sign-in */}
                 <Route path="/signin" component={SignInBox} />

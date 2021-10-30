@@ -8,11 +8,11 @@
   line-height: 20px;
 }
 
-.WDGoalsTile {
+.CDGoalsTile {
 
 }
 
-#WDBase {
+#CDBase {
   height: calc(100vh - 3px);
   width: 100%;
   font-family: Roboto;
@@ -24,7 +24,7 @@
   padding: 0;
 }
 
-#WDHeader {
+#CDHeader {
   background-color: #174B4F;
   height: 30%;
   align-items: center;
@@ -32,16 +32,16 @@
   padding-left: 60px;
 }
 
-#WDHeaderTexts {
+#CDHeaderTexts {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   margin-top: 5%;
-  margin-left: 15px;
   color: white;
+  margin-left: 15px;
 }
 
-#WDHeaderTitle {
+#CDHeaderTitle {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -49,7 +49,7 @@
   line-height: 42px;;
 }
 
-#WDHeaderSubtitle {
+#CDHeaderSubtitle {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -58,18 +58,18 @@
   color: #47CAD2;
 }
 
-#WDBody {
+#CDBody {
   height: 70%;
   padding-left: 60px;
 }
 
-#WDHighlightsBG {
+#CDHighlightsBG {
   height: 140px;
   padding: 0px;
   margin-top: -70px;
 }
 
-#WDSectionBG {
+#CDSectionBG {
   height: 292px;
   padding: 0px;
   margin-top: 100px;
