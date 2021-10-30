@@ -19,28 +19,28 @@ const DashGoalTile = (props) => {
     })
 
     const AnimatedContainer = animated(Container)
-    return (<AnimatedContainer className="GLTileText" id="GLDashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-        <Col id="GLMainColumn">
-            <Row className="GLGoalRow">
-                <div id="GLGoalNo">
+    return (<AnimatedContainer className="DashLTileText" id="DashLDashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+        <Col id="DashLMainColumn">
+            <Row className="DashLGoalRow">
+                <div id="DashLGoalNo">
                     #{goalNo}
                 </div>
             </Row>
-            <Row className="GLGoalRow">
-                <div id="GLGoalDetails">
+            <Row className="DashLGoalRow">
+                <div id="DashLGoalDetails">
                     {goalDetails}
                 </div>
             </Row>
-            <Row className="GLGoalRow" id="GLBottomRow">
-                <div id="GLGoalDeadline">
+            <Row className="DashLGoalRow" id="DashLBottomRow">
+                <div id="DashLGoalDeadline">
                     Achieve by {goalDeadline}
                 </div>
                 <Col>
-                    <div id="GLGoalOptions">
-                        <span className="GLButtons">
+                    <div id="DashLGoalOptions">
+                        <span className="DashLButtons">
                             <PencilIcon size={18} />
                         </span>
-                        <span className="GLButtons">
+                        <span className="DashLButtons">
                             <TrashIcon size={18} />
                         </span>
                     </div>
