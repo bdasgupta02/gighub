@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
-import { ArrowDownIcon  } from '@primer/octicons-react'
+import { ArrowDownIcon } from '@primer/octicons-react'
+import { Container, Row, Col } from 'react-grid-system'
 import './searchBar.css'
 
 const Sorter = (props) => {
     const [isHovering, setIsHovering] = useState(false)
     const [dropVisible, setDropVisible] = useState(false)
-    const [selectedSort, setSelectedSort] = useState("Latest")
+
+    const { selectedSort, setSelectedSort } = props
 
     const barBackgroundAnimatedStyle = useSpring({
-        boxShadow: isHovering || dropVisible ? "4px 10px 40px #00000026" : "1px 3px 1px #00000026",
+        boxShadow: isHovering || dropVisible ? "4px 10px 40px #00000026" : "1px 3px 6px #00000026",
         backgroundColor: isHovering || dropVisible ? "#FFFFFFFF" : "#FFFFFFA6",
         config: config.default
     })
@@ -21,24 +23,37 @@ const Sorter = (props) => {
         config: config.stiff
     })
 
-    return (<div id="SorterBox">
+    return (<div id="SBSorterOuter">
         <animated.div
-            className="BorderRadius"
-            id="SorterBox"
+            className="SBBorderRadius"
+            id="SBSorterBox"
             style={barBackgroundAnimatedStyle}
             onMouseOver={() => setIsHovering(true)}
             onMouseOut={() => setIsHovering(false)}
-            onClick={() => setDropVisible(true)}>
-            <div id="SorterText">
+            onClick={() => setDropVisible(!dropVisible)}>
+            <div id="SBSorterText">
                 {selectedSort}
             </div>
-            <div className="IconBox" id="SorterIconBox">
-                <ArrowDownIcon  size="small" fill="#9E9E9E" />
+            <div className="SBIconBox" id="SBSorterIconBox">
+                <ArrowDownIcon size="small" fill="#9E9E9E" />
             </div>
         </animated.div>
-        <animated.div className="DropDown" style={dropDownAnimatedStyle} onClick={() => setDropVisible(false)}>
-            <div>test</div>
-            <div>test2</div>
+        <animated.div className="SBDropDown SBFilterText" style={dropDownAnimatedStyle} >
+            <Container>
+                <Row>
+                    <label>
+                        <input type="radio" value="latest" checked={selectedSort === 'Latest'} onClick={() => setSelectedSort('Latest')} />
+                        Sort by latest
+                    </label>
+                </Row>
+                <div style={{ width: '1px', height: '10px' }} />
+                <Row>
+                    <label>
+                        <input type="radio" value="match" checked={selectedSort === 'Match'} onClick={() => setSelectedSort('Match')} />
+                        Sort by match
+                    </label>
+                </Row>
+            </Container>
         </animated.div>
     </div>)
 }

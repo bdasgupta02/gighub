@@ -4,14 +4,14 @@ import { Container, Row, Col } from 'react-grid-system'
 import './dashHighlightsTile.css'
 
 const DashHighlightsTile = (props) => {
-    let value = "S$350,000"
-    let desc = "earned this week"
+    let value = props.value
+    let desc = props.desc
 
     const [isHovering, setIsHovering] = useState(false)
 
     const tileBackgroundAnimated = useSpring({
         boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 1px #00000026",
-        backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
+        backgroundColor: isHovering ? "white" : "white",
         config: config.default
     })
 

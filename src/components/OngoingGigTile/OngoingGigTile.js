@@ -33,20 +33,18 @@ const OngoingGigTile = (props) => {
   */
 
   // placeholders for now:
-  let companyName = "Google"
-  const companyLogo = logo
-  let companyCity = "Singapore"
-  let jobTitle = "Freelance designer"
-  let jobDesc = "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-  let pendingReview = false;
-  let startDate = '2021/07/02'
-   let endDate = '2021/07/02'
-  const payAmt = "S$ 1,000"
-  const payFor = "10 days"
-  const isNew = true;
-  const isGoodMatch = true;
-  const isFlexible = false;
-  const link = null
+  let companyName = props.companyName ?? "Google"
+  const companyLogo = props.companyLogo ?? logo
+  let companyCity = props.companyCity ?? "Singapore"
+  let jobTitle = props.jobTitle ?? "Freelance designer"
+  let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+  let pendingReview = props.pendingReview ?? false;
+  let startDate = props.startDate ?? '2021/07/02'
+  let endDate = props.endDate ?? '2021/07/02'
+  const payAmt = props.payAmt ?? "S$ 1,000"
+  const payFor = props.payFor ?? "10 days"
+  const isFlexible = props.isFlexible ?? false;
+  const link = props.contractLink ?? 'https://google.com'
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -59,9 +57,9 @@ const OngoingGigTile = (props) => {
   jobDesc = jobDesc.length > jobDescLimit ? jobDesc.substr(0, jobDescLimit) + "..." : jobDesc
 
   const tileBackgroundAnimated = useSpring({
-      boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 1px #00000026",
-      backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
-      config: config.default
+    boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 1px #00000026",
+    backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
+    config: config.default
   })
 
 
@@ -69,67 +67,69 @@ const OngoingGigTile = (props) => {
   const AnimatedContainer = animated(Container)
   return (
     <div>
-    <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-      <Col id="MainColumn2">
+      <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+        <Col id="MainColumn2">
           <Row>
-              <div id="LogoBox2">
-                  <img src={logo} id="LogoImg" />
+            <div id="LogoBox2">
+              <img src={logo} id="LogoImg" />
+            </div>
+            <Col>
+              <div id="CompanyName2">
+                {companyName}
               </div>
-              <Col>
-                  <div id="CompanyName2">
-                      {companyName}
-                  </div>
-                  <div id="CompanyLocation2">
-                      {companyCity}
-                  </div>
-              </Col>
-              <Col>
-                  <div id="JobTitle2">
-                      {jobTitle}
-                  </div>
-              </Col>
-              <Col>
+              <div id="CompanyLocation2">
+                {companyCity}
+              </div>
+            </Col>
+            <Col>
+              <div id="JobTitle2">
+                {jobTitle}
+              </div>
+            </Col>
+            <Col>
               <span className="PayText2">{payAmt}/</span>
               <span id="PayForText2">{payFor}</span>
-              </Col>
-              <Col xs={1}>
+            </Col>
+            <Col xs={1}>
               <div id='Highlight2'> {isFlexible ? 'Flexible' : 'Fixed'}</div>
-               </Col>
+            </Col>
           </Row>
           <Row>
-          <div id="JobTitle2">
+            <div id="JobTitle2">
               Deliverables:
           </div>
           </Row>
           <Row justify="between">
             <Col xs={7}>
-            <div id="JobDesc2">
+              <div id="JobDesc2">
                 {jobDesc}
-            </div>
+              </div>
+              <div style={{ height: '40%' }}></div>
+              <a href={link}> View contract </a>
             </Col>
             <Col xs={4}>
-              <span style={{color: Constants.GREY, fontWeight: 'bold', margin:'20px' }}>Start: {startDate}</span>
-              <span style={{color: 'maroon', fontWeight: 'bold'}}>   Deadline: {endDate} </span>
-              <div style={{height:'20px'}}></div>
+              <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
+              <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
+              <div style={{ height: '20px' }}></div>
               <Row>
-              <Col>
-              <Button text="Done"> </Button>
-              </Col>
-              <Col md={7}>
-              <Button text="Contact Employer"> </Button>
-              </Col>
-              <Col md={1}>
-              <Button icon={<AlertIcon />} type="SECONDARY"> </Button>
-              </Col>
+                <Col xs={3}>
+                  <Button text="Done"> </Button>
+                </Col>
+                <Col xs={7}>
+                  <Button text="Contact Employer"> </Button>
+                </Col>
+                <Col xs={1}>
+                  <Button icon={<AlertIcon />} type="SECONDARY"> </Button>
+                </Col>
               </Row>
             </Col>
           </Row>
-      </Col>
+        </Col>
 
-  </AnimatedContainer>
+      </AnimatedContainer>
 
-  </div>
-)
+    </div>
+  )
 }
 
 export default OngoingGigTile

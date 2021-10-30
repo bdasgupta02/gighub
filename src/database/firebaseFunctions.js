@@ -14,8 +14,9 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db from './firebase';
+import db, { accessDB } from './firebase';
 import * as constants from '../constants';
+import { load } from 'dotenv';
 
 const storage = getStorage();
 
@@ -84,6 +85,8 @@ export async function getReviewTags() {
  *
  * @param {String} workerId id of worker as listed in db
  * @returns array of workers applied gigs
+ * @usage to use need to evaluate promise using .then: const hi = getWorkerAppliedGigs('5ornuxQ4USWJujeQxXnJ');
+            hi.then((data) => {console.log("hi is: " + JSON.stringify(data))});
  */
 export async function getWorkerAppliedGigs(workerId) {
   const workerSubCol = collection(
@@ -91,29 +94,22 @@ export async function getWorkerAppliedGigs(workerId) {
     constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS
   );
   const workerSubSnapshot = await getDocs(workerSubCol);
-  console.log('workerSubSnapshot: ' + workerSubSnapshot);
-  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+  //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
+  let retArray = [];
+  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
     //looking at indivisual gigs in AppliedGig subcollection
-    console.log('in workerSubList, each doc is: ' + doc.get('data'));
     let gig = doc.get('gig');
-    console.log('gig: ' + JSON.stringify(gig));
-    let includedGigDoc = getDoc(gig);
-    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    let includedGig = [];
-    includedGigDoc
-      .then((x) => {
-        includedGig.push(x.data());
-        console.log(
-          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
-        );
-      })
-      .then(() => {
-        console.log('getWorkerAppliedGigs: returning: ');
-        console.log(includedGig);
-        return includedGig;
-      });
-  });
-  return workerSubList;
+    let includedGigDoc = await getDoc(gig);
+    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    retArray.push(includedGigDoc.data());
+    // includedGigDoc.then((x) => {
+    //   console.log("x is: " + JSON.stringify(x.data()))
+    //   retArray.push(x.data())
+
+    // })
+  }));
+
+  return retArray;
 }
 
 export async function getWorkerArchivedGigs(workerId) {
@@ -122,29 +118,22 @@ export async function getWorkerArchivedGigs(workerId) {
     constants.WORKERS + '/' + workerId + '/' + constants.ARCHIVED_GIGS
   );
   const workerSubSnapshot = await getDocs(workerSubCol);
-  console.log('workerSubSnapshot: ' + workerSubSnapshot);
-  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+  //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
+  let retArray = [];
+  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
     //looking at indivisual gigs in AppliedGig subcollection
-    console.log('in workerSubList, each doc is: ' + doc.get('data'));
     let gig = doc.get('gig');
-    console.log('gig: ' + JSON.stringify(gig));
-    let includedGigDoc = getDoc(gig);
-    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    let includedGig = [];
-    includedGigDoc
-      .then((x) => {
-        includedGig.push(x.data());
-        console.log(
-          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
-        );
-      })
-      .then(() => {
-        console.log('getWorkerArchivedGigs: returning: ');
-        console.log(includedGig);
-        return includedGig;
-      });
-  });
-  return workerSubList;
+    let includedGigDoc = await getDoc(gig);
+    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    retArray.push(includedGigDoc.data());
+    // includedGigDoc.then((x) => {
+    //   console.log("x is: " + JSON.stringify(x.data()))
+    //   retArray.push(x.data())
+
+    // })
+  }));
+
+  return retArray;
 }
 
 export async function getWorkerBookedGigs(workerId) {
@@ -153,34 +142,27 @@ export async function getWorkerBookedGigs(workerId) {
     constants.WORKERS + '/' + workerId + '/' + constants.BOOKED_GIGS
   );
   const workerSubSnapshot = await getDocs(workerSubCol);
-  console.log('workerSubSnapshot: ' + workerSubSnapshot);
-  var workerSubList = workerSubSnapshot.docs.map((doc) => {
+  //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
+  let retArray = [];
+  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
     //looking at indivisual gigs in AppliedGig subcollection
-    console.log('in workerSubList, each doc is: ' + doc.get('data'));
     let gig = doc.get('gig');
-    console.log('gig: ' + JSON.stringify(gig));
-    let includedGigDoc = getDoc(gig);
-    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    let includedGig = [];
-    includedGigDoc
-      .then((x) => {
-        includedGig.push(x.data());
-        console.log(
-          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
-        );
-      })
-      .then(() => {
-        console.log('getWorkerAppliedGigs: returning: ');
-        console.log(includedGig);
-        return includedGig;
-      });
-  });
-  return workerSubList;
+    let includedGigDoc = await getDoc(gig);
+    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+    retArray.push(includedGigDoc.data());
+    // includedGigDoc.then((x) => {
+    //   console.log("x is: " + JSON.stringify(x.data()))
+    //   retArray.push(x.data())
+
+    // })
+  }));
+
+  return retArray;
 }
 
-export async function getWorkerGoals(workerId) {}
+export async function getWorkerGoals(workerId) { }
 
-export async function getWorkerReviews(workerId) {}
+export async function getWorkerReviews(workerId) { }
 
 export async function getCompanyArchivedGigs(companyId) {
   const companySubCol = collection(
@@ -466,9 +448,9 @@ need to decide on how to handle deletions. i.e. if skills/tags are kept as refer
 decided as marked for deletion. 
 */
 
-export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies.
-export async function deleteGig(gigId) {} //point at archiveGig?
-export async function deleteWorker(workerId) {} //need to decide on how to handle deleted workers.
+export async function deleteCompany(companyId) { } //need to decide on how to handle deleted companies.
+export async function deleteGig(gigId) { } //point at archiveGig?
+export async function deleteWorker(workerId) { } //need to decide on how to handle deleted workers.
 
 /*
 FUNCTIONAL
@@ -663,12 +645,9 @@ export async function archiveGig(gigId) {
     let workerDocRefString =
       document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
-    let workerGigRef = getDoc(workerDocRef).get('gig');
-    let newGigRef = workerGigRef.replace(
-      '/' + constants.ACTIVE_GIGS + '/',
-      '/' + constants.ARCHIVED_GIGS + '/'
-    );
-    batch.update(workerDocRef, { gig: newGigRef });
+    let workerGigRef = (getDoc(workerDocRef)).get('gig');
+    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
+    batch.update(workerDocRef, { 'gig': newGigRef });
   });
 
   //copy applied subcollection
@@ -677,13 +656,11 @@ export async function archiveGig(gigId) {
     let workerDocRefString =
       document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
-    let workerGigRef = getDoc(workerDocRef).get('gig');
-    let newGigRef = workerGigRef.replace(
-      '/' + constants.ACTIVE_GIGS + '/',
-      '/' + constants.ARCHIVED_GIGS + '/'
-    );
-    batch.update(workerDocRef, { gig: newGigRef });
+    let workerGigRef = (getDoc(workerDocRef)).get('gig');
+    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
+    batch.update(workerDocRef, { 'gig': newGigRef });
   });
+
 
   //delete old gig
   batch.delete(oldGigRef);

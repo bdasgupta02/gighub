@@ -1,8 +1,8 @@
-.BorderRadius {
+.SBBorderRadius {
     border-radius: 12px;
 }
 
-#SearchText {
+#SBSearchText {
     width: 505px;
     height: 40px;
     margin-left: 16px;
@@ -11,7 +11,7 @@
     background: transparent;
 }
 
-#Keyword {
+#SBKeyword {
     height: 36px;
     font-size: 19px;
     font-weight: bold;
@@ -27,7 +27,7 @@
     color: #00A9B4;
 }
 
-.IconBox {
+.SBIconBox {
     height: 100%;
     display: flex;
     align-items: center;
@@ -35,28 +35,28 @@
     transform: scale(1.2);
 }
 
-#SearchIconBox {
+#SBSearchIconBox {
     padding-right: 16px;
 }
 
-#Keyword {
-    height: 18px;
-    font-size: 11px;
+#SBKeyword {
+    height: 30px;
+    font-size: 16px;
     font-weight: bold;
-    text-transform: uppercase;
     margin-right: 8px;
     background-color: #08F0FF2E;
     display: flex;
     justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    padding-left: 8px;
-    padding-right: 8px;
-    border-radius: 6px;
+    align-items: center;
+    flex-direction: row;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 15px;
+    width: fit-content;
     color: #00A9B4;
 }
 
-.SideBox {
+.SBSideBox {
     height: 40px;
     width: 40px;
     margin-left: 16px;
@@ -65,7 +65,7 @@
     justify-content: center;
 }
 
-#SorterBox {
+#SBSorterBox {
     height: 40px;
     width: 150px;
     margin-left: 11px;
@@ -73,28 +73,46 @@
     align-items: center;
 }
 
-#SearchTextBox {
+#SBSorterOuter {
+    margin-left: 8px;
+}
+
+#SBSearchTextBox {
     margin-right: 20px
 }
 
-.DropDown {
+.SBDropDown {
     background-color: white;
     position: absolute;
     width: 50px;
     margin-top: 10px;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-#FilterBox {
+#SBFilterBox {
     padding-left: 20px
 }
 
-#SorterIconBox {
+#SBSorterIconBox {
     margin-right: 16px;
 }
 
-#SorterText {
+#SBSorterText {
     color: #9E9E9E;
     flex-grow: 1;
     margin-left: 16px;
     margin-bottom: 2px;
+}
+
+.SBKeywordClose {
+    display: flex;
+    cursor: pointer;
+}
+
+.SBFilterText {
+    color: #545454;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
 }

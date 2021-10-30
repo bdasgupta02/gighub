@@ -1,0 +1,22 @@
+.emptyRow {
+  height: 30px;
+  line-height: 30px;
+}
+
+.spacer {
+  height: 20px;
+  line-height: 20px;
+}
+
+#GDBase {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  color: #545454;
+  background-color: #E8F0F2;
+  margin-top: 80px;
+  margin-left: 60px;
+  padding: 0;
+}
