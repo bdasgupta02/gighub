@@ -8,7 +8,7 @@ import "./gigDetails.css"
 
 const GigDetails = (props) => {
   let title = "Event Poster Designer"
-
+  // FOR POPUP (APPLY GIG) => Check out react-modal
   return (
     <div id="GDBase">
       <Row>
