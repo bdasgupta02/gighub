@@ -29,18 +29,18 @@ const GigListingTile = (props) => {
     */
 
     // placeholders for now:
-    let companyName = "Google"
-    const companyLogo = logo
-    let companyCity = "Singapore"
-    let jobTitle = "Freelance designer"
-    let jobDesc = "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-    let pendingReview = false;
-    const payAmt = "S$ 1,000"
-    const payFor = "10 days"
-    const isNew = true;
-    const isGoodMatch = true;
-    const isFlexible = false;
-    const link = null
+    let companyName = props.companyName ?? "Google"
+    const companyLogo = props.companyLogo ?? logo
+    let companyCity = props.companyCity ?? "Singapore"
+    let jobTitle = props.jobTitle ?? "Freelance designer"
+    let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+    let pendingReview = props.pendingReview ?? false;
+    const payAmt = props.payAmt ?? "S$ 1,000"
+    const payFor = props.payFor ?? "10 days"
+    const isNew = props.isNew ?? false;
+    const isGoodMatch = props.isGoodMatch ?? false;
+    const isFlexible = props.isFlexible ?? false;
+    const link = props.link ?? null
 
     const companyNameLimit = 15
     const companyCityLimit = 22
@@ -82,49 +82,49 @@ const GigListingTile = (props) => {
 
     const AnimatedContainer = animated(Container)
     return (
-      <div>
-      <AnimatedContainer className="TileText" id="TileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-        <Col id="MainColumn">
-            <Row>
-                <div id="LogoBox">
-                    <img src={logo} id="LogoImg" />
-                </div>
-                <Col>
-                    <div id="CompanyName">
-                        {companyName}
+        <div>
+            <AnimatedContainer className="TileText" id="TileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+                <Col id="MainColumn">
+                    <Row>
+                        <div id="LogoBox">
+                            <img src={logo} id="LogoImg" />
+                        </div>
+                        <Col>
+                            <div id="CompanyName">
+                                {companyName}
+                            </div>
+                            <div id="CompanyLocation">
+                                {companyCity}
+                            </div>
+                        </Col>
+                    </Row>
+                    <div id="JobTitle">
+                        {jobTitle}
                     </div>
-                    <div id="CompanyLocation">
-                        {companyCity}
+                    <div id="JobDesc">
+                        {jobDesc}
                     </div>
+                    <Row id="PayTextBox" className="Bottom">
+                        <div className="PayText">{payAmt}</div>
+                        <div className="PayText">&nbsp;/&nbsp;</div>
+                        <Col id="PayForCol">
+                            <div className="Spacer"></div>
+                            <Row id="PayForText">{payFor}</Row>
+                        </Col>
+                    </Row>
+                    <Row id="Highlights" className="Bottom">
+                        {highlights.map((component, index) => (
+                            <div>
+                                {component}
+                            </div>
+                        ))}
+                    </Row>
                 </Col>
-            </Row>
-            <div id="JobTitle">
-                {jobTitle}
-            </div>
-            <div id="JobDesc">
-                {jobDesc}
-            </div>
-            <Row id="PayTextBox" className="Bottom">
-                <div className="PayText">{payAmt}</div>
-                <div className="PayText">&nbsp;/&nbsp;</div>
-                <Col id="PayForCol">
-                    <div className="Spacer"></div>
-                    <Row id="PayForText">{payFor}</Row>
-                </Col>
-            </Row>
-            <Row id="Highlights" className="Bottom">
-                {highlights.map((component, index) => (
-                    <div>
-                        {component}
-                    </div>
-                ))}
-            </Row>
-        </Col>
 
-    </AnimatedContainer>
+            </AnimatedContainer>
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default GigListingTile

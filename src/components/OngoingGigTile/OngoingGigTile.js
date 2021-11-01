@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import logo from '../../assets/GighubLogo.js';
@@ -22,8 +22,7 @@ const OngoingGigTile = (props) => {
   const jobDesc = props.jobDesc
   const payAmt = props.payAmt
   const payFor = props.payFor
-  const isNew = props.isNew;
-  const isGoodMatch = props.isGoodMatch;
+
   const isFlexible = props.isFlexible;
   // check how to handle link (should this go to the gig details page automatically)
   const link = props.link
