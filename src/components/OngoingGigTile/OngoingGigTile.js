@@ -57,6 +57,7 @@ const OngoingGigTile = (props) => {
   const payFor = props.payFor ?? "10 days"
   const isFlexible = props.isFlexible ?? false;
   const link = props.contractLink ?? 'https://google.com'
+  let contactNum = props.contactNum ?? "No information input."
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -129,11 +130,11 @@ const OngoingGigTile = (props) => {
                   <Button text="Contact Employer" onClick={handleClickToOpen}> </Button>
                 </Col>
                 <Dialog open={open} onClose={handleToClose}>
-                  <DialogTitle>{"How are you?"}</DialogTitle>
+                  <DialogTitle>{"Contact " + companyName}</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      I am Good, Hope the same for you!
-          </DialogContentText>
+                      {"Phone number: " + contactNum}
+                    </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleToClose}

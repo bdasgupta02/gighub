@@ -79,7 +79,7 @@ const GigListingTile = (props) => {
                 <Col id="GLMainColumn">
                     <Row style={{ alignSelf: 'flex-start' }}>
                         <div id="GLLogoBox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            {companyLogo}
+                            <img src={companyLogo} height={'0px'} />
                         </div>
                         <Col>
                             <div id="GLCompanyName">

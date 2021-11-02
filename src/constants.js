@@ -1,7 +1,7 @@
 //File to hold all necessary constants.
 //To use in other files:
-  // import * as Constants from 'path/to/constants.js';
-  // const errorMsg = myConstClass.ACTION_INVALID;
+// import * as Constants from 'path/to/constants.js';
+// const errorMsg = myConstClass.ACTION_INVALID;
 
 //Collection tiles
 // export const ALL_GIGS = 'AllGigs';
@@ -41,3 +41,4 @@ export const LIGHT_BLUE = '#08F0FF'; //USE WITH 18% OPACITY
 export const TEXT_BLUE = '#00A9B4'; //blue for texts
 export const DARK_GREEN = '#174B4F';
 export const GREY = '#B8B8B8';
+export const YELLOW = '#FFCF23';

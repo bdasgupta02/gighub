@@ -86,6 +86,8 @@ export default function MyGigs(props) {
                 link={gig.contractLink}
                 startDate={gig.startDate.toDate().toDateString()}
                 endDate={gig.endDate.toDate().toDateString()}
+                contactNum={gig.companyData.phone}
+
               />
 
             )
@@ -97,12 +99,13 @@ export default function MyGigs(props) {
 
       <h3 style={{ color: Constants.BRIGHT_BLUE }}> Finished gigs </h3>
 
-      <Row debug style={{ height: '50%', overflow: 'scroll' }}>
+      <Row style={{ height: '50%', overflow: 'scroll' }}>
 
         {allFinished == null ? "No Finished Gigs Yet!" :
 
           allFinished.map(gig => (
-            <Col xs={3}>
+            <Col xs={3} style={{ marginTop: '20px' }}>
+              <div > </div>
               <div>
                 <GigListingTile
                   jobTitle={gig.title}
@@ -117,6 +120,7 @@ export default function MyGigs(props) {
                   startDate={gig.startDate.toDate().toDateString()}
                   endDate={gig.endDate.toDate().toDateString()}
                 />
+                {gig.pendingReview ? <div className="ReviewTag"> <Button onClick={() => { }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
               </div>
             </Col>)
 

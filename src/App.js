@@ -54,7 +54,7 @@ const App = (props) => {
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/user/myGigs" component={MyGigs} />
                 <Route path="/viewgig" component={ViewGig} />
-
+                <Route path="/user/viewCompany" component={CompanyDetails} />
                 {/* This is for the sign-in */}
                 <Route path="/signin" component={SignInBox} />
               </Switch>
