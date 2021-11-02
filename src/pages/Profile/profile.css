@@ -1,0 +1,31 @@
+#ProfilePageGeneric {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #545454;
+    padding-top: 56px;
+    background-color: #E8F0F2;
+    overflow: auto;
+    min-height: 100vh;
+    line-height: 1.5;
+}
+.ProfilePageMainHeader {
+    font-size: 36px;
+    font-weight: bold;
+    color: #545454
+}
+
+.ProfilePageSectionHeader {
+    font-size: 20px;
+    font-weight: bold;
+    color: #545454
+}
+
+.ProfilePageItemHeader{
+    font-weight: bold;
+}
+
+.ProfilePicture {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+}

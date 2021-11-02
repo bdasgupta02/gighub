@@ -37,6 +37,7 @@ import SearchCompanies from './pages/searchCompanies';
 import WorkerNavBar from "./components/NavBar/index"
 import Button from './components/Button';
 import SignInBox from './components/SignInBox'
+import Profile from './pages/Profile';
 
 const App = (props) => {
   return (
@@ -54,6 +55,7 @@ const App = (props) => {
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/user/myGigs" component={MyGigs} />
                 <Route path="/viewgig" component={ViewGig} />
+                <Route path="/profile" component={Profile}/>
 
                 {/* This is for the sign-in */}
                 <Route path="/signin" component={SignInBox} />
