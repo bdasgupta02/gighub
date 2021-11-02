@@ -308,7 +308,7 @@ export async function createCompany(companyDetails) {
  * title(String),
  * totalPay(number >= 0),
  * numSpots (number > 0),
- * numTaken(number = 0), 
+ * numTaken(number = 0),
  * completeBy(TimeStamp)
  */
 export async function createGig(gigDetails) {
@@ -545,10 +545,10 @@ export async function createCompanyReview(reviewDetails, companyId) {
 
       if (oldNumReviews == 0 && oldAvg < 0) {
         newAvgReviews = reviewDetails.numStars;
-        newNumReviews = 1;
+        newNumReviews = 1*1;
       } else if (oldNumReviews != 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
-        newNumReviews = oldNumReviews + 1;
+        newNumReviews = oldNumReviews*1 + 1;
       } else {
         throw new Error('Error in recorded review scores stored in database!');
       }
@@ -576,7 +576,6 @@ export async function createCompanyReview(reviewDetails, companyId) {
 export async function createWorkerReview(reviewDetails, workerId) {
   try {
     await runTransaction(db, async (transaction) => {
-
       let workerDocRef = doc(db, constants.WORKERS, workerId);
       let workerDoc = await transaction.get(workerDocRef);
       if (!workerDoc.exists()) {
@@ -596,7 +595,7 @@ export async function createWorkerReview(reviewDetails, workerId) {
         newNumReviews = 1;
       } else if (oldNumReviews != 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
-        newNumReviews = oldNumReviews + 1;
+        newNumReviews = oldNumReviews*1 + 1;
       } else {
         throw new Error('Error in recorded review scores stored in database!');
       }
@@ -613,10 +612,13 @@ export async function createWorkerReview(reviewDetails, workerId) {
 
 //still untested, incl compile test
 export async function archiveGig(gigId) {
-
   let batch = writeBatch(db);
-  let hiredColSnapshot = await getDocs(collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.HIRED));
-  let appliedColSnapshot = await getDocs(collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS));
+  let hiredColSnapshot = await getDocs(
+    collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.HIRED)
+  );
+  let appliedColSnapshot = await getDocs(
+    collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS)
+  );
   let oldGigRef = doc(db, constants.ACTIVE_GIGS, gigId);
   let newGigRef = doc(db, constants.ARCHIVED_GIGS, gigId);
   let gig = await getDoc(oldGigRef);
@@ -628,7 +630,8 @@ export async function archiveGig(gigId) {
   //copy hired subscollection
   hiredColSnapshot.forEach((document) => {
     //console.log(doc.id + " contains: " + doc.data());
-    let workerDocRefString = document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
+    let workerDocRefString =
+      document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
     let workerGigRef = (getDoc(workerDocRef)).get('gig');
     let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
@@ -638,7 +641,8 @@ export async function archiveGig(gigId) {
   //copy applied subcollection
   appliedColSnapshot.forEach((document) => {
     //console.log(doc.id + " contains: " + doc.data());
-    let workerDocRefString = document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
+    let workerDocRefString =
+      document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
     let workerGigRef = (getDoc(workerDocRef)).get('gig');
     let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
@@ -655,15 +659,97 @@ export async function archiveGig(gigId) {
 
 export async function applyToGig(gigId, workerId) {
   let batch = writeBatch(db);
+  let inGigRef = doc(
+    db,
+    constants.ACTIVE_GIGS,
+    gigId + '/' + constants.APPLICANTS + '/' + workerId
+  );
   let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let inWorkerRef = doc(
+    db,
+    constants.WORKERS,
+    workerId + '/' + constants.APPLIED_GIGS + '/' + gigId
+  );
   let workerRef = doc(db, constants.WORKERS, workerId);
+
+  let currentDate = new Date();
+
+  let gigData = {
+    gig: gigRef,
+    dateApplied: currentDate,
+    status: 'pending',
+  };
+
+  let workerData = {
+    worker: workerRef,
+  };
+
+  batch.set(inWorkerRef, gigData);
+  batch.set(inGigRef.workerData);
   //batch add to worker's applied gig
   //batch add to gig's application list
 
   //batch update. Add gig to worker's appliedGigs ref, add worker to appliedGigs subcoll?
 }
 
+//untested, no compile error
 export async function hireWorker(gigId, workerId) {
+  let batch = writeBatch(db);
+  let currentDate = new Date();
+
+  let gigMainRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  let gigMainDoc = await getDoc(gigMainRef);
+  let numSpots = gigMainDoc.get('numSpots');
+  let numHired = gigMainDoc.get('numHired');
+
+  if (numHired >= numSpots) {
+    console.log('attempting to hire above amount of spots');
+  } else {
+    let workerOldRef = doc(
+      db,
+      constants.WORKERS,
+      workerId + '/' + constants.APPLIED_GIGS + '/' + gigId
+    );
+    let workerNewRef = doc(
+      db,
+      constants.WORKERS,
+      workerId + '/' + constants.BOOKED_GIGS + '/' + gigId
+    );
+    let workersGig = await getDoc(workerOldRef);
+
+    let gigOldRef = doc(
+      db,
+      constants.ACTIVE_GIGS,
+      gigId + '/' + constants.APPLICANTS + '/' + workerId
+    );
+    let gigNewRef = doc(
+      db,
+      constants.ACTIVE_GIGS,
+      gigId + '/' + constants.HIRED + '/' + workerId
+    );
+    let gigsWorker = await getDoc(gigOldRef);
+
+    batch.set(workerNewRef, workersGig.data());
+    batch.set(workerNewRef, { dateHired: currentDate });
+    batch.delete(workerOldRef);
+
+    batch.set(gigNewRef, gigsWorker.data());
+    batch.delete(gigOldRef);
+
+    let newNumSpots = numSpots*1 + 1;
+    batch.set(gigMainRef, {'numHired': newNumSpots});
+
+    if (numSpots == newNumSpots) {
+      let gigApplicantColRef =  collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS);
+      let gigApplicantCol = await getDocs(gigApplicantColRef);
+      gigApplicantCol.forEach((applicant) => {
+        let applicantId = applicant.id;
+        let applicationRef = doc(db, constants.WORKERS, applicantId + '/' + constants.APPLIED_GIGS + '/' + gigId);
+        batch.set(applicationRef, {'status': 'denied'});
+      });
+
+    }
+  }
   //batch remove + add: remove from worker's applied, add to worker's bookedGig
   //batch remove + add: remove from gig's application list, add to gig's hired
   //batch update: +1 to gig's taken spots

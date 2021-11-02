@@ -5,17 +5,13 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "@firebase/firestore";
 
-import "firebase/compat/auth"
+import "firebase/compat/auth";
 import 'firebase/compat/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
+import {load} from 'dotenv';
 
-// https://firebase.google.com/docs/web/setup#available-libraries
+require('dotenv').config();
 
-
-// Your web app's Firebase configuration
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+//const firebaseConfig = process.env;
 const firebaseConfig = {
   apiKey: "AIzaSyC55_bD19wHScf6SFl0QrgDXpgxC8CWgOs",
   authDomain: "gighub-c8dcf.firebaseapp.com",
