@@ -1,0 +1,18 @@
+#SearchGigsPage {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 56px;
+    background-color: #E8F0F2;
+    overflow: auto;
+    min-height: 100vh;
+}
+
+.SearchGigsHeader {
+    font-size: 36px;
+    font-weight: bold;
+    color: #545454;
+}
+
+.SearchSpacer {
+    width: 1px;
+    height: 50px;
+}

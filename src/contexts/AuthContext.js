@@ -16,10 +16,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [isSignedIn, setIsSignedIn] = useState(false)
+    const [isWorker, setIsWorker] = useState(null)
     const [pending, setPending] = useState(true);
 
     const signup = (details, isWorker) => {
         const user = auth.createUserWithEmailAndPassword(details.email, details.password).then((res) => {
+            setIsWorker(isWorker)
             if (isWorker !== undefined && isWorker) {
                 return accessDB.collection('workers').doc(res.user.uid).set(details)
             } else {
@@ -30,6 +32,20 @@ export const AuthProvider = ({ children }) => {
     }
 
     function signin(email, password) {
+        // check is worker
+        
+        const workersRef = accessDB.collection('workers')
+        const workersEmail = workersRef.where('email', '==', email).get()
+
+        const companiesRef = accessDB.collection('companies')
+        const companiesEmail = companiesRef.where('email', '==', email).get()
+
+        if (typeof workersEmail !== 'undefined' && workersEmail !== null) {
+            setIsWorker(true)
+        } else if (typeof companiesEmail !== 'undefined' && companiesEmail !== null) {
+            setIsWorker(false)
+        }
+
         return auth.signInWithEmailAndPassword(email, password)
     }
 
@@ -54,9 +70,6 @@ export const AuthProvider = ({ children }) => {
             setPending(false)
             setCurrentUser(user)
             setIsSignedIn(typeof user !== undefined && user !== null)
-
-            console.log('USER')
-            console.log(user)
         });
         return unsubscribe
     }, []);
@@ -69,6 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         isSignedIn,
+        isWorker,
         currentUser,
         signup,
         signin,

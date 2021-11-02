@@ -26,8 +26,9 @@ font-size:  14px;
 margin: 10px;
 cursor: pointer;
 &:hover {
-  color: #B8B8B8;
-  box-shadow: 4px 10px 40px #00000026;
+  color: #545454;
+  box-shadow: 4px 10px 15px #00000026;
+  background-color: #EDEDED;
 }
 &.active {
   color:white;

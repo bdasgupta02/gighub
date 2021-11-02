@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-grid-system'
 import { SearchIcon } from '@primer/octicons-react'
 import Filter from './Filter'
 import Sorter from './Sorter'
+import Keyword from './Keyword'
 import './searchBar.css'
 
 /*
@@ -19,17 +20,16 @@ const SearchBar = (props) => {
     const [isHovering, setIsHovering] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [text, setText] = useState("")
-    const [keywords, setKeywords] = useState([])
-    
-    // just placeholders for now
-    const [filter, setFilter] = useState({})
+    const { filters, toggleFilter, keywords, handleKeyword, selectedSort, setSelectedSort } = props
+
     const [sorting, setSorting] = ("")
 
     const textMaxLen = 150
 
     const barBackgroundAnimatedStyle = useSpring({
-        boxShadow: isHovering || isFocused ? "4px 10px 40px #00000026" : "1px 3px 1px #00000026",
+        boxShadow: "4px 10px 20px #00000026",
         backgroundColor: isHovering || isFocused ? "#FFFFFFFF" : "#FFFFFFA6",
+        zIndex: 1,
         config: config.default
     })
 
@@ -44,7 +44,7 @@ const SearchBar = (props) => {
     // and create keyword
     const handleSubmit = (event) => {
         event.preventDefault()
-        setKeywords([...keywords, text])
+        handleKeyword(event, text, false)
         setText("")
     }
 
@@ -55,49 +55,55 @@ const SearchBar = (props) => {
 
     // To pass to keywords
     const handleRemove = (keyword) => {
-        
+        handleKeyword(null, keyword, true)
     }
 
-    // TODO: check if this works upstream
-    const handleFilter = (filterIn) => {
+    // FILTERS
 
-    }
 
+    // SORTERS
     const handleSorter = (sortIn) => {
 
     }
+
+    console.log(filters)
 
     // maybe make the ENTIRE length the same as 2x tiles width
     const AnimatedRow = animated(Row)
     return (<Container>
         <Row>
             {/* TODO: need breakpoints for search bar size */}
-            <AnimatedRow 
-                style={barBackgroundAnimatedStyle} 
-                onMouseOver={() => setIsHovering(true)} 
-                onMouseOut={() => setIsHovering(false)} 
-                className="BorderRadius"
-                id="SearchTextBox">
+            <AnimatedRow
+                style={barBackgroundAnimatedStyle}
+                onMouseOver={() => setIsHovering(true)}
+                onMouseOut={() => setIsHovering(false)}
+                className="SBBorderRadius"
+                id="SBSearchTextBox">
                 {/* TODO: form actions, trim input for keyword add */}
                 <form onSubmit={handleSubmit}>
-                    <input 
-                        maxLength={textMaxLen} 
-                        onFocus={() => setIsFocused(true)} 
-                        onBlur={() => setIsFocused(false)} 
-                        placeholder="Search" 
-                        id="SearchText" 
+                    <input
+                        maxLength={textMaxLen}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        placeholder="Search"
+                        id="SBSearchText"
                         onChange={handleChange} value={text} />
                 </form>
-                <div id="SearchIconBox" className="IconBox">
+                <div id="SBSearchIconBox" className="SBIconBox">
                     <SearchIcon size="small" onClick={handleSubmit} fill="#9E9E9E" />
                 </div>
             </AnimatedRow>
             {/* TODO: Sorting and filtering */}
-            <Filter handleFilter={handleFilter} />
-            <Sorter handleSorter={handleSorter} />
+            <Filter style={{ zIndex: 2 }} filters={filters} toggleFilter={toggleFilter} />
+            <Sorter handleSorter={handleSorter} selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
         </Row>
         {/* TODO: Keywords */}
-
+        <div style={{width: '1px', height: '15px'}} />
+        <Row>
+            {keywords.map(e => (
+                <Keyword text={e} onClose={() => handleRemove(e)} />
+            ))}
+        </Row>
     </Container>)
 }
 

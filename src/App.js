@@ -17,8 +17,8 @@ import './App.css';
 
 import Homepage from './pages/homepage';
 import SignIn from './pages/signIn';
-import GigDetails from './pages/gigDetails';
-import SearchGigs from './pages/searchGigs';
+import ViewGig from './pages/viewGig';
+import SearchGigs from './pages/SearchGigs';
 import SearchWorkers from './pages/searchWorkers';
 import Settings from './pages/settings';
 import MyApplications from './pages/myApplications';
@@ -32,9 +32,9 @@ import WorkerDetails from './pages/workerDetails';
 import CompanyDetails from './pages/companyDetails';
 import ListedGigs from './pages/listedGigs';
 import SearchCompanies from './pages/searchCompanies';
-import WorkerNavBar from './components/NavBar';
 
 
+import WorkerNavBar from "./components/NavBar/index"
 import Button from './components/Button';
 import SignInBox from './components/SignInBox'
 
@@ -42,7 +42,7 @@ const App = (props) => {
   return (
     <div>
       <Router>
-        <Row>
+        <Row gutterWidth={14}>
           <Col xs={1.8}>
             <WorkerNavBar />
           </Col>
@@ -53,6 +53,7 @@ const App = (props) => {
                 {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/user/myGigs" component={MyGigs} />
+                <Route path="/viewgig" component={ViewGig} />
 
                 {/* This is for the sign-in */}
                 <Route path="/signin" component={SignInBox} />

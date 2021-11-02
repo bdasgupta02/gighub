@@ -20,7 +20,7 @@ const Highlights = (props) => {
     }
 
     return (
-        <div id="Highlight">
+        <div id="GLHighlight">
             {text}
         </div>
     )
