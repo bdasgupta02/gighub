@@ -43,10 +43,10 @@ const App = (props) => {
     <div>
       <Router>
         <Row gutterWidth={14}>
-          <Col xs={1.8}>
+          <Col>
             <WorkerNavBar />
           </Col>
-          <Col xs={10.2}>
+          <Col xs={9.7}>
             <AuthProvider>
               <Switch>
                 {/* Put your private routes here (dashboard should be root at "/") */}

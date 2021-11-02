@@ -74,19 +74,7 @@ const GigListingTile = (props) => {
     const AnimatedContainer = animated(Container)
     return (
         <div>
-            {/* <<<<<<< HEAD
-            <AnimatedContainer className="TileText" id="TileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-                <Col id="MainColumn">
-                    <Row>
-                        <div id="LogoBox">
-                            <img src={logo} id="LogoImg" />
-                        </div>
-                        <Col>
-                            <div id="CompanyName">
-                                {companyName}
-                            </div>
-                            <div id="CompanyLocation">
-======= */}
+
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
                 <Col id="GLMainColumn">
                     <Row style={{ alignSelf: 'flex-start' }}>
@@ -98,28 +86,12 @@ const GigListingTile = (props) => {
                                 {companyName}
                             </div>
                             <div id="GLCompanyLocation">
-                                {/* >>>>>>> d4bd579547ca11f363e1c30a0b6ef009725f858f */}
+
                                 {companyCity}
                             </div>
                         </Col>
                     </Row>
-                    {/* <<<<<<< HEAD
-                <div id="JobTitle">
-                    {jobTitle}
-                </div>
-                <div id="JobDesc">
-                    {jobDesc}
-                </div>
-                <Row id="PayTextBox" className="Bottom">
-                    <div className="PayText">{payAmt}</div>
-                    <div className="PayText">&nbsp;/&nbsp;</div>
-                    <Col id="PayForCol">
-                        <div className="Spacer"></div>
-                        <Row id="PayForText">{payFor}</Row>
-                    </Col>
-                </Row>
-                <Row id="Highlights" className="Bottom">
-======= */}
+
                     <div id="GLJobTitle" style={{ alignSelf: 'flex-start' }}>
                         {jobTitle}
                     </div>
@@ -135,7 +107,7 @@ const GigListingTile = (props) => {
                         </Col>
                     </Row>
                     <Row className="GLBottom" style={{ alignSelf: 'flex-start' }}>
-                        {/* >>>>>>> d4bd579547ca11f363e1c30a0b6ef009725f858f */}
+
                         {highlights.map((component, index) => (
                             <div>
                                 {component}
