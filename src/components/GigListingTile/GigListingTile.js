@@ -12,18 +12,21 @@ const GigListingTile = (props) => {
     const [isHovering, setIsHovering] = useState(false)
 
 
-    let companyName = props.companyName
-    let companyLogo = props.companyLogo
-    let companyCity = props.companyCity
-    let jobTitle = props.jobTitle
-    let jobDesc = props.jobDesc
-    const payAmt = props.payAmt
-    const payFor = props.payFor
-    const isNew = props.isNew;
-    const isGoodMatch = props.isGoodMatch;
-    const isFlexible = props.isFlexible;
-    // check how to handle link (should this go to the gig details page automatically)
-    const link = props.link
+    // placeholders for now:
+    let companyName = props.companyName ?? "Google"
+
+    let companyCity = props.companyCity ?? "Singapore"
+    let jobTitle = props.jobTitle ?? "Freelance designer"
+    let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+    let pendingReview = props.pendingReview ?? false;
+    const payAmt = props.payAmt ?? "S$ 1,000"
+    const payFor = props.payFor ?? "10 days"
+    const isNew = props.isNew ?? false;
+    const isGoodMatch = props.isGoodMatch ?? false;
+    let isFlexible = props.isFlexible ?? false;
+    const link = props.link ?? null
+    let companyLogo = props.companyLogo ?? ""
+
 
     const companyNameLimit = 15
     const companyCityLimit = 22
@@ -71,10 +74,11 @@ const GigListingTile = (props) => {
     const AnimatedContainer = animated(Container)
     return (
         <div>
+
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
                 <Col id="GLMainColumn">
                     <Row style={{ alignSelf: 'flex-start' }}>
-                        <div id="GLLogoBox" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <div id="GLLogoBox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             {companyLogo}
                         </div>
                         <Col>
@@ -82,10 +86,12 @@ const GigListingTile = (props) => {
                                 {companyName}
                             </div>
                             <div id="GLCompanyLocation">
+
                                 {companyCity}
                             </div>
                         </Col>
                     </Row>
+
                     <div id="GLJobTitle" style={{ alignSelf: 'flex-start' }}>
                         {jobTitle}
                     </div>
@@ -101,6 +107,7 @@ const GigListingTile = (props) => {
                         </Col>
                     </Row>
                     <Row className="GLBottom" style={{ alignSelf: 'flex-start' }}>
+
                         {highlights.map((component, index) => (
                             <div>
                                 {component}
@@ -108,8 +115,10 @@ const GigListingTile = (props) => {
                         ))}
                     </Row>
                 </Col>
+
             </AnimatedContainer>
         </div>)
+
 }
 
 export default GigListingTile

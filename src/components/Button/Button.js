@@ -45,7 +45,7 @@ const Button = (props) => {
     })
 
     const textStyle = {
-        color: type === 'SECONDARY' ? '#8A8A8A' : '#FFF'
+        color: type === 'SECONDARY' || type === 'WHITE' ? '#8A8A8A' : '#FFF'
     }
 
     return (

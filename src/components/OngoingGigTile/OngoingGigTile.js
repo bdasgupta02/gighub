@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import logo from '../../assets/GighubLogo.js';
 import './ongoingGigTile.css'
 import Button from '../../components/Button'
 import * as Constants from '../../constants'
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+
 import {
   AlertIcon
 } from '@primer/octicons-react';
@@ -13,6 +19,13 @@ import './ongoingGigTile.css'
 
 const OngoingGigTile = (props) => {
   const [isHovering, setIsHovering] = useState(false)
+  const [open, setOpen] = React.useState(false);
+  const handleClickToOpen = () => {
+    setOpen(true);
+  };
+  const handleToClose = () => {
+    setOpen(false);
+  };
 
   /* final props:
   const companyName = props.companyName
@@ -22,12 +35,11 @@ const OngoingGigTile = (props) => {
   const jobDesc = props.jobDesc
   const payAmt = props.payAmt
   const payFor = props.payFor
-  const isNew = props.isNew;
-  const isGoodMatch = props.isGoodMatch;
+
   const isFlexible = props.isFlexible;
   // check how to handle link (should this go to the gig details page automatically)
   const link = props.link
-  const pendingReview
+  
   const startDate
     const endDate
   */
@@ -112,12 +124,24 @@ const OngoingGigTile = (props) => {
               <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
               <div style={{ height: '20px' }}></div>
               <Row>
-                <Col xs={3}>
-                  <Button text="Done"> </Button>
+
+                <Col xs={9}>
+                  <Button text="Contact Employer" onClick={handleClickToOpen}> </Button>
                 </Col>
-                <Col xs={7}>
-                  <Button text="Contact Employer"> </Button>
-                </Col>
+                <Dialog open={open} onClose={handleToClose}>
+                  <DialogTitle>{"How are you?"}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      I am Good, Hope the same for you!
+          </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleToClose}
+                      color="primary" autoFocus>
+                      Close
+          </Button>
+                  </DialogActions>
+                </Dialog>
                 <Col xs={1}>
                   <Button icon={<AlertIcon />} type="SECONDARY"> </Button>
                 </Col>

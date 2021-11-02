@@ -132,8 +132,7 @@ export async function getWorkerArchivedGigs(workerId) {
 
     // })
   }));
-
-  return retArray;
+  return retArray
 }
 
 export async function getWorkerBookedGigs(workerId) {
@@ -495,6 +494,11 @@ export async function getCompany(companyId) {
   company.push(companyDoc.data());
 
   return company;
+}
+
+export async function getCompanyByRef(companyRef) {
+  return (await getDoc(companyRef)).data();
+  //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
 }
 
 /**
