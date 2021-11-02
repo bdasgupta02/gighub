@@ -18,7 +18,7 @@ import './App.css';
 import Homepage from './pages/homepage';
 import SignIn from './pages/signIn';
 import ViewGig from './pages/viewGig';
-import SearchGigs from './pages/searchGigs';
+import SearchGigs from './pages/SearchGigs';
 import SearchWorkers from './pages/searchWorkers';
 import Settings from './pages/settings';
 import MyApplications from './pages/myApplications';

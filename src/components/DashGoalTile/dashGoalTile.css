@@ -1,17 +1,17 @@
-.GLTileText {
+.DashLTileText {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }
 
-.GLButtons {
+.DashLButtons {
     padding-left: 10px;
 }
 
-.GLGoalRow {
+.DashLGoalRow {
     padding-left: 15px;
 }
 
-#GLDashTileBackground {
+#DashLDashTileBackground {
     height: 129px;
     width: 1050px;
     border-radius: 12px;
@@ -22,25 +22,25 @@
     -o-user-select: none;
 }
 
-#GLMainColumn {
+#DashLMainColumn {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 16px;
 }
 
-#GLDashTileBackground:hover {
+#DashLDashTileBackground:hover {
     cursor: pointer;
 }
 
-#GLGoalNo {
+#DashLGoalNo {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     color: #545454;
 }
 
-#GLGoalDetails {
+#DashLGoalDetails {
     margin-top: 10px;
     font-family: Roboto;
     font-style: normal;
@@ -48,11 +48,11 @@
     color: #545454;
 }
 
-#GLBottomRow {
+#DashLBottomRow {
     margin-top: 10px;
 }
 
-#GLGoalDeadline {
+#DashLGoalDeadline {
     margin-top: 3px;
     font-family: Roboto;
     font-style: normal;
@@ -60,6 +60,6 @@
     color: #ABABAB;
 }
 
-#GLGoalOptions {
+#DashLGoalOptions {
     float: right;
 }
