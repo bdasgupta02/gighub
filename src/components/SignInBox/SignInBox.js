@@ -16,6 +16,7 @@ import './signInBox.css'
 const SignInBox = (props) => {
     const [isSignIn, setIsSignIn] = useState(true)
 
+    console.log(isSignIn)
     return (
         <div id="SignInPage" className="FullPage">
             <div className="SpacerBig" />
@@ -31,7 +32,7 @@ const SignInBox = (props) => {
             <div className="SpacerBig" />
             {/* TODO: redirect to forgot password page */}
             {isSignIn ? (
-                <a id="BottomLink" ><span>Forgot your password?</span><span id="BottomLinkBold"> Reset it here</span></a>
+                <a id="BottomLink" onClick={() => setIsSignIn(!isSignIn)}><span>Forgot your password?</span><span id="BottomLinkBold"> Reset it here</span></a>
             ) : (
                 <a id="BottomLink" onClick={() => setIsSignIn(!isSignIn)}><span>Already have an account?</span><span id="BottomLinkBold"> Sign-in here</span></a>
             )}

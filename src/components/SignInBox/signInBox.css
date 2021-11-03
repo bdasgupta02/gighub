@@ -75,6 +75,7 @@
 
 #BottomLink {
     color: #8A8A8A;
+    font-size: 14px;
     cursor: pointer;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
