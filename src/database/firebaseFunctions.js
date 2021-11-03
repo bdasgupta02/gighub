@@ -379,9 +379,12 @@ export async function createProfilePicture(picture) {
   let picName = picture.name + uuidv4();
   const storageRef = ref(storage, 'profile_pics/' + picName);
 
-  let url = await uploadBytes(storageRef, picture).then(() => {
+  let url = await uploadBytes(storageRef, picture).then(() =>{
     return getDownloadURL(storageRef).then((result) => {
       return result;
+    }).catch((error) => {
+      console.log(' Either file failed to upload or downloadURL failed: ' + error);
+      return '';
     });
   });
   return url;
@@ -399,7 +402,10 @@ export async function createResume(resume) {
   let url = await uploadBytes(storageRef, resume).then(() =>{
     return getDownloadURL(storageRef).then((result) => {
       return result;
-    })
+    }).catch((error) => {
+      console.log(' Either file failed to upload or downloadURL failed: ' + error);
+      return '';
+    });
   });
   return url;
 }
