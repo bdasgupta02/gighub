@@ -54,11 +54,12 @@ const NavSwitcher = () => {
           <Switch>
             {/* Put your private routes here (dashboard should be root at "/") */}
             {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-            <PrivateRoute path="/user/myGigs" component={MyGigs} />
-            <PrivateRoute path="/viewgig" component={ViewGig} />
-            <PrivateRoute path="/user/viewCompany" component={CompanyDetails} />
-            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/user/myGigs" component={MyGigs} />
+            <PrivateRoute exact path="/viewgig" component={ViewGig} />
+            <PrivateRoute exact path="/user/viewCompany" component={CompanyDetails} />
+            <PrivateRoute exact path="/profile" component={Profile} />
 
             {/* This is for the sign-in */}
             <Route path="/signin" component={SignInPage} />

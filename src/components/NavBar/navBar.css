@@ -6,7 +6,7 @@
   position: fixed;
   z-index: 1;
   overflow-x: hidden;
-  width: 220px;
+  width: 'fit-content';
 }
 
 .NBSpacer {
