@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import React from 'react';
-import NavBar from './components/NavBar';
+import NavBar, { CompanyNavBar } from './components/NavBar';
 import { SearchIcon } from '@primer/octicons-react';
 import { Container, Row, Col } from 'react-grid-system';
 import {
@@ -36,38 +36,47 @@ import SearchCompanies from './pages/searchCompanies';
 
 import WorkerNavBar from "./components/NavBar/index"
 import Button from './components/Button';
-import SignInBox from './components/SignInBox'
+import SignInPage from './pages/SignInPage'
 import Profile from './pages/Profile';
+
+
+const NavSwitcher = () => {
+  const { isSignedIn, isWorker } = useAuth()
+  const isCompany = isSignedIn && typeof isWorker !== 'undefined' && isWorker === false
+
+  return (
+    <div>
+      <Col>
+        {isWorker && <WorkerNavBar />}
+        {isCompany && <CompanyNavBar />}
+      </Col>
+      <div style={{ width: '100%' }}>
+          <Switch>
+            {/* Put your private routes here (dashboard should be root at "/") */}
+            {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/user/myGigs" component={MyGigs} />
+            <PrivateRoute exact path="/viewgig" component={ViewGig} />
+            <PrivateRoute exact path="/user/viewCompany" component={CompanyDetails} />
+            <PrivateRoute exact path="/profile" component={Profile} />
+
+            {/* This is for the sign-in */}
+            <Route path="/signin" component={SignInPage} />
+          </Switch>
+        
+      </div>
+    </div>
+  )
+}
 
 const App = (props) => {
   return (
-    <div>
-      <Router>
-        <Row gutterWidth={14}>
-          <Col>
-            <WorkerNavBar />
-          </Col>
-          <Col xs={9.7}>
-            <AuthProvider>
-              <Switch>
-                {/* Put your private routes here (dashboard should be root at "/") */}
-                {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/user/myGigs" component={MyGigs} />
-                <Route path="/viewgig" component={ViewGig} />
-                <Route path="/user/viewCompany" component={CompanyDetails} />
-                <Route path="/profile" component={Profile} />
-
-                {/* This is for the sign-in */}
-                <Route path="/signin" component={SignInBox} />
-              </Switch>
-
-            </AuthProvider>
-          </Col>
-        </Row>
-
-      </Router>
-    </div>
+    <Router>
+        <AuthProvider>
+          <NavSwitcher />
+        </AuthProvider>
+    </Router>
   )
 }
 
