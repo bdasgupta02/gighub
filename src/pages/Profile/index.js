@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import './profile.css';
 import Octicon, { StarIcon } from '@primer/octicons-react';
+import ProfileSKill from './ProfileSkill';
 
 // export default function Profile(props) {
 //   let type = 'worker';
@@ -74,7 +75,7 @@ export default function Profile(props) {
           </Col>
           <Col>
             <Row className="ProfilePageItemHeader">Skills</Row>
-            <Row>List of skills</Row>
+            <Row><ProfileSKill text="TEST"/></Row>
           </Col>
         </Row>
         <Row>
