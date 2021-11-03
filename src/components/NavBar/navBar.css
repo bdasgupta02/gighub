@@ -1,12 +1,12 @@
 .NBBackground {
+  font-family: 'Roboto', sans-serif;
   background-color: white;
   padding-top: 20px;
-  padding-left: 50px;
-  height: 100%;
-  position: fixed;
+  padding-left: 25px;
+  padding-right: 11px;
+  min-height: 100vh;
   z-index: 1;
-  overflow-x: hidden;
-  width: 220px;
+  width: 'fit-content';
 }
 
 .NBSpacer {

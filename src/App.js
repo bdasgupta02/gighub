@@ -45,12 +45,13 @@ const NavSwitcher = () => {
   const isCompany = isSignedIn && typeof isWorker !== 'undefined' && isWorker === false
 
   return (
-    <div>
-      <Col>
-        {isWorker && <WorkerNavBar />}
-        {isCompany && <CompanyNavBar />}
-      </Col>
-      <div style={{ width: '100%' }}>
+    <Row>
+      
+      {isWorker && <WorkerNavBar />}
+      {isCompany && <CompanyNavBar />}
+      
+      
+      <Col style={{ width: '100%' }}>
           <Switch>
             {/* Put your private routes here (dashboard should be root at "/") */}
             {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
@@ -65,8 +66,9 @@ const NavSwitcher = () => {
             <Route path="/signin" component={SignInPage} />
           </Switch>
         
-      </div>
-    </div>
+      
+      </Col>
+    </Row>
   )
 }
 

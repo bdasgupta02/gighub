@@ -16,7 +16,7 @@ import './navBar.css'
 class WorkerNavBar extends React.Component {
   render() {
     return (
-      <div  className="NBBackground">
+      <div className="NBBackground">
         <nav>
           <Col xs={2} justify="center" align="center">
             <Row> <Col> <GighubLogo /> </Col></Row>
