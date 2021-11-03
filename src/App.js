@@ -55,7 +55,8 @@ const App = (props) => {
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/user/myGigs" component={MyGigs} />
                 <Route path="/viewgig" component={ViewGig} />
-                <Route path="/profile" component={Profile}/>
+                <Route path="/user/viewCompany" component={CompanyDetails} />
+                <Route path="/profile" component={Profile} />
 
                 {/* This is for the sign-in */}
                 <Route path="/signin" component={SignInBox} />

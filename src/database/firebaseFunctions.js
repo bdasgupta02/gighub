@@ -195,34 +195,29 @@ export async function getCompanyArchivedGigs(companyId) {
 }
 
 export async function getCompanyPostedGigs(companyId) {
-  const companySubCol = collection(
+  let companySubCol = collection(
     db,
     constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS
   );
-  const companySubSnapshot = await getDocs(companySubCol);
-  console.log('companySubSnapshot: ' + companySubSnapshot);
-  var companySubList = companySubSnapshot.docs.map((doc) => {
-    //looking at indivisual gigs in AppliedGig subcollection
-    console.log('in companySubList, each doc is: ' + doc.get('data'));
-    let gig = doc.get('gig');
-    console.log('gig: ' + JSON.stringify(gig));
-    let includedGigDoc = getDoc(gig);
-    console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    let includedGig = [];
-    includedGigDoc
-      .then((x) => {
-        includedGig.push(x.data());
-        console.log(
-          'in includedGigDocs : data is : ' + JSON.stringify(x.data())
-        );
-      })
-      .then(() => {
-        console.log('getWorkerAppliedGigs: returning: ');
-        console.log(includedGig);
-        return includedGig;
-      });
-  });
-  return companySubList;
+  let companySubSnapshot = await getDocs(companySubCol);
+  let retArray = [];
+  // await Promise.all(companySubSnapshot.docs.map(async (doc) => {
+  //   retArray.push(doc.data())
+  // }));
+  // // return retArray
+
+  await Promise.all(companySubSnapshot.docs.map(async (data) => {
+    let el = data.data()
+    let gigRef = el.gig
+    let gigDoc = await getDoc(gigRef)
+    let gig = gigDoc.data();
+    gig['gigId'] = data.id
+    console.log(gig.gigId)
+    retArray.push(gig)
+
+  }
+  ))
+  return retArray;
 }
 
 //untested with multiple reviews, not sure how the data will be structured
@@ -232,34 +227,23 @@ export async function getCompanyReviews(companyId) {
     constants.COMPANIES + '/' + companyId + '/' + constants.REVIEWS
   );
   let companySubSnapshot = await getDocs(companySubCol);
-  let companySubList = companySubSnapshot.docs.map((doc) => {
-    let gig = doc.get('gig');
-    let includedGigDoc = getDoc(gig);
-    let includedGig = [];
-    includedGigDoc
-      .then((x) => {
-        includedGig.push(x.data());
-      })
-      .then((x) => {
-        return includedGig;
-      });
-    let tags = doc.get('reviewTags');
-    let includedTagDocs = [];
-    tags.array.forEach((element) => {
-      includedTagDocs.push(getDoc(element));
-    });
-    let includedTags = [];
-    includedTagDocs.forEach((includedTagDoc) => {
-      includedTagDoc
-        .then((x) => {
-          includedTags.push(x.data());
-        })
-        .then((x) => {
-          return includedTags;
-        });
-    });
-  });
-  return companySubList;
+
+  //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
+  let retArray = [];
+  await Promise.all(companySubSnapshot.docs.map(async (doc) => {
+    retArray.push(doc.data())
+  }));
+  // return retArray
+
+  await Promise.all(retArray.map(async (el) => {
+    let gigRef = el.gig
+    let gig = await getDoc(gigRef)
+    let title = gig.data().title;
+    console.log(title)
+    el['gigTitle'] = title
+  }
+  ))
+  return retArray;
 }
 
 /*
