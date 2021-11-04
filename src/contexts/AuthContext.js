@@ -32,9 +32,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     const signin = async (email, password) => {
-        // check is worker
-        
-        
         const workersRef = accessDB.collection('workers')
         const workersEmail = await workersRef.where('email', '==', email).get()
 
@@ -49,9 +46,6 @@ export const AuthProvider = ({ children }) => {
         } else if (typeof companiesEmail !== 'undefined' && companiesEmail.docs.length > 0) {
             setIsWorker(false)
         }
-
-        
-        
         return user
     }
 
