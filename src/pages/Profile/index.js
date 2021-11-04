@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import './profile.css';
 import Octicon, { StarIcon } from '@primer/octicons-react';
-import ProfileSKill from './ProfileSkill';
+import ProfileSkill from './ProfileSkill';
 
 // export default function Profile(props) {
 //   let type = 'worker';
@@ -15,6 +15,7 @@ import ProfileSKill from './ProfileSkill';
 //     return workerProfile(props);
 //   }
 // }
+const workerSkills = ["Test0", "Test1", "Test2", "Test3", "Test4", "Test5", "Test6", "Test7", "Test8", "Test9", "Test10"];
 export default function Profile(props) {
   let { isWorker } = useAuth();
 
@@ -30,14 +31,15 @@ export default function Profile(props) {
       </Container>
 
       <Container>
-        <Row xs={1} md={2}>
-          <Col xs={1}>
+        <Row>
+          <Col style={{width: 'fit-content'}}>
             <img
               className="ProfilePicture"
               src="https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/profile_pics%2FFrame%204(1).png?alt=media&token=d7e2e7ec-b7ad-43e4-a1c5-ddd10fb7fbee"
             />
           </Col>
-          <Col>
+          <Col style={{width: 'fit-content'}}>
+          <Row className="ProfilePagePictureButtonSpacer"/>
             <Row>
               <Button
                 type="PRIMARY"
@@ -45,6 +47,7 @@ export default function Profile(props) {
                 onClick={changePicture}
               />
             </Row>
+            <Row className="ProfilePagePictureButtonSpacer"/>
             <Row>
               <Button
                 type="WHITE"
@@ -54,6 +57,7 @@ export default function Profile(props) {
             </Row>
           </Col>
         </Row>
+        <Row className="ProfilePageMainHeaderSpacer"></Row>
       </Container>
 
       <Container>
@@ -75,7 +79,7 @@ export default function Profile(props) {
           </Col>
           <Col>
             <Row className="ProfilePageItemHeader">Skills</Row>
-            <Row><ProfileSKill text="TEST"/></Row>
+            <Row md={5} sm={2}>{workerSkills.map((x) => <ProfileSkill text={x}/>)}</Row>
           </Col>
         </Row>
         <Row>
