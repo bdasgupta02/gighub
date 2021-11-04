@@ -1,11 +1,9 @@
 .NBBackground {
   font-family: 'Roboto', sans-serif;
   background-color: white;
-  padding-top: 20px;
   padding-left: 25px;
-  padding-right: 11px;
+  padding-right: 25px;
   min-height: 100vh;
-  z-index: 1;
   width: 'fit-content';
 }
 
