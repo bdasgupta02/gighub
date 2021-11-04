@@ -5,7 +5,9 @@ function FullPage(props) {
 
     return (
         <div id="FPageStyle" {...props.style}>
-            {props.children}
+            <div id="FPPadding">
+                {props.children}
+            </div>
         </div>
     )
 }

@@ -3,3 +3,9 @@
     min-width: 100%;
     background-color: #E8F0F2;
 }
+
+#FPPadding {
+    padding-left: 26px;
+    padding-top: 56px; 
+    padding-right: 26px;
+}
