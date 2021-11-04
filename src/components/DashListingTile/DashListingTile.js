@@ -9,6 +9,8 @@ import './dashListingTile.css'
 
 const DashListingTile = (props) => {
     const [isHovering, setIsHovering] = useState(false)
+    
+    //const { //id, company, unit, completeBy, title, pay } = props.gig
 
     /* final props:
     const companyName = props.companyName
@@ -50,33 +52,33 @@ const DashListingTile = (props) => {
     })
 
     const AnimatedContainer = animated(Container)
-    return (<AnimatedContainer className="TileText" id="DashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-        <Col id="MainColumn">
+    return (<AnimatedContainer className="DLTTileText" id="DLTDashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+        <Col id="DLTMainColumn">
             <Row>
-                <div id="LogoBox">
-                    <img src={logo} id="LogoImg" />
+                <div id="DLTLogoBox">
+                    <img src={logo} id="DLTLogoImg" />
                 </div>
                 <Col>
-                    <div id="CompanyName">
+                    <div id="DLTCompanyName">
                         {companyName}
                     </div>
-                    <div id="CompanyLocation">
+                    <div id="DLTCompanyLocation">
                         {companyCity}
                     </div>
                 </Col>
             </Row>
-            <div id="JobTitle">
+            <div id="DLTJobTitle">
                 {jobTitle}
             </div>
-            <div id="JobDesc">
+            <div id="DLTJobDesc">
                 {jobDeadline}
             </div>
-            <Row id="DashPayTextBox" className="Bottom">
-                <div className="PayText">{payAmt}</div>
-                <div className="PayText">&nbsp;/&nbsp;</div>
-                <Col id="PayForCol">
-                    <div className="Spacer"></div>
-                    <Row id="PayForText">{payFor}</Row>
+            <Row id="DLTDashPayTextBox" className="DLTBottom">
+                <div className="DLTPayText">{payAmt}</div>
+                <div className="DLTPayText">&nbsp;/&nbsp;</div>
+                <Col id="DLTPayForCol">
+                    <div style={{ width: '1px', height: '3px' }} />
+                    <Row id="DLTPayForText">{payFor}</Row>
                 </Col>
             </Row>
         </Col>

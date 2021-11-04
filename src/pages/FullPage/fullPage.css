@@ -1,0 +1,17 @@
+#FPageStyle {
+    min-height: 100vh;
+    min-width: 100%;
+    background-color: #E8F0F2;
+}
+
+#FPPadding {
+    padding-top: 56px; 
+    margin-left: 36px;
+}
+
+#FPPageHeader {
+    font-size: 36px;
+    font-weight: bold;
+    color: #545454;
+    font-family: 'Roboto', sans-serif;
+}

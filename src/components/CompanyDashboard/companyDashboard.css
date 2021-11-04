@@ -9,7 +9,7 @@
 }
 
 .CDGoalsTile {
-
+  
 }
 
 #CDBase {
@@ -28,7 +28,6 @@
   background-color: #174B4F;
   height: 30%;
   align-items: center;
-  font-size: 24px;
   padding-left: 60px;
 }
 
@@ -38,7 +37,6 @@
   font-weight: bold;
   margin-top: 5%;
   color: white;
-  margin-left: 15px;
 }
 
 #CDHeaderTitle {

@@ -1,13 +1,13 @@
-.TileText {
+.DLTTileText {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
 
-.Spacer {
+.DLTSpacer {
     margin-top: auto;
 }
 
-.Bottom {
+.DLTBottom {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +15,7 @@
     padding-right: 16px;
 }
 
-#DashTileBackground {
+#DLTDashTileBackground {
     height: 190px;
     width: 280px;
     border-radius: 12px;
@@ -26,18 +26,18 @@
     -o-user-select: none;
 }
 
-#MainColumn {
+#DLTMainColumn {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 16px;
 }
 
-#DashTileBackground:hover {
+#DLTDashTileBackground:hover {
     cursor: pointer;
 }
 
-#LogoBox {
+#DLTLogoBox {
     box-shadow: inset 4px 10px 40px #00000020;
     background-color: '#E8F0F2';
     height: 50px;
@@ -49,57 +49,57 @@
     justify-content: center;
 }
 
-#LogoImg {
+#DLTLogoImg {
     height: 26px;
     width: 26px;
     display: block;
     margin: 0 auto;
 }
 
-#CompanyName {
+#DLTCompanyName {
     font-size: 20px;
     font-weight: bold;
     color: #545454;
     margin-top: 3px;
 }
 
-#CompanyLocation {
+#DLTCompanyLocation {
     font-weight: bold;
     color: #ABABAB;
 }
 
-#JobTitle {
+#DLTJobTitle {
     color: #545454;
     font-weight: bold;
     margin-top: 26px;
 }
 
-#JobDesc {
+#DLTJobDesc {
     color: #ABABAB;
 }
 
-#DashPayTextBox {
+#DLTDashPayTextBox {
     margin-top: auto;
 }
 
-.PayText {
+.DLTPayText {
     font-size: 18px;
     font-weight: bold;
 }
 
-#PayForCol {
+#DLTPayForCol {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-#PayForText {
+#DLTPayForText {
     align-self: flex-start;
     text-align: start;
     color: #ABABAB;
 }
 
-#Highlight {
+#DLTHighlight {
     height: 18px;
     font-size: 11px;
     font-weight: bold;

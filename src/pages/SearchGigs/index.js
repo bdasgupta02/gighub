@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-grid-system'
 import { useAuth } from "../../contexts/AuthContext";
 import GigListingTile from '../../components/GigListingTile'
 import LogoGenerator from "../../components/LogoGenerator"
+import FullPage from "../FullPage";
 import './searchGigs.css'
 
 
@@ -25,14 +26,14 @@ export default function SearchGigs(props) {
         fixed: false
     })
     let { isWorker } = useAuth()
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     // REMOVE this once database is connected with private route
     if (typeof isWorker === 'undefined' || isWorker === null) isWorker = true
 
@@ -157,11 +158,8 @@ export default function SearchGigs(props) {
 
     console.log(typeof GigListingTile)
     return (
-        <div id="SearchGigsPage">
-            <Container>
-                <Row className="SearchGigsHeader">
-                    Discover gigs
-                </Row>
+        <FullPage header="Discover gigs">
+            <Col>
                 <Row className="SearchSpacer" />
                 <SearchBar
                     filters={filters}
@@ -174,12 +172,12 @@ export default function SearchGigs(props) {
                 <Row className="SearchSpacer" />
                 <Row>
                     {cleanedGigs.map(e => (
-                        <div style={{marginRight: '20px'}}>
+                        <div style={{ marginRight: '20px' }}>
                             <GigListingTile {...e} />
                         </div>
                     ))}
                 </Row>
-            </Container>
-        </div>
+            </Col>
+        </FullPage>
     );
 }

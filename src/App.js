@@ -1,150 +1,67 @@
-import logo from './logo.svg';
 import React from 'react';
-import NavBar from './components/NavBar';
-import { SearchIcon } from '@primer/octicons-react';
-import { Container, Row, Col } from 'react-grid-system';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  NavLink
+  Route
 } from "react-router-dom";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import PrivateRoute from './PrivateRoute';
-
 import './App.css';
 
-import Homepage from './pages/homepage';
-import SignIn from './pages/signIn';
-import ViewGig from './pages/viewGig';
-import SearchGigs from './pages/SearchGigs';
-import SearchWorkers from './pages/searchWorkers';
-import Settings from './pages/settings';
-import MyApplications from './pages/myApplications';
-import MyGigs from './pages/myGigs';
 
-// don't make dashboard separate
+// components
+import NavBar from "./components/NavBar"
+import PrivateRoute from './PrivateRoute';
+import { Box } from '@material-ui/system';
+
+// pages
 import Dashboard from './pages/Dashboard';
-
-
-import WorkerDetails from './pages/workerDetails';
-import CompanyDetails from './pages/companyDetails';
-import ListedGigs from './pages/listedGigs';
-import SearchCompanies from './pages/searchCompanies';
-
-
-import WorkerNavBar from "./components/NavBar/index"
-import Button from './components/Button';
-import SignInBox from './components/SignInBox'
+import SearchWorkers from './pages/SearchWorkers';
+import SignInPage from './pages/SignInPage'
 import Profile from './pages/Profile';
+import ViewProfile from './pages/ViewProfile'
+import Notifications from './pages/Notifications'
+import ListedGigs from './pages/ListedGigs'
+import ViewGig from './pages/viewGig';
+import MyApplications from './pages/MyApplications';
+import MyGigs from './pages/myGigs';
+import SearchGigs from './pages/SearchGigs'
+
+
+const NavSwitcher = () => {
+  const { isSignedIn } = useAuth()
+
+  return (
+    <Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }}>
+      {isSignedIn && <NavBar />}
+      <div style={{ width: '100%', overflow: 'auto' }}>
+          <Switch>
+
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/my_gigs" component={MyGigs} />
+            <PrivateRoute exact path="/view_gig" component={ViewGig} />
+            <PrivateRoute exact path="/view_profile" component={ViewProfile} />
+            <PrivateRoute exact path="/my_profile" component={Profile} />
+            <PrivateRoute exact path="/my_applications" component={MyApplications} />
+            <PrivateRoute exact path="/notifs" component={Notifications} />
+            <PrivateRoute exact path="/listed_gigs" component={ListedGigs} />
+            <PrivateRoute exact path="/search_gigs" component={SearchGigs} />
+            <PrivateRoute exact path="/search_workers" component={SearchWorkers} />
+
+            <Route path="/signin" component={SignInPage} />
+          </Switch>
+      </div>
+    </Box>
+  )
+}
 
 const App = (props) => {
   return (
-    <div>
-      <Router>
-        <Row gutterWidth={14}>
-          <Col>
-            <WorkerNavBar />
-          </Col>
-          <Col xs={9.7}>
-            <AuthProvider>
-              <Switch>
-                {/* Put your private routes here (dashboard should be root at "/") */}
-                {/* <PrivateRoute exact path="/" component={WorkerDashboard} /> */}
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/user/myGigs" component={MyGigs} />
-                <Route path="/viewgig" component={ViewGig} />
-                <Route path="/user/viewCompany" component={CompanyDetails} />
-                <Route path="/profile" component={Profile} />
-
-                {/* This is for the sign-in */}
-                <Route path="/signin" component={SignInBox} />
-              </Switch>
-
-            </AuthProvider>
-          </Col>
-        </Row>
-
-      </Router>
-    </div>
+    <Router>
+        <AuthProvider>
+          <NavSwitcher />
+        </AuthProvider>
+    </Router>
   )
 }
 
 export default App;
-//
-//  * <Button text={"Button"} onClick={() => null} type="PRIMARY" isBlock />
-// //
-// return <AuthProvider>
-//       {/* <SearchBar onSearchTermChange={(term) => { }} /> }
-//
-//       <Router>
-//         {/* Go to NavBar/index.js to edit links for the navbuttons }
-//         <div>
-//           <Container>
-//             <Row debug>
-//               <Col xs={3} debug>
-//                 <NavBar />
-//               </Col>
-//               <Col>
-//                 <Switch>
-//                   {/* Basic Functions  }
-//
-//                   <PrivateRoute path="/settings">
-//                     <Settings />
-//                   </PrivateRoute>
-//
-//                   {/* Common Pages }
-//                   <PrivateRoute path="/search-users">
-//                     <SearchWorkers />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/user/">
-//                     <WorkerDetails />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/search-gigs">
-//                     <SearchGigs />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/gig/">
-//                     <GigDetails />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/search-companies">
-//                     <SearchCompanies />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/company/gigs">
-//                     <ListedGigs />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/company/">
-//                     <CompanyDetails />
-//                   </PrivateRoute>
-//
-//                   {/* Worker Only }
-//                   <PrivateRoute path="/dashboard">
-//                     <WorkerDashboard />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/my-applications">
-//                     <MyApplications />
-//                   </PrivateRoute>
-//                   <PrivateRoute path="/my-gigs">
-//                     <MyGigs />
-//                   </PrivateRoute>
-//
-//                   {/* Company Only }
-//                   <PrivateRoute path="/company-dashboard">
-//                     <CompanyDashboard />
-//                   </PrivateRoute>
-//
-//                   <Route path="/sign-in">
-//                     <SignIn />
-//                   </Route>
-//
-//
-//                 </Switch>
-//               </Col>
-//             </Row>
-//           </Container>
-//         </div>
-//
-//       </Router>
-//
-//     </AuthProvider>
-//
