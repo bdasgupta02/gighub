@@ -303,20 +303,18 @@ export async function createCompany(companyDetails) {
 //untested
 /**
  * @param {json_object} gigDetails should contain in json:
- * companyId(String),
+ * companyId(String reference incl /companies/),
+ * completeBy(Timestamp)
  * contractLink(String),
- * dailyPay(number >= 0),
- * description(string),
- * endDate(TimeStamp),
- * endDeliverable(String),
- * isFlexible(boolean),
- * startDate(TimeStamp),
- * tags(array of tag references),
- * title(String),
- * totalPay(number >= 0),
- * numSpots (number > 0),
- * numTaken(number = 0),
- * completeBy(TimeStamp)
+ * description(String),
+ * endDate(Timestamp),
+ * isFlexible(Boolean),
+ * isVariable(Boolean),
+ * pay(Number),
+ * startDate(Timestasmp),
+ * tags (array of refernce string including /categoryTags/),
+ * title (String),
+ * unit(String)
  */
 export async function createGig(gigDetails) {
   let companyId = gigDetails.companyId;
@@ -326,11 +324,12 @@ export async function createGig(gigDetails) {
   batch.set(gigRef, gigDetails);
 
   let gigId = gigRef.id;
-  const companyRef = doc(
-    db,
-    constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS,
-    gigId
-  );
+  const companyRef = doc(db, companyId, constants.POSTED_GIGS + '/' + gigId);
+  // const companyRef = doc(
+  //   db,
+  //   companyId + '/' + constants.POSTED_GIGS,
+  //   gigId
+  // );
   batch.set(companyRef, gigRef);
 
   await batch.commit();
@@ -785,9 +784,14 @@ export async function hireWorker(gigId, workerId) {
   //if gig's new taken spots = gig's total spots, batch update for each still in application to rejected
 }
 
-export async function deleteWorkerProfilePicture(workerId) {}
+export async function deleteWorkerProfilePicture(workerId) {
+  let workerDetails = {
+    id: workerId,
+    profilePicture: ''
+  }
+  updateWorkerDetails(workerDetails);
+}
 
 /*
 HELPER FUNCTIONS
 */
-function getStoragePath(viewLink) {}
