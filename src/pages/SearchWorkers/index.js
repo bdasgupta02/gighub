@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FullPage from '../FullPage'
+import { useHistory } from 'react-router'
 import { getWorkers } from '../../database/firebaseFunctions'
 import './searchWorkers.css'
 
@@ -15,6 +16,7 @@ function SearchWorkers() {
         getDB()
     }, [])
 
+    console.log(workers)
     return (
         <FullPage header="Search workers">
             
