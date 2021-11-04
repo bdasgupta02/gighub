@@ -5,7 +5,12 @@
 }
 
 #FPPadding {
-    padding-left: 26px;
     padding-top: 56px; 
-    padding-right: 26px;
+}
+
+#FPPageHeader {
+    font-size: 36px;
+    font-weight: bold;
+    color: #545454;
+    font-family: 'Roboto', sans-serif;
 }

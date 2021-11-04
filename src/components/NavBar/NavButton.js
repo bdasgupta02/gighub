@@ -23,8 +23,9 @@ cursor: pointer;
 }
 &.active {
   color:white;
-  background-color: #08F0FF;
+  background-color: #09d6e3;
   box-shadow: 0px 0px 0px 0px;
+  font-weight: bold;
 }
 `;
 

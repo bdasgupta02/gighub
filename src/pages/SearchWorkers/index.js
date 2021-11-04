@@ -16,8 +16,8 @@ function SearchWorkers() {
     }, [])
 
     return (
-        <FullPage>
-            test
+        <FullPage header="Search workers">
+            
         </FullPage>
     )
 }

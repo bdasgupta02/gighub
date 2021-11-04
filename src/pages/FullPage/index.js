@@ -1,13 +1,19 @@
 import React from 'react'
+import { Container, Row } from 'react-grid-system'
 import './fullPage.css'
 
 function FullPage(props) {
 
     return (
         <div id="FPageStyle" {...props.style}>
-            <div id="FPPadding">
-                {props.children}
-            </div>
+            <Container id="FPPadding">
+                <Row id="FPPageHeader">
+                    {props.header}
+                </Row>
+                <Row>
+                    {props.children}
+                </Row>
+            </Container>
         </div>
     )
 }

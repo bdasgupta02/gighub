@@ -24,6 +24,7 @@ import ListedGigs from './pages/ListedGigs'
 import ViewGig from './pages/viewGig';
 import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
+import SearchGigs from './pages/SearchGigs'
 
 
 const NavSwitcher = () => {
@@ -43,6 +44,7 @@ const NavSwitcher = () => {
             <PrivateRoute exact path="/my_applications" component={MyApplications} />
             <PrivateRoute exact path="/notifs" component={Notifications} />
             <PrivateRoute exact path="/listed_gigs" component={ListedGigs} />
+            <PrivateRoute exact path="/search_gigs" component={SearchGigs} />
             <PrivateRoute exact path="/search_workers" component={SearchWorkers} />
 
             <Route path="/signin" component={SignInPage} />
