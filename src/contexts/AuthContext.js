@@ -21,32 +21,32 @@ export const AuthProvider = ({ children }) => {
 
     const signup = (details, isWorker) => {
         const user = auth.createUserWithEmailAndPassword(details.email, details.password).then((res) => {
-            setIsWorker(isWorker)
             if (isWorker !== undefined && isWorker) {
                 return accessDB.collection('workers').doc(res.user.uid).set(details)
             } else {
                 return accessDB.collection('companies').doc(res.user.uid).set(details)
             }
+            setIsWorker(isWorker)
         })
         return user
     }
 
-    function signin(email, password) {
-        // check is worker
-        
+    const signin = async (email, password) => {
         const workersRef = accessDB.collection('workers')
         const workersEmail = workersRef.where('email', '==', email).get()
 
         const companiesRef = accessDB.collection('companies')
         const companiesEmail = companiesRef.where('email', '==', email).get()
 
-        if (typeof workersEmail !== 'undefined' && workersEmail !== null) {
+        const user = await auth.signInWithEmailAndPassword(email, password)
+
+        console.log(workersEmail.docs)
+        if (typeof workersEmail !== 'undefined' && workersEmail.docs.length > 0) {
             setIsWorker(true)
-        } else if (typeof companiesEmail !== 'undefined' && companiesEmail !== null) {
+        } else if (typeof companiesEmail !== 'undefined' && companiesEmail.docs.length > 0) {
             setIsWorker(false)
         }
-
-        return auth.signInWithEmailAndPassword(email, password)
+        return user
     }
 
     function signout() {

@@ -8,6 +8,7 @@ import { getFirestore } from "@firebase/firestore";
 import "firebase/compat/auth";
 import 'firebase/compat/firestore';
 import {load} from 'dotenv';
+import { getStorage } from "@firebase/storage";
 
 require('dotenv').config();
 
@@ -31,4 +32,5 @@ const db = getFirestore(app);
 
 export const accessDB = app.firestore()
 export const auth = app.auth()
+export const storage = getStorage(app);
 export default db;
