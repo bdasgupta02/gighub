@@ -14,11 +14,9 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db, { accessDB } from './firebase';
+import db, { accessDB, storage } from './firebase';
 import * as constants from '../constants';
 import { load } from 'dotenv';
-
-const storage = getStorage();
 
 /*
 RETRIEVE
@@ -96,18 +94,20 @@ export async function getWorkerAppliedGigs(workerId) {
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
-  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
-    //looking at indivisual gigs in AppliedGig subcollection
-    let gig = doc.get('gig');
-    let includedGigDoc = await getDoc(gig);
-    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    retArray.push(includedGigDoc.data());
-    // includedGigDoc.then((x) => {
-    //   console.log("x is: " + JSON.stringify(x.data()))
-    //   retArray.push(x.data())
+  await Promise.all(
+    workerSubSnapshot.docs.map(async (doc) => {
+      //looking at indivisual gigs in AppliedGig subcollection
+      let gig = doc.get('gig');
+      let includedGigDoc = await getDoc(gig);
+      //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+      retArray.push(includedGigDoc.data());
+      // includedGigDoc.then((x) => {
+      //   console.log("x is: " + JSON.stringify(x.data()))
+      //   retArray.push(x.data())
 
-    // })
-  }));
+      // })
+    })
+  );
 
   return retArray;
 }
@@ -120,19 +120,21 @@ export async function getWorkerArchivedGigs(workerId) {
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
-  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
-    //looking at indivisual gigs in AppliedGig subcollection
-    let gig = doc.get('gig');
-    let includedGigDoc = await getDoc(gig);
-    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    retArray.push(includedGigDoc.data());
-    // includedGigDoc.then((x) => {
-    //   console.log("x is: " + JSON.stringify(x.data()))
-    //   retArray.push(x.data())
+  await Promise.all(
+    workerSubSnapshot.docs.map(async (doc) => {
+      //looking at indivisual gigs in AppliedGig subcollection
+      let gig = doc.get('gig');
+      let includedGigDoc = await getDoc(gig);
+      //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+      retArray.push(includedGigDoc.data());
+      // includedGigDoc.then((x) => {
+      //   console.log("x is: " + JSON.stringify(x.data()))
+      //   retArray.push(x.data())
 
-    // })
-  }));
-  return retArray
+      // })
+    })
+  );
+  return retArray;
 }
 
 export async function getWorkerBookedGigs(workerId) {
@@ -143,25 +145,27 @@ export async function getWorkerBookedGigs(workerId) {
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
-  await Promise.all(workerSubSnapshot.docs.map(async (doc) => {
-    //looking at indivisual gigs in AppliedGig subcollection
-    let gig = doc.get('gig');
-    let includedGigDoc = await getDoc(gig);
-    //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-    retArray.push(includedGigDoc.data());
-    // includedGigDoc.then((x) => {
-    //   console.log("x is: " + JSON.stringify(x.data()))
-    //   retArray.push(x.data())
+  await Promise.all(
+    workerSubSnapshot.docs.map(async (doc) => {
+      //looking at indivisual gigs in AppliedGig subcollection
+      let gig = doc.get('gig');
+      let includedGigDoc = await getDoc(gig);
+      //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
+      retArray.push(includedGigDoc.data());
+      // includedGigDoc.then((x) => {
+      //   console.log("x is: " + JSON.stringify(x.data()))
+      //   retArray.push(x.data())
 
-    // })
-  }));
+      // })
+    })
+  );
 
   return retArray;
 }
 
-export async function getWorkerGoals(workerId) { }
+export async function getWorkerGoals(workerId) {}
 
-export async function getWorkerReviews(workerId) { }
+export async function getWorkerReviews(workerId) {}
 
 export async function getCompanyArchivedGigs(companyId) {
   const companySubCol = collection(
@@ -206,17 +210,17 @@ export async function getCompanyPostedGigs(companyId) {
   // }));
   // // return retArray
 
-  await Promise.all(companySubSnapshot.docs.map(async (data) => {
-    let el = data.data()
-    let gigRef = el.gig
-    let gigDoc = await getDoc(gigRef)
-    let gig = gigDoc.data();
-    gig['gigId'] = data.id
-    console.log(gig.gigId)
-    retArray.push(gig)
-
-  }
-  ))
+  await Promise.all(
+    companySubSnapshot.docs.map(async (data) => {
+      let el = data.data();
+      let gigRef = el.gig;
+      let gigDoc = await getDoc(gigRef);
+      let gig = gigDoc.data();
+      gig['gigId'] = data.id;
+      console.log(gig.gigId);
+      retArray.push(gig);
+    })
+  );
   return retArray;
 }
 
@@ -230,19 +234,22 @@ export async function getCompanyReviews(companyId) {
 
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
-  await Promise.all(companySubSnapshot.docs.map(async (doc) => {
-    retArray.push(doc.data())
-  }));
+  await Promise.all(
+    companySubSnapshot.docs.map(async (doc) => {
+      retArray.push(doc.data());
+    })
+  );
   // return retArray
 
-  await Promise.all(retArray.map(async (el) => {
-    let gigRef = el.gig
-    let gig = await getDoc(gigRef)
-    let title = gig.data().title;
-    console.log(title)
-    el['gigTitle'] = title
-  }
-  ))
+  await Promise.all(
+    retArray.map(async (el) => {
+      let gigRef = el.gig;
+      let gig = await getDoc(gigRef);
+      let title = gig.data().title;
+      console.log(title);
+      el['gigTitle'] = title;
+    })
+  );
   return retArray;
 }
 
@@ -296,20 +303,18 @@ export async function createCompany(companyDetails) {
 //untested
 /**
  * @param {json_object} gigDetails should contain in json:
- * companyId(String),
+ * companyId(String reference incl /companies/),
+ * completeBy(Timestamp)
  * contractLink(String),
- * dailyPay(number >= 0),
- * description(string),
- * endDate(TimeStamp),
- * endDeliverable(String),
- * isFlexible(boolean),
- * startDate(TimeStamp),
- * tags(array of tag references),
- * title(String),
- * totalPay(number >= 0),
- * numSpots (number > 0),
- * numTaken(number = 0),
- * completeBy(TimeStamp)
+ * description(String),
+ * endDate(Timestamp),
+ * isFlexible(Boolean),
+ * isVariable(Boolean),
+ * pay(Number),
+ * startDate(Timestasmp),
+ * tags (array of refernce string including /categoryTags/),
+ * title (String),
+ * unit(String)
  */
 export async function createGig(gigDetails) {
   let companyId = gigDetails.companyId;
@@ -319,11 +324,12 @@ export async function createGig(gigDetails) {
   batch.set(gigRef, gigDetails);
 
   let gigId = gigRef.id;
-  const companyRef = doc(
-    db,
-    constants.COMPANIES + '/' + companyId + '/' + constants.POSTED_GIGS,
-    gigId
-  );
+  const companyRef = doc(db, companyId, constants.POSTED_GIGS + '/' + gigId);
+  // const companyRef = doc(
+  //   db,
+  //   companyId + '/' + constants.POSTED_GIGS,
+  //   gigId
+  // );
   batch.set(companyRef, gigRef);
 
   await batch.commit();
@@ -372,9 +378,14 @@ export async function createProfilePicture(picture) {
   let picName = picture.name + uuidv4();
   const storageRef = ref(storage, 'profile_pics/' + picName);
 
-  let url = await uploadBytes(storageRef, picture).then(() =>
-    getDownloadURL(storageRef)
-  );
+  let url = await uploadBytes(storageRef, picture).then(() =>{
+    return getDownloadURL(storageRef).then((result) => {
+      return result;
+    }).catch((error) => {
+      console.log(' Either file failed to upload or downloadURL failed: ' + error);
+      return '';
+    });
+  });
   return url;
 }
 
@@ -387,9 +398,14 @@ export async function createResume(resume) {
   let resumeName = resume.name + uuidv4();
   const storageRef = ref(storage, 'resumes/' + resumeName);
 
-  let url = await uploadBytes(storageRef, resume).then(() =>
-    getDownloadURL(storageRef)
-  );
+  let url = await uploadBytes(storageRef, resume).then(() =>{
+    return getDownloadURL(storageRef).then((result) => {
+      return result;
+    }).catch((error) => {
+      console.log(' Either file failed to upload or downloadURL failed: ' + error);
+      return '';
+    });
+  });
   return url;
 }
 
@@ -431,9 +447,9 @@ need to decide on how to handle deletions. i.e. if skills/tags are kept as refer
 decided as marked for deletion. 
 */
 
-export async function deleteCompany(companyId) { } //need to decide on how to handle deleted companies.
-export async function deleteGig(gigId) { } //point at archiveGig?
-export async function deleteWorker(workerId) { } //need to decide on how to handle deleted workers.
+export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies.
+export async function deleteGig(gigId) {} //point at archiveGig?
+export async function deleteWorker(workerId) {} //need to decide on how to handle deleted workers.
 
 /*
 FUNCTIONAL
@@ -545,10 +561,10 @@ export async function createCompanyReview(reviewDetails, companyId) {
 
       if (oldNumReviews == 0 && oldAvg < 0) {
         newAvgReviews = reviewDetails.numStars;
-        newNumReviews = 1*1;
+        newNumReviews = 1 * 1;
       } else if (oldNumReviews != 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
-        newNumReviews = oldNumReviews*1 + 1;
+        newNumReviews = oldNumReviews * 1 + 1;
       } else {
         throw new Error('Error in recorded review scores stored in database!');
       }
@@ -595,7 +611,7 @@ export async function createWorkerReview(reviewDetails, workerId) {
         newNumReviews = 1;
       } else if (oldNumReviews != 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
-        newNumReviews = oldNumReviews*1 + 1;
+        newNumReviews = oldNumReviews * 1 + 1;
       } else {
         throw new Error('Error in recorded review scores stored in database!');
       }
@@ -633,9 +649,12 @@ export async function archiveGig(gigId) {
     let workerDocRefString =
       document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
-    let workerGigRef = (getDoc(workerDocRef)).get('gig');
-    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
-    batch.update(workerDocRef, { 'gig': newGigRef });
+    let workerGigRef = getDoc(workerDocRef).get('gig');
+    let newGigRef = workerGigRef.replace(
+      '/' + constants.ACTIVE_GIGS + '/',
+      '/' + constants.ARCHIVED_GIGS + '/'
+    );
+    batch.update(workerDocRef, { gig: newGigRef });
   });
 
   //copy applied subcollection
@@ -644,11 +663,13 @@ export async function archiveGig(gigId) {
     let workerDocRefString =
       document.get(constants.GIG_WORKER) + '/' + constants.BOOKED_GIGS;
     let workerDocRef = doc(db, workerDocRefString, gigId);
-    let workerGigRef = (getDoc(workerDocRef)).get('gig');
-    let newGigRef = workerGigRef.replace('/' + constants.ACTIVE_GIGS + '/', '/' + constants.ARCHIVED_GIGS + '/');
-    batch.update(workerDocRef, { 'gig': newGigRef });
+    let workerGigRef = getDoc(workerDocRef).get('gig');
+    let newGigRef = workerGigRef.replace(
+      '/' + constants.ACTIVE_GIGS + '/',
+      '/' + constants.ARCHIVED_GIGS + '/'
+    );
+    batch.update(workerDocRef, { gig: newGigRef });
   });
-
 
   //delete old gig
   batch.delete(oldGigRef);
@@ -736,18 +757,25 @@ export async function hireWorker(gigId, workerId) {
     batch.set(gigNewRef, gigsWorker.data());
     batch.delete(gigOldRef);
 
-    let newNumSpots = numSpots*1 + 1;
-    batch.set(gigMainRef, {'numHired': newNumSpots});
+    let newNumSpots = numSpots * 1 + 1;
+    batch.set(gigMainRef, { numHired: newNumSpots });
 
     if (numSpots == newNumSpots) {
-      let gigApplicantColRef =  collection(db, constants.ACTIVE_GIGS, gigId + '/' + constants.APPLICANTS);
+      let gigApplicantColRef = collection(
+        db,
+        constants.ACTIVE_GIGS,
+        gigId + '/' + constants.APPLICANTS
+      );
       let gigApplicantCol = await getDocs(gigApplicantColRef);
       gigApplicantCol.forEach((applicant) => {
         let applicantId = applicant.id;
-        let applicationRef = doc(db, constants.WORKERS, applicantId + '/' + constants.APPLIED_GIGS + '/' + gigId);
-        batch.set(applicationRef, {'status': 'denied'});
+        let applicationRef = doc(
+          db,
+          constants.WORKERS,
+          applicantId + '/' + constants.APPLIED_GIGS + '/' + gigId
+        );
+        batch.set(applicationRef, { status: 'denied' });
       });
-
     }
   }
   //batch remove + add: remove from worker's applied, add to worker's bookedGig
@@ -755,3 +783,15 @@ export async function hireWorker(gigId, workerId) {
   //batch update: +1 to gig's taken spots
   //if gig's new taken spots = gig's total spots, batch update for each still in application to rejected
 }
+
+export async function deleteWorkerProfilePicture(workerId) {
+  let workerDetails = {
+    id: workerId,
+    profilePicture: ''
+  }
+  updateWorkerDetails(workerDetails);
+}
+
+/*
+HELPER FUNCTIONS
+*/
