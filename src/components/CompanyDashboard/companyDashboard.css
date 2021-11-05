@@ -9,7 +9,7 @@
 }
 
 .CDGoalsTile {
-  
+  width: 80%;
 }
 
 #CDBase {
@@ -78,4 +78,14 @@
   line-height: 28px;
   
   color: #31CAD3;
+}
+
+.CDHighlightsTile {
+  margin-right: 20px;
+  width: fit-content;
+}
+
+.CDSectionTile {
+  margin-right: 20px;
+  width: fit-content;
 }

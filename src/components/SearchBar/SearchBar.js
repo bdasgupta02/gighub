@@ -5,6 +5,7 @@ import { SearchIcon } from '@primer/octicons-react'
 import Filter from './Filter'
 import Sorter from './Sorter'
 import Keyword from './Keyword'
+import ReactModal from 'react-modal'
 import './searchBar.css'
 
 /*
@@ -37,7 +38,6 @@ const SearchBar = (props) => {
     // should store cache in text
     const handleChange = (event) => {
         setText(event.target.value)
-        console.log(text)
     }
 
     // should refresh the text input
@@ -66,45 +66,48 @@ const SearchBar = (props) => {
 
     }
 
-    console.log(filters)
 
     // maybe make the ENTIRE length the same as 2x tiles width
     const AnimatedRow = animated(Row)
-    return (<Container>
-        <Row>
-            {/* TODO: need breakpoints for search bar size */}
-            <AnimatedRow
-                style={barBackgroundAnimatedStyle}
-                onMouseOver={() => setIsHovering(true)}
-                onMouseOut={() => setIsHovering(false)}
-                className="SBBorderRadius"
-                id="SBSearchTextBox">
-                {/* TODO: form actions, trim input for keyword add */}
-                <form onSubmit={handleSubmit}>
-                    <input
-                        maxLength={textMaxLen}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        placeholder="Search"
-                        id="SBSearchText"
-                        onChange={handleChange} value={text} />
-                </form>
-                <div id="SBSearchIconBox" className="SBIconBox">
-                    <SearchIcon size="small" onClick={handleSubmit} fill="#9E9E9E" />
-                </div>
-            </AnimatedRow>
-            {/* TODO: Sorting and filtering */}
-            <Filter style={{ zIndex: 2 }} filters={filters} toggleFilter={toggleFilter} />
-            <Sorter handleSorter={handleSorter} selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
-        </Row>
-        {/* TODO: Keywords */}
-        <div style={{width: '1px', height: '15px'}} />
-        <Row>
-            {keywords.map(e => (
-                <Keyword text={e} onClose={() => handleRemove(e)} />
-            ))}
-        </Row>
-    </Container>)
+    return (<div>
+        <Col>
+            <Row>
+                {/* TODO: need breakpoints for search bar size */}
+                <AnimatedRow
+                    style={barBackgroundAnimatedStyle}
+                    onMouseOver={() => setIsHovering(true)}
+                    onMouseOut={() => setIsHovering(false)}
+                    className="SBBorderRadius"
+                    id="SBSearchTextBox">
+                    {/* TODO: form actions, trim input for keyword add */}
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            maxLength={textMaxLen}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            placeholder="Search"
+                            id="SBSearchText"
+                            onChange={handleChange} value={text} />
+                    </form>
+                    <div id="SBSearchIconBox" className="SBIconBox">
+                        <SearchIcon size="small" onClick={handleSubmit} fill="#9E9E9E" />
+                    </div>
+                </AnimatedRow>
+                {/* TODO: Sorting and filtering */}
+                <Filter style={{ zIndex: 2 }} filters={filters} toggleFilter={toggleFilter} />
+                <Sorter handleSorter={handleSorter} selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
+            </Row>
+            {/* TODO: Keywords */}
+            <div style={{ width: '1px', height: '15px' }} />
+            <Row>
+                {keywords.map(e => (
+                    <div style={{ marginTop: '5px', width: 'fit-content' }}>
+                        <Keyword text={e} onClose={() => handleRemove(e)} />
+                    </div>
+                ))}
+            </Row>
+        </Col>
+    </div>)
 }
 
 export default SearchBar;

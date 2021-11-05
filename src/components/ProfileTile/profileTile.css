@@ -1,0 +1,118 @@
+.PLTileText {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.PLSpacer {
+    margin-top: auto;
+}
+
+.PLBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#PLTileBackground {
+    height: 105px;
+    width: 280px;
+    border-radius: 12px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#PLMainColumn {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 26px;
+}
+
+#PLTileBackground:hover {
+    cursor: pointer;
+}
+
+#PLLogoBox {
+    box-shadow: inset 4px 10px 40px #00000020;
+    background-color: '#E8F0F2';
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    margin-left: 16px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+#PLLogoImg {
+    height: 26px;
+    width: 26px;
+    display: block;
+    margin: 0 auto;
+}
+
+#PLCompanyName {
+    font-size: 20px;
+    font-weight: bold;
+    color: #545454;
+    margin-top: 3px;
+}
+
+#PLCompanyLocation {
+    font-weight: bold;
+    color: #ABABAB;
+}
+
+#PLJobTitle {
+    color: #545454;
+    font-weight: bold;
+    margin-top: 26px;
+}
+
+#PLJobDesc {
+    color: #ABABAB;
+}
+
+#PLPayTextBox {
+    margin-top: auto;
+    margin-bottom: 16px;
+}
+
+.PLPayText {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#PLPayForCol {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#PLPayForText {
+    align-self: flex-start;
+    text-align: start;
+    color: #ABABAB;
+}
+
+#PLHighlight {
+    height: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 8px;
+    background-color: #08F0FF2E;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+    color: #00A9B4;
+}

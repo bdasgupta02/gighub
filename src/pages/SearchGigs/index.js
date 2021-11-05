@@ -1,10 +1,11 @@
-import { useState, cloneElement } from "react";
-import SearchInput, { createFilter } from 'react-search-input'
+import { useState, useEffect } from "react";
+import { createFilter } from 'react-search-input'
 import SearchBar from "../../components/SearchBar";
-import { Container, Row, Col } from 'react-grid-system'
+import { Row, Col } from 'react-grid-system'
 import { useAuth } from "../../contexts/AuthContext";
 import GigListingTile from '../../components/GigListingTile'
-import LogoGenerator from "../../components/LogoGenerator"
+import { getActiveGigs, getCompany } from "../../database/firebaseFunctions";
+import { isGoodMatch } from "../../algorithms/Matcher";
 import FullPage from "../FullPage";
 import './searchGigs.css'
 
@@ -13,9 +14,12 @@ import './searchGigs.css'
 
 /**
  * TODO:
+ * - handle isNew and match with filtering and data handling
  * - check isWorker or not for match % (edit gig listing tile and make new auth context thing)
+ * - need to check if deadline date has past for active gigs (if so, move to archived gigs)
  */
 export default function SearchGigs(props) {
+    const [gigsDB, setGigs] = useState([])
     const [skills, setSkills] = useState(null)
     const [keywords, setKeywords] = useState([])
     const [selectedSort, setSelectedSort] = useState("Latest")
@@ -25,7 +29,26 @@ export default function SearchGigs(props) {
         flexible: false,
         fixed: false
     })
-    let { isWorker } = useAuth()
+    let { isWorker, currentUserDB } = useAuth()
+
+
+    console.log(currentUserDB)
+
+    // db
+    const fetch = async () => {
+        const gigsData = await getActiveGigs()
+        let i = 0, len = gigsData.length
+        while (i < len) {
+            const company = await getCompany(gigsData[i].companyId.id)
+            gigsData[i] = { ...gigsData[i], company: company[0], isGoodMatch: isWorker && isGoodMatch(gigsData[i].requirements, currentUserDB.skills) }
+            i++
+        }
+        setGigs(gigsData)
+    }
+
+    useEffect(() => {
+        fetch()
+    }, [])
 
 
 
@@ -54,37 +77,7 @@ export default function SearchGigs(props) {
     - if the logo is empty string, it generates one
     - handle fuzzy search thing for the percentage
      */
-    let gigsData = [
-        {
-            companyName: "Test Company 1",
-            companyLogo: "",
-            companyCity: "Singapore",
-            jobTitle: "Job Title",
-            jobDesc: "This is the description.",
-            payAmt: "2000",
-            payFor: "5 projects",
-            isNew: true,
-            isGoodMatch: true,
-            matchPercentage: 80,
-            isFlexible: true,
-            link: "",
-            creationDate: new Date('2/1/21')
-        },
-        {
-            companyName: "Company 2",
-            companyLogo: "",
-            companyCity: "Singapore",
-            jobTitle: "Some job",
-            jobDesc: "This is a job description.",
-            payAmt: "10,000",
-            payFor: "10 things",
-            isNew: false,
-            isGoodMatch: true,
-            matchPercentage: 70,
-            isFlexible: false,
-            creationDate: new Date('1/1/21')
-        }
-    ]
+    let gigsData = gigsDB
 
 
 
@@ -99,11 +92,19 @@ export default function SearchGigs(props) {
 
 
     // SEARCH SYSTEM
-    const keysToFilter = ["companyName", "companyCity", "jobTitle", "jobDesc", "payFor"]
+    const keysToFilter = ["title", "description", "company.name", "unit", "company.city"]
     let gigs = []
     if (keywords.length === 0) gigs = gigsData
     for (let i = 0; i < keywords.length; i++) {
-        gigs = gigs.concat(gigsData.filter(createFilter(keywords[i], keysToFilter)))
+        //if (gigs.indexof())
+        //gigs = gigs.concat(gigsData.filter(createFilter(keywords[i], keysToFilter)))
+        let filteredGigs = gigsData.filter(createFilter(keywords[i], keysToFilter))
+        for (let j = 0; j < filteredGigs.length; j++) {
+            let filteredGig = filteredGigs[j]
+            if (gigs.indexOf(filteredGig) === -1) {
+                gigs.push(filteredGigs[j])
+            }
+        }
     }
 
     // FILTERING AND SORTING SYSTEM
@@ -137,12 +138,13 @@ export default function SearchGigs(props) {
     }
 
     if (!(filters.new === false && filters.match === false && filters.flexible === false && filters.fixed === false)) {
-        if (filters.new === true) {
-            gigs = gigs.filter(e => e.isNew === true)
-        }
-        if (filters.match === true) {
-            gigs = gigs.filter(e => e.isGoodMatch === true)
-        }
+        //TODO:
+        // if (filters.new === true) {
+        //     gigs = gigs.filter(e => e.isNew === true)
+        // }
+        // if (filters.match === true) {
+        //     gigs = gigs.filter(e => e.isGoodMatch === true)
+        // }
         if (filters.flexible === true) {
             gigs = gigs.filter(e => e.isFlexible === true)
         }
@@ -155,8 +157,6 @@ export default function SearchGigs(props) {
     const cleanedGigs = isWorker ? gigs : gigs.map(({ isGoodMatch, ...rest }) => rest)
 
     //TODO: get user skills
-
-    console.log(typeof GigListingTile)
     return (
         <FullPage header="Discover gigs">
             <Col>
@@ -171,11 +171,28 @@ export default function SearchGigs(props) {
                 />
                 <Row className="SearchSpacer" />
                 <Row>
-                    {cleanedGigs.map(e => (
-                        <div style={{ marginRight: '20px' }}>
-                            <GigListingTile {...e} />
-                        </div>
-                    ))}
+                    {cleanedGigs.map(e => {
+                        const convertedParams = {
+                            // change this to real values
+                            isNew: false,
+
+                            isGoodMatch: e.isGoodMatch,
+                            isFlexible: e.isFlexible,
+                            jobDesc: e.description,
+                            payAmt: "S$ " + e.pay,
+                            jobTitle: e.jobTitle,
+                            payFor: e.unit,
+                            companyName: e.company.name,
+                            companyCity: e.company.location.city,
+                            companyLogo: e.company.profileLogo
+                        }
+
+                        return (
+                            <div style={{ marginRight: '16px', marginTop: '16px' }}>
+                                <GigListingTile {...convertedParams} />
+                            </div>
+                        )
+                    })}
                 </Row>
             </Col>
         </FullPage>
