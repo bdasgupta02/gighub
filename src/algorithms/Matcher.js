@@ -71,7 +71,7 @@ const jobMatchingAlgo = (base, skills) => {
 export const isGoodMatch = (base, skills) => {
     const matchPerc = jobMatchingAlgo(base, skills)
     console.log('matching complete: ' + matchPerc)
-    return matchPerc > 0.79
+    return matchPerc > 0.60
 }
 
 /**
