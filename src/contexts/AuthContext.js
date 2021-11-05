@@ -23,22 +23,22 @@ export const AuthProvider = ({ children }) => {
         const user = auth.createUserWithEmailAndPassword(details.email, details.password).then((res) => {
             setIsWorker(isWorker)
             if (isWorker !== undefined && isWorker) {
-                accessDB.collection('workers').doc(res.user.uid).set(details)
+                return accessDB.collection('workers').doc(res.user.uid).set(details)
             } else {
-                accessDB.collection('companies').doc(res.user.uid).set(details)
+                return accessDB.collection('companies').doc(res.user.uid).set(details)
             }
         })
         return user
     }
 
-    const signin = async (email, password) => {
+    function signin(email, password) {
         // check is worker
         
         const workersRef = accessDB.collection('workers')
-        const workersEmail = await workersRef.where('email', '==', email).get()
+        const workersEmail = workersRef.where('email', '==', email).get()
 
         const companiesRef = accessDB.collection('companies')
-        const companiesEmail = await companiesRef.where('email', '==', email).get()
+        const companiesEmail = companiesRef.where('email', '==', email).get()
 
         if (typeof workersEmail !== 'undefined' && workersEmail !== null) {
             setIsWorker(true)
@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        signout()
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setPending(false)
             setCurrentUser(user)
