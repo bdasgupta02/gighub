@@ -82,9 +82,6 @@ export const isGoodMatch = (base, skills) => {
  * 
  * Weakness:
  * - larger strings
- * 
- * Notes:
- * - slippage should be adjusted to vary tolerance
  */
 
 export default jobMatchingAlgo
