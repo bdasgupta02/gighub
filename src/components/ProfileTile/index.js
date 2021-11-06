@@ -3,6 +3,7 @@ import { animated, config, useSpring } from 'react-spring'
 import { Container, Col, Row } from 'react-grid-system'
 import { useHistory } from 'react-router'
 import LogoGenerator from '../LogoGenerator'
+import { StarFillIcon } from '@primer/octicons-react'
 import LogoBox from '../../components/LogoBox'
 import './profileTile.css'
 
@@ -10,6 +11,7 @@ function ProfileTile(props) {
     const history = useHistory()
     const { user, isWorker } = props
     const [isHovering, setIsHovering] = useState(false)
+    const isReviewed = user.avgReview === -1 ? false : true
 
     const tileBackgroundAnimated = useSpring({
         boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 5px #00000026",
@@ -32,14 +34,22 @@ function ProfileTile(props) {
                     <Row style={{ alignSelf: 'flex-start' }}>
                         <LogoBox src={user.profilePicture} name={user.name} />
                         <Col>
-                            <div id="GLCompanyName">
+                            <div id="PLProfileName">
                                 {user.name}
                             </div>
-                            <div id="GLCompanyLocation">
+                            <div id="PLProfileLocation">
                                 {user.location.city}
                             </div>
+
                         </Col>
                     </Row>
+                    <div id="PLAvgReview" style={isReviewed ? { color: '#fcba03' } : null}>
+                        {isReviewed ? (
+                            <div>
+                                <StarFillIcon /> {'user.avgReview'}
+                            </div>
+                        ) : 'Not reviewed'}
+                    </div>
                 </Col>
             </AnimatedContainer>
         </div>

@@ -6,15 +6,19 @@ import ProfileTile from '../../components/ProfileTile'
 import { SearchIcon } from '@primer/octicons-react'
 import { createFilter } from 'react-search-input'
 import { Row, Col } from 'react-grid-system'
+import LoadingIndicator from '../../components/LoadingIndicator'
 import './searchWorkers.css'
 
 function SearchWorkers() {
     const [workers, setWorkers] = useState([])
+    const [loading, setLoading] = useState(false)
     const [searchText, setSearchText] = useState('')
 
     const getDB = async () => {
+        setLoading(true)
         const workersData = await getWorkers()
         setWorkers(workersData)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -52,6 +56,7 @@ function SearchWorkers() {
                     <ProfileTile user={e} isWorker />
                 </div>
             ))}
+            {loading && <LoadingIndicator />}
         </FullPage>
     )
 }
