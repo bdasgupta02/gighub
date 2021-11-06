@@ -3,20 +3,67 @@
   line-height: 30px;
 }
 
-.spacer {
-  height: 20px;
-  line-height: 20px;
+.spacingRow {
+  height: 10px;
+  line-height: 10px;
 }
 
-#GDBase {
+.GDBase {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  color: #545454;
+}
+
+.GDHeaderTitle {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
-  line-height: 42px;
+  
   color: #545454;
-  background-color: #E8F0F2;
-  margin-top: 80px;
-  margin-left: 60px;
-  padding: 0;
+}
+
+.GDHeaderLogo {
+    box-shadow: inset 4px 10px 40px white;
+    background-color: white;
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.GDHeaderSub1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  
+  color: #ABABAB;
+}
+
+.GDHeaderSub2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  
+  color: #ABABAB;
+}
+
+.GDHeaderTags {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  
+}
+
+.test {
+  border: 1px solid red;
 }
