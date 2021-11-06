@@ -38,7 +38,7 @@ const NavSwitcher = () => {
 
             <PrivateRoute exact path="/" component={Dashboard} />
             <PrivateRoute exact path="/my_gigs" component={MyGigs} />
-            <Route exact path="/view_gig" component={ViewGig} />
+            <PrivateRoute exact path="/view_gig" component={ViewGig} />
             <PrivateRoute exact path="/view_profile" component={ViewProfile} />
             <PrivateRoute exact path="/my_profile" component={Profile} />
             <PrivateRoute exact path="/my_applications" component={MyApplications} />
