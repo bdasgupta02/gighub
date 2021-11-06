@@ -26,6 +26,7 @@ function SearchWorkers() {
     }, [])
 
     // filtering
+    // TODO: check nested keys
     const keysToFilter = ["name", "email", "location"]
     let finalWorkers = []
     if (searchText === '') {
