@@ -10,6 +10,19 @@ import "./gigDetails.css"
 
 const GigDetails = (props) => {
   let title = "Event Poster Designer"
+  const [details, setDetails] = useState({
+    title: "Event Poster Designer",
+    tags: ["85% MATCH", "FLEXIBLE", "NEW"],
+    listingDate: "20/10/2021",
+    listingLogo: "",
+    listingPoster: "National University of Singapore",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    availableUntil: "20/11/2021",
+    deliverables: "1x Event poster (in .ai format)",
+    payment: "5 cents",
+    completeBy: "15/12/2021",
+    spots: "2"
+  })
 
   return (
     <div>
@@ -17,15 +30,19 @@ const GigDetails = (props) => {
         <Row className="GDBase">
           <Col>
             <Row>
-              <Col><span className="GDHeaderTitle">{title}</span></Col>
+              <Col><span className="GDHeaderTitle">{details.title}</span></Col>
             </Row>
             <Row className="spacingRow">
               <Col></Col>
             </Row>
             <Row className="GDHeaderTags">
-              <div><Highlight type="85% MATCH" /></div>
-              <div><Highlight type="FLEXIBLE" /></div>
-              <div><Highlight type="NEW" /></div>
+              {details.tags.map((tag) => {
+                return (
+                  <div>
+                    <Highlight type={tag} />
+                  </div>
+                )
+              })}
             </Row>
             <Row className="spacingRow">
               <Col></Col>
@@ -33,12 +50,13 @@ const GigDetails = (props) => {
             <Row>
               <Col sm={2}>
                 <div className="GDHeaderLogo" >
+                  {/*TODO: Dynamic rendering of logo*/}
                   <img src={logo} />
                 </div>
               </Col>
               <Col sm={10}>
-                <span className="GDHeaderSub1">Listed on 20/10/2021 by</span> <br></br>
-                <span className="GDHeaderSub2">National University of Singapore</span>
+                <span className="GDHeaderSub1">Listed on {details.listingDate} by</span> <br></br>
+                <span className="GDHeaderSub2">{details.listingPoster}</span>
               </Col>
             </Row>
           </Col>
@@ -57,7 +75,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  {details.description}
                 </span>
               </Col>
             </Row>
@@ -82,7 +100,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  07/11/2021
+                  {details.availableUntil}
                 </span>
               </Col>
             </Row>
@@ -99,7 +117,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  1x Excel report
+                  {details.deliverables}
                 </span>
               </Col>
             </Row>
@@ -116,7 +134,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  5 cents
+                  {details.payment}
                 </span>
               </Col>
             </Row>
@@ -133,7 +151,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  31/12/2021
+                  {details.completeBy}
                 </span>
               </Col>
             </Row>
@@ -150,11 +168,22 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  2
+                  {details.spots}
                 </span>
               </Col>
             </Row>
-            
+
+            <Row className="emptyRow">
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col>
+                <div className="extraVerticalPadding">
+                  <Button text="Apply" type="PRIMARY" forceWidth="90px" />
+                </div>
+              </Col>
+            </Row>
+
           </Col>
         </Row>
       } />
