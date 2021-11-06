@@ -6,6 +6,7 @@ import Button from '../Button'
 import { useAuth } from '../../contexts/AuthContext'
 import { passwordStrength } from 'check-password-strength'
 import { useHistory } from 'react-router-dom'
+import LoadingIndicator from '../LoadingIndicator'
 import './signInBox.css'
 
 
@@ -449,6 +450,7 @@ const SignUp = (props) => {
         resume: '',
     })
     const [isWorker, setIsWorker] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [stage, setStage] = useState(0)
     const { signup } = useAuth()
     const history = useHistory()
@@ -464,15 +466,18 @@ const SignUp = (props) => {
     }
 
     const handleSignUp = async (newDetails) => {
+        setLoading(true)
         const finalDetails = {
             ...details,
             ...newDetails
         }
         try {
             await signup(finalDetails, isWorker)
+            setLoading(false)
             history.push("/")
         } catch (e) {
             alert(e.message)
+            setLoading(false)
         }
 
     }
@@ -496,6 +501,10 @@ const SignUp = (props) => {
                     ) : (
                         <WorkerTwo onSignUp={handleSignUp} onCancel={handleCancel} />
                     )}
+            <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {loading && <LoadingIndicator />}
+            </div>
+
         </div>
     )
 }

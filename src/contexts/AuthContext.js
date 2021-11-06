@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         const companiesRef = accessDB.collection('companies')
         const companiesEmail = await companiesRef.where('email', '==', email).get()
 
-        const user = await auth.signInWithEmailAndPassword(email, password)
+        
 
         console.log(workersEmail.docs)
         if (typeof workersEmail !== 'undefined' && workersEmail.docs.length > 0) {
@@ -61,6 +61,8 @@ export const AuthProvider = ({ children }) => {
             setIsWorker(false)
             setCurrentUserDB(companiesEmail.docs[0].data())
         }
+
+        const user = await auth.signInWithEmailAndPassword(email, password)
         return user
     }
 

@@ -7,6 +7,7 @@ import GigListingTile from '../../components/GigListingTile'
 import { getActiveGigs, getCompany } from "../../database/firebaseFunctions";
 import { isGoodMatch } from "../../algorithms/Matcher";
 import FullPage from "../FullPage";
+import LoadingIndicator from '../../components/LoadingIndicator'
 import './searchGigs.css'
 
 
@@ -21,6 +22,7 @@ import './searchGigs.css'
 export default function SearchGigs(props) {
     const [gigsDB, setGigs] = useState([])
     const [skills, setSkills] = useState(null)
+    const [loading, setLoading] = useState(false)
     const [keywords, setKeywords] = useState([])
     const [selectedSort, setSelectedSort] = useState("Latest")
     const [filters, setFilters] = useState({
@@ -36,6 +38,7 @@ export default function SearchGigs(props) {
 
     // db
     const fetch = async () => {
+        setLoading(true)
         const gigsData = await getActiveGigs()
         let i = 0, len = gigsData.length
         while (i < len) {
@@ -44,6 +47,7 @@ export default function SearchGigs(props) {
             i++
         }
         setGigs(gigsData)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -194,6 +198,7 @@ export default function SearchGigs(props) {
                         )
                     })}
                 </Row>
+                {loading && <LoadingIndicator />}
             </Col>
         </FullPage>
     );

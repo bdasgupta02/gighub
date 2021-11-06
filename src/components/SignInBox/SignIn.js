@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 import { useAuth } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
+import LoadingIndicator from '../../components/LoadingIndicator'
 import Button from '../Button'
 
 /**
@@ -25,6 +26,7 @@ const SignIn = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
     const { signout, currentUser, signin } = useAuth()
     const history = useHistory()
 
@@ -46,13 +48,16 @@ const SignIn = (props) => {
     }
 
     const onSignIn = useCallback(async event => {
+        setLoading(true)
         if (email === '' || password === '') {
             setError('Error: empty fields!')
+            setLoading(false)
         } else {
             event.preventDefault()
             try {
                 await signin(email, password)
                 //REDIRECT
+                setLoading(false)
                 history.push("/")
             } catch (e) {
                 if (e.message.includes('user-not-found')) {
@@ -64,6 +69,7 @@ const SignIn = (props) => {
                 } else {
                     setError('Sign in failed')
                 }
+                setLoading(false)
             }
         }
     })
@@ -90,13 +96,13 @@ const SignIn = (props) => {
                     <Button text="Or sign-up instead" onClick={onSignUpSwitch} type="SECONDARY" forceWidth="120px" />
                 </Row>
                 <div className="Spacer" />
+                {loading && <LoadingIndicator />}
                 {error !== '' ? (
                     <Row id="ErrorText">
                         {error}
                     </Row>
                 ) : null}
                 <div className="SpacerChin" />
-
             </Container>
         </form>
     )
