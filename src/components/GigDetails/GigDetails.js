@@ -10,8 +10,11 @@ import ReactModal from "react-modal"
 
 import "./gigDetails.css"
 
+import { } from '@primer/octicons-react'
+
 const GigDetails = (props) => {
   let title = "Event Poster Designer"
+  const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
     title: "Event Poster Designer",
     tags: ["85% MATCH", "FLEXIBLE", "NEW"],
@@ -181,10 +184,54 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <div className="extraVerticalPadding">
-                  <Button text="Apply" type="PRIMARY" forceWidth="90px" />
+                  <Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />
                 </div>
-                <ReactModal isOpen={true}>
-                  <div>Boo</div>
+                <ReactModal isOpen={applyTabIsOpen} className="GDModal">
+                  <Row align="center" justify="center" className="GDModalBase">
+                    <Col sm={4} className="GDModalCol">
+                      <Row className="emptyRow">
+                        <Col> </Col>
+                      </Row>
+
+                      <Row align="center">
+                        <Col className="GDModalTitle">
+                          Apply
+                        </Col>
+                      </Row>
+
+                      <Row className="emptyRow">
+                        <Col></Col>
+                      </Row>
+
+                      <Row align="center" className="GDModalInputBase">
+                        <Col className="GDModalTitle GDModalInputCol">
+                          <textarea className="GDModalTextArea" placeholder="Write any additional details (Optional)" />
+                        </Col>
+                      </Row>
+
+                      <Row className="emptyRow">
+                        <Col></Col>
+                      </Row>
+                      <Row className="emptyRow">
+                        <Col></Col>
+                      </Row>
+
+                      <Row align="center">
+                        <Col sm={2.5}>
+
+                        </Col>
+                        <Col sm={3.2}>
+                          <Button text="Submit" type="PRIMARY" forceWidth="110px"></Button>
+                        </Col>
+                        <Col sm={3}>
+                          <Button text="Cancel" onClick={() => setApplyTabIsOpen(false)} type="SECONDARY" forceWidth="110px"></Button>
+                        </Col>
+                        <Col sm={3}>
+                        </Col>
+                      </Row>
+
+                    </Col>
+                  </Row>
                 </ReactModal>
               </Col>
             </Row>
