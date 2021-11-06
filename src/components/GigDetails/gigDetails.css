@@ -14,6 +14,9 @@
   font-weight: bold;
   font-size: 18px;
   color: #545454;
+  
+  max-width: 50vw;
+  overflow-x: hidden;
 }
 
 .GDHeaderTitle {
@@ -62,6 +65,38 @@
   padding-left: 16px;
   padding-right: 16px;
   
+}
+
+.GDSectionTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  
+  color: #545454;
+
+}
+
+.GDSectionContent {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  
+  color: #545454;
+}
+
+.GDSectionSubTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  
+  color: #545454;
+
 }
 
 .test {

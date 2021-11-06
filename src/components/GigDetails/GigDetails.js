@@ -23,9 +23,9 @@ const GigDetails = (props) => {
               <Col></Col>
             </Row>
             <Row className="GDHeaderTags">
-                <div><Highlight type="85% MATCH" /></div>
-                <div><Highlight type="FLEXIBLE" /></div>
-                <div><Highlight type="NEW" /></div>
+              <div><Highlight type="85% MATCH" /></div>
+              <div><Highlight type="FLEXIBLE" /></div>
+              <div><Highlight type="NEW" /></div>
             </Row>
             <Row className="spacingRow">
               <Col></Col>
@@ -46,7 +46,115 @@ const GigDetails = (props) => {
       } children={
         <Row className="GDBase">
           <Col>
+            <Row className="emptyRow">
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionTitle">Description</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </span>
+              </Col>
+            </Row>
+            <Row className="emptyRow">
+              <Col></Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionTitle">Details</span>
+              </Col>
+            </Row>
 
+            <Row className="spacingRow">
+              <Col></Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span className="GDSectionSubTitle">Available until</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  07/11/2021
+                </span>
+              </Col>
+            </Row>
+
+            <Row className="spacingRow">
+              <Col></Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span className="GDSectionSubTitle">Deliverables</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  1x Excel report
+                </span>
+              </Col>
+            </Row>
+
+            <Row className="spacingRow">
+              <Col></Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span className="GDSectionSubTitle">Payment</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  5 cents
+                </span>
+              </Col>
+            </Row>
+
+            <Row className="spacingRow">
+              <Col></Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span className="GDSectionSubTitle">Complete by</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  31/12/2021
+                </span>
+              </Col>
+            </Row>
+
+            <Row className="spacingRow">
+              <Col></Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span className="GDSectionSubTitle">Spots</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="GDSectionContent">
+                  2
+                </span>
+              </Col>
+            </Row>
+            
           </Col>
         </Row>
       } />
