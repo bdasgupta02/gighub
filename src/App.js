@@ -21,7 +21,7 @@ import Profile from './pages/Profile';
 import ViewProfile from './pages/ViewProfile'
 import Notifications from './pages/Notifications'
 import ListedGigs from './pages/ListedGigs'
-import ViewGig from './pages/viewGig';
+import ViewGig from './pages/ViewGig';
 import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
 import SearchGigs from './pages/SearchGigs'

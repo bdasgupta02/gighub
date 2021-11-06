@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import Highlight from './Highlight';
+import LogoBox from '../LogoBox';
+import { useHistory } from 'react-router';
 import LogoGenerator from '../LogoGenerator';
 import './gigListingTile.css'
 
@@ -9,6 +11,7 @@ import './gigListingTile.css'
 // TODO: need to check if phone taps behave the same with hover
 
 const GigListingTile = (props) => {
+    const history = useHistory()
     const [isHovering, setIsHovering] = useState(false)
 
 
@@ -37,16 +40,12 @@ const GigListingTile = (props) => {
     companyCity = companyCity.length > companyCityLimit ? companyCity.substr(0, companyCityLimit) + "..." : companyCity
     jobTitle = jobTitle.length > jobTitleLimit ? jobTitle.substr(0, jobTitleLimit) + "..." : jobTitle
     jobDesc = jobDesc.length > jobDescLimit ? jobDesc.substr(0, jobDescLimit) + "..." : jobDesc
-    companyLogo = companyLogo === "" ? <LogoGenerator name={companyName} /> : companyLogo
 
     const tileBackgroundAnimated = useSpring({
         boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 5px #00000026",
         backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
         config: config.default
     })
-
-    console.log('good match')
-    console.log(isGoodMatch)
 
 
     // init highlights
@@ -73,14 +72,12 @@ const GigListingTile = (props) => {
 
     const AnimatedContainer = animated(Container)
     return (
-        <div>
+        <div onClick={() => history.push("/view_gig", { gigId: props.id })}>
 
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
                 <Col id="GLMainColumn">
                     <Row style={{ alignSelf: 'flex-start' }}>
-                        <div id="GLLogoBox" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img src={companyLogo} height={'0px'} />
-                        </div>
+                        <LogoBox src={companyLogo} name={companyName} />
                         <Col>
                             <div id="GLCompanyName">
                                 {companyName}

@@ -176,7 +176,7 @@ const WorkerTwo = (props) => {
                 Create an account
             </Row>
             <Row>
-                <input className="InputText" type="text" placeholder="Enter a keyword" value={keywordCache} onChange={event => handleInputChange(event)} onKeyPress={handleAdd} />
+                <input className="InputText" type="text" placeholder="Enter your skills" value={keywordCache} onChange={event => handleInputChange(event)} onKeyPress={handleAdd} />
             </Row>
             <div className="Spacer" />
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', width: '100%', width: '260px' }}>

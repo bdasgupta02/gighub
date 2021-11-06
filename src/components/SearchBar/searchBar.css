@@ -68,17 +68,15 @@
 #SBSorterBox {
     height: 40px;
     width: 150px;
-    margin-left: 11px;
     display: flex;
     align-items: center;
 }
 
 #SBSorterOuter {
-    margin-left: 8px;
 }
 
 #SBSearchTextBox {
-    margin-right: 20px
+    margin-right: 20px;
 }
 
 .SBDropDown {
@@ -92,7 +90,8 @@
 }
 
 #SBFilterBox {
-    padding-left: 20px
+    margin-right: 16px;
+    margin-left: 16px;
 }
 
 #SBSorterIconBox {

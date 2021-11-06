@@ -4,3 +4,32 @@
     color: #545454;
     font-weight: bold;
 }
+
+#SWSearchText {
+    width: 505px;
+    height: 40px;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+#SWSearchTextBox {
+    box-shadow: 4px 10px 20px #00000026;
+    background-color: #FFFFFF;
+    z-index: 1;
+    border-radius: 12px;
+    padding-left: 16px;
+}
+
+#SWSearchIconBox {
+    padding-right: 16px;
+}
+
+.SWIconBox {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.2);
+    width: fit-content;
+}
