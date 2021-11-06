@@ -44,23 +44,23 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="emptyRow">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
-                <Col className="WDSectionTile" xs={2.2}>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="WDSectionTile" xs={2.2}>
+                </div>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="WDSectionTile" xs={2.2}>
+                </div>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
+                </div>
               </Row>
               <Row className="emptyRow">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -80,7 +80,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="emptyRow">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -96,7 +96,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="emptyRow">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -117,7 +117,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="spacer">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -127,7 +127,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="spacer">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -137,7 +137,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="spacer">
                 <Col>
-                  
+
                 </Col>
               </Row>
               <Row>
@@ -147,7 +147,7 @@ const WorkerDashboard = (props) => {
               </Row>
               <Row className="spacer">
                 <Col>
-                  
+
                 </Col>
               </Row>
             </Col>

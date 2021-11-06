@@ -3,20 +3,169 @@
   line-height: 30px;
 }
 
-.spacer {
-  height: 20px;
-  line-height: 20px;
+.spacingRow {
+  height: 10px;
+  line-height: 10px;
 }
 
-#GDBase {
+.extraVerticalPadding {
+  padding-bottom: 20px;
+}
+
+.GDBase {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  color: #545454;
+  
+  max-width: 50vw;
+  overflow-x: hidden;
+}
+
+.GDHeaderTitle {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
-  line-height: 42px;
+  
   color: #545454;
-  background-color: #E8F0F2;
-  margin-top: 80px;
-  margin-left: 60px;
-  padding: 0;
+}
+
+.GDHeaderLogo {
+    box-shadow: inset 4px 10px 40px white;
+    background-color: white;
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.GDHeaderSub1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  
+  color: #ABABAB;
+}
+
+.GDHeaderSub2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  
+  color: #ABABAB;
+}
+
+.GDHeaderTags {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  
+}
+
+.GDSectionTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  
+  color: #545454;
+
+}
+
+.GDSectionContent {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  
+  color: #545454;
+}
+
+.GDSectionSubTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  
+  color: #545454;
+
+}
+
+.test {
+  border: 1px solid red;
+}
+
+.GDModal {
+  width: 100%;
+  height: 100%;
+}
+
+.GDModalBase {
+  height: 100%;
+}
+
+.GDModalCol {
+  height: 50%;
+  background: #FFFFFF;
+  border-radius: 8px;
+}
+
+.GDModalTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 29px;
+  text-align: center;
+  
+  color: #545454;
+}
+
+.GDModalInputBase {
+  height: 50%;
+}
+
+.GDModalInputCol {
+  height: 100%;
+}
+
+.GDModalTextArea {
+  min-width: 85%;
+  height: 100%;
+  border-radius: 5px;
+  background-color: #ECECEC;
+  border: 10px solid #ECECEC;
+  
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.GDModalButtons {
+  text-align: center;
+  border: 1px solid red;
+}
+
+.GDModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  
 }
