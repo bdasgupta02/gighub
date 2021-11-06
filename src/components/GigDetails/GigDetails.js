@@ -6,6 +6,8 @@ import Button from "../Button/index"
 import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
 
+import ReactModal from "react-modal"
+
 import "./gigDetails.css"
 
 const GigDetails = (props) => {
@@ -181,6 +183,9 @@ const GigDetails = (props) => {
                 <div className="extraVerticalPadding">
                   <Button text="Apply" type="PRIMARY" forceWidth="90px" />
                 </div>
+                <ReactModal isOpen={true}>
+                  <div>Boo</div>
+                </ReactModal>
               </Col>
             </Row>
 

@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }) => {
         const user = await auth.createUserWithEmailAndPassword(details.email, details.password).then( async (res) => {
             uid = res.user.uid
             if (isWorker !== undefined && isWorker) {
-                return accessDB.collection('workers').doc(res.user.uid).set(details)
+                accessDB.collection('workers').doc(res.user.uid).set(details)
             } else {
-                return accessDB.collection('companies').doc(res.user.uid).set(details)
+                accessDB.collection('companies').doc(res.user.uid).set(details)
             }
             setIsWorker(isWorker)
 
@@ -46,10 +46,10 @@ export const AuthProvider = ({ children }) => {
 
     const signin = async (email, password) => {
         const workersRef = accessDB.collection('workers')
-        const workersEmail = workersRef.where('email', '==', email).get()
+        const workersEmail = await workersRef.where('email', '==', email).get()
 
         const companiesRef = accessDB.collection('companies')
-        const companiesEmail = companiesRef.where('email', '==', email).get()
+        const companiesEmail = await companiesRef.where('email', '==', email).get()
 
         const user = await auth.signInWithEmailAndPassword(email, password)
 
@@ -81,6 +81,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        signout()
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setPending(false)
             setCurrentUser(user)
@@ -116,4 +117,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-
