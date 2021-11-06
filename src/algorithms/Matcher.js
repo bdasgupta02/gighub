@@ -1,3 +1,13 @@
+/**
+ * Observed benefits after testing for jobs:
+ * - the actual word itself does not matter as much as the coverage of the job tags
+ *   (test with "py")
+ * - focuses on the coverage of base instead of the coverage of skills
+ * 
+ * Weakness:
+ * - larger strings might be inaccurate to some extent
+ */
+
 const jaroDistance = (a, b) => {
     const aLen = a.length, bLen = b.length
     if (a === b) {
@@ -6,16 +16,16 @@ const jaroDistance = (a, b) => {
         return 0.0
     }
     let match = 0;
-    const hash_s1 = new Array(a.length).fill(0)
-    const hash_s2 = new Array(b.length).fill(0)
+    const aHash = new Array(a.length).fill(0)
+    const bHash = new Array(b.length).fill(0)
     const maximumDist = Math.floor(Math.max(aLen, bLen) / 2) - 1
     for (let i = 0; i < aLen; i++) {
         for (let j = Math.max(0, i - maximumDist);
             j < Math.min(bLen, i + maximumDist + 1); j++)
             if (a[i] == b[j] &&
-                hash_s2[j] == 0) {
-                hash_s1[i] = 1
-                hash_s2[j] = 1
+                bHash[j] == 0) {
+                aHash[i] = 1
+                bHash[j] = 1
                 match++
                 break
             }
@@ -26,8 +36,8 @@ const jaroDistance = (a, b) => {
     let transpositions = 0;
     let point = 0
     for (let i = 0; i < aLen; i++) {
-        if (hash_s1[i] === 1) {
-            while (hash_s2[point] == 0) {
+        if (aHash[i] === 1) {
+            while (bHash[point] == 0) {
                 point++
             }
             if (a[i] !== b[point++]) {
@@ -42,16 +52,16 @@ const jaroDistance = (a, b) => {
 const jaroWinkler = (a, b) => {
     let jaroDist = jaroDistance(a, b)
     if (jaroDist > 0.7) {
-        let prefix = 0
+        let pref = 0
         for (let i = 0; i < Math.min(a.length, b.length); i++) {
-            if (a[i] === b[i]) {
-                prefix++
-            } else {
+            if (a[i] !== b[i]) {
                 break
+            } else {
+                pref++
             }
         }
-        prefix = Math.min(4, prefix)
-        jaroDist += 0.1 * prefix * (1 - jaroDist)
+        pref = Math.min(pref, 4)
+        jaroDist += pref * (1 - jaroDist) * 0.1
     }
     return jaroDist.toFixed(6);
 }
@@ -65,7 +75,7 @@ const jobMatchingAlgo = (base, skills) => {
         }
         totalPerc += max
     }
-    return totalPerc /= base.length
+    return totalPerc / base.length
 }
 
 export const isGoodMatch = (base, skills) => {
@@ -74,14 +84,5 @@ export const isGoodMatch = (base, skills) => {
     return matchPerc > 0.60
 }
 
-/**
- * Observed benefits after testing for jobs:
- * - the actual word itself does not matter as much as the coverage of the job tags
- *   (test with "py")
- * - focuses on the coverage of base instead of the coverage of skills
- * 
- * Weakness:
- * - larger strings
- */
-
 export default jobMatchingAlgo
+
