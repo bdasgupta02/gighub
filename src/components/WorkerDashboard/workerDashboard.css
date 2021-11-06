@@ -81,3 +81,8 @@
   
   color: #31CAD3;
 }
+
+.WDSectionTile {
+  margin-right: 20px;
+  width: fit-content;
+}
