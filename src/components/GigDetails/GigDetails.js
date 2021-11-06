@@ -186,7 +186,7 @@ const GigDetails = (props) => {
                 <div className="extraVerticalPadding">
                   <Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />
                 </div>
-                <ReactModal isOpen={applyTabIsOpen} className="GDModal">
+                <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
                   <Row align="center" justify="center" className="GDModalBase">
                     <Col sm={4} className="GDModalCol">
                       <Row className="emptyRow">
