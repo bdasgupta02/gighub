@@ -8,13 +8,15 @@
  * - larger strings might be inaccurate to some extent
  */
 
-const jaroDistance = (a, b) => {
+ const jaroDistance = (a, b) => {
     const aLen = a.length, bLen = b.length
-    if (a === b) {
-        return 1.0
-    } else if (aLen === 0 || bLen === 0) {
+    if (aLen === 0 || bLen === 0) {
         return 0.0
     }
+
+    if (a === b) {
+        return 1.0
+    } 
     let match = 0;
     const aHash = new Array(a.length).fill(0)
     const bHash = new Array(b.length).fill(0)
@@ -22,11 +24,10 @@ const jaroDistance = (a, b) => {
     for (let i = 0; i < aLen; i++) {
         for (let j = Math.max(0, i - maximumDist);
             j < Math.min(bLen, i + maximumDist + 1); j++)
-            if (a[i] == b[j] &&
-                bHash[j] == 0) {
+            if (a[i] == b[j] && bHash[j] == 0) {
+                match++
                 aHash[i] = 1
                 bHash[j] = 1
-                match++
                 break
             }
     }

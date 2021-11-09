@@ -14,8 +14,9 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
     const [currentUserDB, setCurrentUserDB] = useState(null)
+    const [currentUserId, setCurrentUserId] = useState(null)
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [isWorker, setIsWorker] = useState(null)
     const [pending, setPending] = useState(true);
@@ -87,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setPending(false)
             setCurrentUser(user)
+            console.log(user)
             setIsSignedIn(typeof user !== undefined && user !== null)
         });
         return unsubscribe
@@ -103,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         isSignedIn,
         isWorker,
         currentUser,
+        currentUserId: currentUser === null ? null : currentUser.uid,
         signup,
         signin,
         signout,

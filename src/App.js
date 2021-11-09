@@ -25,7 +25,7 @@ import ViewGig from './pages/ViewGig';
 import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
 import SearchGigs from './pages/SearchGigs'
-import CompanyDetails from './pages/companyDetails';
+import CreateGig from './pages/CreateGig'
 
 
 const NavSwitcher = () => {
@@ -36,7 +36,7 @@ const NavSwitcher = () => {
       {isSignedIn && <NavBar />}
       <div style={{ width: '100%', overflow: 'auto' }}>
         <Switch>
-          <PrivateRoute exact path="/view_company" component={CompanyDetails} />
+
           <PrivateRoute exact path="/" component={Dashboard} />
           <PrivateRoute exact path="/my_gigs" component={MyGigs} />
           <PrivateRoute exact path="/view_gig" component={ViewGig} />
@@ -47,8 +47,9 @@ const NavSwitcher = () => {
           <PrivateRoute exact path="/listed_gigs" component={ListedGigs} />
           <PrivateRoute exact path="/search_gigs" component={SearchGigs} />
           <PrivateRoute exact path="/search_workers" component={SearchWorkers} />
-          <Route path="/signin" component={SignInPage} />
+          <PrivateRoute exact path="/create_gig" component={CreateGig} />
 
+          <Route path="/signin" component={SignInPage} />
         </Switch>
       </div>
     </Box>

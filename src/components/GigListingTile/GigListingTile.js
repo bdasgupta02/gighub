@@ -72,7 +72,7 @@ const GigListingTile = (props) => {
 
     const AnimatedContainer = animated(Container)
     return (
-        <div>
+        <div onClick={() => history.push("/view_gig", { gigId: props.id })}>
 
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
                 <Col id="GLMainColumn">
