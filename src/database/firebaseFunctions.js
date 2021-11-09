@@ -10,6 +10,7 @@ import {
   writeBatch,
   updateDoc,
   runTransaction,
+  increment,
 } from '@firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
@@ -74,7 +75,7 @@ export async function getCategoryTags() {
 export async function getReviewTags() {
   const reviewTagCol = collection(db, constants.REVIEW_TAGS);
   const reviewTagSnapshot = await getDocs(reviewTagCol);
-  const reviewTagList = reviewTagSnapshot.docs.map((doc) => doc.id);
+  const reviewTagList = reviewTagSnapshot.docs.map((doc) => doc.data().name);
 
   return reviewTagList;
 }
@@ -124,9 +125,10 @@ export async function getWorkerArchivedGigs(workerId) {
     workerSubSnapshot.docs.map(async (doc) => {
       //looking at indivisual gigs in AppliedGig subcollection
       let gig = doc.get('gig');
-      let includedGigDoc = await getDoc(gig);
+      let includedGigData = await (await getDoc(gig)).data();
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-      retArray.push(includedGigDoc.data());
+      includedGigData['gigRef'] = gig;
+      retArray.push(includedGigData);
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
       //   retArray.push(x.data())
@@ -149,9 +151,10 @@ export async function getWorkerBookedGigs(workerId) {
     workerSubSnapshot.docs.map(async (doc) => {
       //looking at indivisual gigs in AppliedGig subcollection
       let gig = doc.get('gig');
-      let includedGigDoc = await getDoc(gig);
+      let includedGigData = await (await getDoc(gig)).data();
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-      retArray.push(includedGigDoc.data());
+      includedGigData['gigRef'] = gig;
+      retArray.push(includedGigData);
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
       //   retArray.push(x.data())
@@ -163,9 +166,9 @@ export async function getWorkerBookedGigs(workerId) {
   return retArray;
 }
 
-export async function getWorkerGoals(workerId) {}
+export async function getWorkerGoals(workerId) { }
 
-export async function getWorkerReviews(workerId) {}
+export async function getWorkerReviews(workerId) { }
 
 export async function getCompanyArchivedGigs(companyId) {
   const companySubCol = collection(
@@ -295,7 +298,10 @@ export async function createWorker(workerDetails) {
  * profilePicture(Storage link)
  */
 export async function createCompany(companyDetails) {
-  await addDoc(collection(db, constants.COMPANIES), companyDetails);
+  const newRef = await addDoc(collection(db, constants.COMPANIES), companyDetails);
+  await newRef.collection("reviews");
+  await newRef.collection("archivedGigs");
+  await newRef.collection("postedGigs");
 }
 
 //May want to change tags in gig to String, since having a live reference of tags is not very important
@@ -378,7 +384,7 @@ export async function createProfilePicture(picture) {
   let picName = picture.name + uuidv4();
   const storageRef = ref(storage, 'profile_pics/' + picName);
 
-  let url = await uploadBytes(storageRef, picture).then(() =>{
+  let url = await uploadBytes(storageRef, picture).then(() => {
     return getDownloadURL(storageRef).then((result) => {
       return result;
     }).catch((error) => {
@@ -398,7 +404,7 @@ export async function createResume(resume) {
   let resumeName = resume.name + uuidv4();
   const storageRef = ref(storage, 'resumes/' + resumeName);
 
-  let url = await uploadBytes(storageRef, resume).then(() =>{
+  let url = await uploadBytes(storageRef, resume).then(() => {
     return getDownloadURL(storageRef).then((result) => {
       return result;
     }).catch((error) => {
@@ -447,9 +453,9 @@ need to decide on how to handle deletions. i.e. if skills/tags are kept as refer
 decided as marked for deletion. 
 */
 
-export async function deleteCompany(companyId) {} //need to decide on how to handle deleted companies.
-export async function deleteGig(gigId) {} //point at archiveGig?
-export async function deleteWorker(workerId) {} //need to decide on how to handle deleted workers.
+export async function deleteCompany(companyId) { } //need to decide on how to handle deleted companies.
+export async function deleteGig(gigId) { } //point at archiveGig?
+export async function deleteWorker(workerId) { } //need to decide on how to handle deleted workers.
 
 /*
 FUNCTIONAL
@@ -544,35 +550,32 @@ export async function removeSkillsFromWorker(workerId, skills) {
  */
 export async function createCompanyReview(reviewDetails, companyId) {
   try {
-    await runTransaction(db, async (transaction) => {
-      const companyDocRef = doc(db, constants.COMPANIES, companyId);
-      const companyDoc = await transaction.get(companyDocRef);
-      if (!companyDoc.exists()) {
-        throw 'Document does not exist!';
-      }
-      const reviewRef = doc(
-        collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS)
-      );
-      let companyData = companyDoc.data();
-      let oldNumReviews = companyData.numReviews;
-      let oldAvg = companyData.avgReview;
-      let newAvgReviews;
-      let newNumReviews;
+    console.log('creating review for companyId: ' + companyId)
+    const companyDocRef = doc(db, constants.COMPANIES, companyId);
+    console.log("company ref: " + companyDocRef)
+    const companyDoc = await getDoc(companyDocRef);
+    if (!companyDoc.exists()) {
+      throw 'Document does not exist!';
+    }
+    const reviewRef = collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS);
+    let companyData = companyDoc.data();
+    let oldNumReviews = companyData.numReviews;
+    let oldAvg = companyData.avgReview;
+    let newAvgReviews;
+    let newNumReviews;
 
-      if (oldNumReviews == 0 && oldAvg < 0) {
-        newAvgReviews = reviewDetails.numStars;
-        newNumReviews = 1 * 1;
-      } else if (oldNumReviews != 0 && oldAvg >= 0) {
-        newAvgReviews = oldAvg + reviewDetails.numStars;
-        newNumReviews = oldNumReviews * 1 + 1;
-      } else {
-        throw new Error('Error in recorded review scores stored in database!');
-      }
+    if (oldNumReviews == 0 && oldAvg < 0) {
+      newAvgReviews = reviewDetails.numStars;
+      newNumReviews = 1 * 1;
+    } else if (oldNumReviews != 0 && oldAvg >= 0) {
+      newAvgReviews = oldAvg + reviewDetails.numStars;
+      newNumReviews = oldNumReviews * 1 + 1;
+    } else {
+      throw new Error('Error in recorded review scores stored in database!');
+    }
 
-      transaction.update(companyDocRef, { avgReview: newAvgReviews });
-      transaction.update(companyDocRef, { numReviews: newNumReviews });
-      transaction.set(reviewRef, reviewDetails);
-    });
+    await updateDoc(companyDocRef, { avgReview: newAvgReviews, numReviews: increment(1) });
+    await addDoc(reviewRef, reviewDetails);
     //console.log('Transaction successfully committed!');
   } catch (e) {
     console.log('Transaction failed: ', e);

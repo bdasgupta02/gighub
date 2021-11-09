@@ -7,28 +7,27 @@ import * as fbFunctions from '../database/firebaseFunctions'
 import ReviewStars from '../components/ReviewStars'
 import ReviewTile from '../components/ReviewTile'
 import GigListingTile from '../components/GigListingTile'
+import { load } from 'dotenv';
+import { useLocation } from 'react-router';
 
 
 export default function CompanyDetails(props) {
 
-  const { companyId } = props;
+  const [companyId, setCompanyId] = useState();
   const [company, setCompany] = useState();
   const [reviews, setReviews] = useState();
   const [gigs, setGigs] = useState();
 
+  const location = useLocation().state;
+
   useEffect(
     () => {
-      if (company == null) {
-        fbFunctions.getCompany('Ah8uuaTL0XFrUtFTL2pk').then(
-          data => {
-            setCompany(data[0]);
-            console.log("company data is: " + JSON.stringify(data));
-          }
-        )
-
+      if (companyId == null) {
+        setCompanyId(location.companyId)
+        fbFunctions.getCompany(location.companyId).then(data => (setCompany(data)));
       }
       if (reviews == null) {
-        fbFunctions.getCompanyReviews('Ah8uuaTL0XFrUtFTL2pk').then(
+        fbFunctions.getCompanyReviews(location.companyId).then(
           data => {
             setReviews(data);
             console.log('company reviews: ' + JSON.stringify(data))
@@ -37,7 +36,7 @@ export default function CompanyDetails(props) {
       }
       if (gigs == null) {
         let tempFinished = []
-        fbFunctions.getCompanyPostedGigs('Ah8uuaTL0XFrUtFTL2pk').then(arr => {
+        fbFunctions.getCompanyPostedGigs(location.companyId).then(arr => {
           arr.map(
             el => fbFunctions.getCompanyByRef(el.companyId).then(
               compData => {
