@@ -24,15 +24,15 @@ const WorkerDashboard = (props) => {
       <Row id="WDBody">
         <Col>
           <Row id="WDHighlightsBG">
-            <Col className="WDHighlightsTile" xs={2.2}>
+            <div className="WDHighlightsTile">
               <DashHighlightsTile value="S$350.00" desc="earned this week" />
-            </Col>
-            <Col className="WDHighlightsTile" xs={2.2}>
+            </div>
+            <div className="WDHighlightsTile">
               <DashHighlightsTile value="1" desc="job completed this week" />
-            </Col>
-            <Col className="WDHighlightsTile" xs={2.2}>
+            </div>
+            <div className="WDHighlightsTile">
               <DashHighlightsTile value="2" desc="jobs due soon" />
-            </Col>
+            </div>
           </Row>
 
           <Row id="WDSectionBG">
@@ -84,15 +84,15 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDSectionTile" xs={2.2}>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="WDSectionTile" xs={2.2}>
+                </div>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="WDSectionTile" xs={2.2}>
+                </div>
+                <div className="WDSectionTile">
                   <DashListingTile />
-                </Col>
+                </div>
               </Row>
               <Row className="emptyRow">
                 <Col>
