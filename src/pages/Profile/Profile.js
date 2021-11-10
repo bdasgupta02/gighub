@@ -42,7 +42,7 @@ let usersAge='99999999999999'
  * @returns
  */
 export default function Profile(props) {
-  let { isWorker } = useAuth();
+  let { isWorker, currentUserId } = useAuth();
   isWorker = true;
   hasProfilePic = profilePicLink !== '';
   hasProfilePic = false;
@@ -51,12 +51,8 @@ export default function Profile(props) {
     <div id="ProfilePageGeneric">
       <ProfileHeader avgReview={avgReview} numReview={numReview}/>
       <ProfilePicture hasProfilePic={hasProfilePic} profilePicLink={profilePicLink} userName={userName}/>
-      <ProfileDetails isWorker={true} userName={userName} resumeLink={resumeLink} usersAge={usersAge} usersGender={usersGender} workerSkills={workerSkills}/>
+      <ProfileDetails isWorker={true} userName={userName} resumeLink={resumeLink} usersAge={usersAge} userId = {currentUserId} usersGender={usersGender} workerSkills={workerSkills}/>
       <ProfileSignInDetails userEmail={userEmail} userPassword={password}/>
-
-      
-
-      
 
       <Container>
         <Row className="ProfilePageSectionSpacer" />

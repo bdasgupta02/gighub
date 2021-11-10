@@ -30,7 +30,7 @@ import './fileUploader.css';
 //           </form>
 //     )
 // };
-export function FileUploader(setFileOutput, fileTypeEnum) {
+export default function FileUploader(setFileOutput, fileTypeEnum) {
     const [file, setFile] = useState(null);
 
     const onInputChange = (e) => {

@@ -1,22 +1,38 @@
 import ProfileSkill from './ProfileSkill';
 import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
+import {useState} from 'react';
+import FileUploader from '../../components/FileUploader';
+import { FileType } from '../../enum/FileType';
+import { createResume, updateWorkerDetails } from '../../database/firebaseFunctions';
+
 
 import './profile.css';
 
 /**
  * NOTE: No link safety for resume, will redirect to a firebase 404 if valid firestore link but invalid details
- * required props: isWorker, userName, resumeLink, usersAge, usersGender
+ * required props: isWorker, userName, resumeLink, usersAge, usersGender, userId
  * optional props: workerSkills
  * @param {*} props
  * @returns
  */
 export function ProfileDetails(props) {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [newResumeFile, setNewResumeFile] = useState(null);
+  const modalStyle = {}
   let hasResume = props.resumeLink !== '';
   hasResume = false;
-  //let resumeLink = "www.sadwaxcawedds.com"
   return (
     <Container>
+      <Modal 
+      isOpen = {modalIsOpen}
+      onRequestClose = {closeModal}
+      style = {modalStyle}
+      contentLabel = "Add resume"
+      >
+        <FileUploader setFileOutput={setNewResumeFile} fileTypeEnum={FileType.DOCUMENTS}/>
+      </Modal>
       <Row className="ProfilePageSectionHeader"> Details </Row>
       <Row>
         <Col>
@@ -43,6 +59,7 @@ export function ProfileDetails(props) {
               // (<button className="ProfilePageResume" onClick={addResume}>Add resume</button>)
               <a
                 href={null}
+                onClick={openModal}
                 style={{
                   cursor: 'pointer',
                   color: '#545454',
@@ -92,4 +109,23 @@ export function ProfileDetails(props) {
   );
 }
 
-function addResume() {}
+function addResume() {
+
+}
+
+function openModal() {
+  setIsOpen(true);
+}
+
+function closeModal() {
+  setIsOpen(false);
+  if (newResumeFile !== null) {
+    let resumeUrl = createResume(newResumeFile);
+    let updateDetails = {
+      id: {userId},
+      resume: {resumeUrl}
+    };
+    updateWorkerDetails(updateDetails);
+    setNewResumeFile(null);
+  }
+}
