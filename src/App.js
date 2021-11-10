@@ -26,6 +26,7 @@ import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
 import SearchGigs from './pages/SearchGigs'
 import CreateGig from './pages/CreateGig'
+import CompanyDetails from './pages/companyDetails'
 
 
 const NavSwitcher = () => {
@@ -48,6 +49,7 @@ const NavSwitcher = () => {
           <PrivateRoute exact path="/search_gigs" component={SearchGigs} />
           <PrivateRoute exact path="/search_workers" component={SearchWorkers} />
           <PrivateRoute exact path="/create_gig" component={CreateGig} />
+          <PrivateRoute exact path="/view_company" component={CompanyDetails} />
 
           <Route path="/signin" component={SignInPage} />
         </Switch>
