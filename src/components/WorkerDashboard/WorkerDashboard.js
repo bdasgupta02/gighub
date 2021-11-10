@@ -121,9 +121,9 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDGoalsTile" xs={7}>
+                <div className="WDGoalsTile">
                   <DashGoalTile />
-                </Col>
+                </div>
               </Row>
               <Row className="spacer">
                 <Col>
@@ -131,9 +131,9 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDGoalsTile" xs={7}>
+                <div className="WDGoalsTile">
                   <DashGoalTile />
-                </Col>
+                </div>
               </Row>
               <Row className="spacer">
                 <Col>
@@ -141,9 +141,9 @@ const WorkerDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="WDGoalsTile" xs={7}>
+                <div className="WDGoalsTile">
                   <DashGoalTile />
-                </Col>
+                </div>
               </Row>
               <Row className="spacer">
                 <Col>
