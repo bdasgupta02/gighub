@@ -2,12 +2,12 @@
 import firebase from "firebase/compat/app";
 import { initializeApp } from "firebase/app";
 
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "@firebase/firestore";
 
 import "firebase/compat/auth";
+import 'firebase/compat/messaging';
 import 'firebase/compat/firestore';
-import {load} from 'dotenv';
+import { load } from 'dotenv';
 import { getStorage } from "@firebase/storage";
 
 require('dotenv').config();
@@ -26,11 +26,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export const app = firebase.initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 export const accessDB = app.firestore()
 export const auth = app.auth()
 export const storage = getStorage(app);
+export const messaging = firebase.messaging();
 export default db;

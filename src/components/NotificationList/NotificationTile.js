@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
-import Highlight from './Highlight';
+import Highlight from '../GigListingTile/Highlight';
 import LogoBox from '../LogoBox';
 import { useHistory } from 'react-router';
 import LogoGenerator from '../LogoGenerator';
-import './gigListingTile.css'
+import './notificationList.css'
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
 
-const GigListingTile = (props) => {
+const NotificationTile = (props) => {
     const history = useHistory()
     const [isHovering, setIsHovering] = useState(false)
+    const isReview = props.isReview
+    const isGigUpdate = props.isGigUpdate
+    const isNewBooked = props.isNewBooked
+    const [company, setCompany] = useState()
 
 
     // placeholders for now:
@@ -42,8 +46,7 @@ const GigListingTile = (props) => {
     jobDesc = jobDesc.length > jobDescLimit ? jobDesc.substr(0, jobDescLimit) + "..." : jobDesc
 
     const tileBackgroundAnimated = useSpring({
-        boxShadow: isHovering ? "4px 10px 40px #00000026" : "1px 3px 5px #00000026",
-        backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
+        backgroundColor: isHovering ? "#DBD8D8" : "#FFFFFFA6",
         config: config.default
     })
 
@@ -72,45 +75,11 @@ const GigListingTile = (props) => {
 
     const AnimatedContainer = animated(Container)
     return (
-        <div onClick={() => { history.push("/view_gig", { gigId: props.id }) }}>
-
+        <div onClick={() => { history.push("/my_profile") }}>
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+
                 <Col id="GLMainColumn">
-                    <Row style={{ alignSelf: 'flex-start' }}>
-                        <LogoBox src={companyLogo} name={companyName} />
-                        <Col>
-                            <div id="GLCompanyName">
-                                {companyName}
-                            </div>
-                            <div id="GLCompanyLocation">
-
-                                {companyCity}
-                            </div>
-                        </Col>
-                    </Row>
-
-                    <div id="GLJobTitle" style={{ alignSelf: 'flex-start' }}>
-                        {jobTitle}
-                    </div>
-                    <div id="GLJobDesc" style={{ alignSelf: 'flex-start' }}>
-                        {jobDesc}
-                    </div>
-                    <Row id="GLPayTextBox" className="GLBottom" style={{ alignSelf: 'flex-start' }}>
-                        <div className="GLPayText">{payAmt}</div>
-                        <div className="GLPayText">&nbsp;/&nbsp;</div>
-                        <Col id="GLPayForCol">
-                            <div className="GLSpacer"></div>
-                            <Row id="GLPayForText">{payFor}</Row>
-                        </Col>
-                    </Row>
-                    <Row className="GLBottom" style={{ alignSelf: 'flex-start' }}>
-
-                        {highlights.map((component, index) => (
-                            <div>
-                                {component}
-                            </div>
-                        ))}
-                    </Row>
+                    <span> hi </span>
                 </Col>
 
             </AnimatedContainer>
@@ -118,7 +87,7 @@ const GigListingTile = (props) => {
 
 }
 
-export default GigListingTile
+export default NotificationTile
 
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,14 +26,31 @@ import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
 import SearchGigs from './pages/SearchGigs'
 import CompanyDetails from './pages/companyDetails';
+import { workerAppliedGigsSubscription, workerReviewSub, retrieveMessages } from './database/firebaseMessaging'
+import { getTokenFn } from './database/firebaseMessaging'
 
 
 const NavSwitcher = () => {
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, currentUser } = useAuth()
+  const [user, setUser] = useState()
+
+  // const [isTokenFound, setTokenFound] = useState(false);
+  // getTokenFn(setTokenFound);
+
+
+
+
 
   return (
-    <Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }}>
-      {isSignedIn && <NavBar />}
+    < Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }
+    }>
+      { isSignedIn && <NavBar />}
+      {/* 
+
+      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
+      {!isTokenFound && <h1> Need notification permission ❗️ </h1>} */}
+
+
       <div style={{ width: '100%', overflow: 'auto' }}>
         <Switch>
           <PrivateRoute exact path="/view_company" component={CompanyDetails} />
@@ -50,8 +67,9 @@ const NavSwitcher = () => {
           <Route path="/signin" component={SignInPage} />
 
         </Switch>
+
       </div>
-    </Box>
+    </Box >
   )
 }
 

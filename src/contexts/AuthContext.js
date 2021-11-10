@@ -14,15 +14,16 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
     const [currentUserDB, setCurrentUserDB] = useState(null)
+    const [currentUserId, setCurrentUserId] = useState(null)
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [isWorker, setIsWorker] = useState(null)
     const [pending, setPending] = useState(true);
 
     const signup = async (details, isWorker) => {
         let uid = ''
-        const user = await auth.createUserWithEmailAndPassword(details.email, details.password).then( async (res) => {
+        const user = await auth.createUserWithEmailAndPassword(details.email, details.password).then(async (res) => {
             uid = res.user.uid
             if (isWorker !== undefined && isWorker) {
                 accessDB.collection('workers').doc(res.user.uid).set(details)
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         const companiesRef = accessDB.collection('companies')
         const companiesEmail = await companiesRef.where('email', '==', email).get()
 
-        
+
 
         console.log(workersEmail.docs)
         if (typeof workersEmail !== 'undefined' && workersEmail.docs.length > 0) {
@@ -87,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setPending(false)
             setCurrentUser(user)
+            console.log(user)
             setIsSignedIn(typeof user !== undefined && user !== null)
         });
         return unsubscribe
@@ -103,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         isSignedIn,
         isWorker,
         currentUser,
+        currentUserId: currentUser === null ? null : currentUser.uid,
         signup,
         signin,
         signout,
