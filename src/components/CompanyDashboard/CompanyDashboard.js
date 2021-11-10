@@ -24,15 +24,15 @@ const CompanyDashboard = (props) => {
       <Row id="CDBody">
         <Col>
           <Row id="CDHighlightsBG">
-            <Col className="CDHighlightsTile" xs={2.2}>
+            <div className="CDHighlightsTile">
               <DashHighlightsTile value="3" desc="contracts signed this week" />
-            </Col>
-            <Col className="CDHighlightsTile" xs={2.2}>
+            </div>
+            <div className="CDHighlightsTile">
               <DashHighlightsTile value="2" desc="contracts completed & paid this week" />
-            </Col>
-            <Col className="CDHighlightsTile" xs={2.2}>
+            </div>
+            <div className="CDHighlightsTile">
               <DashHighlightsTile value="6" desc="pending payments to be made" />
-            </Col>
+            </div>
           </Row>
 
           <Row id="CDSectionBG">
@@ -48,15 +48,15 @@ const CompanyDashboard = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col className="CDSectionTile" xs={2.2}>
+                <div className="CDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="CDSectionTile" xs={2.2}>
+                </div>
+                <div className="CDSectionTile">
                   <DashListingTile />
-                </Col>
-                <Col className="CDSectionTile" xs={2.2}>
+                </div>
+                <div className="CDSectionTile">
                   <DashListingTile />
-                </Col>
+                </div>
               </Row>
               <Row className="emptyRow">
                 <Col>

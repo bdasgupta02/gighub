@@ -16,6 +16,7 @@ import {
 } from '@primer/octicons-react';
 
 import './ongoingGigTile.css'
+import { useHistory } from 'react-router';
 
 const OngoingGigTile = (props) => {
   const [isHovering, setIsHovering] = useState(false)
@@ -26,6 +27,7 @@ const OngoingGigTile = (props) => {
   const handleToClose = () => {
     setOpen(false);
   };
+  const history = useHistory();
 
   /* final props:
   const companyName = props.companyName
@@ -35,6 +37,7 @@ const OngoingGigTile = (props) => {
   const jobDesc = props.jobDesc
   const payAmt = props.payAmt
   const payFor = props.payFor
+  const company = props.company
 
   const isFlexible = props.isFlexible;
   // check how to handle link (should this go to the gig details page automatically)
@@ -58,6 +61,7 @@ const OngoingGigTile = (props) => {
   const isFlexible = props.isFlexible ?? false;
   const link = props.contractLink ?? 'https://google.com'
   let contactNum = props.contactNum ?? "No information input."
+  let companyId = props.companyId ?? null;
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -80,14 +84,16 @@ const OngoingGigTile = (props) => {
   const AnimatedContainer = animated(Container)
   return (
     <div>
+
       <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn2">
           <Row>
-            <div id="LogoBox2">
+
+            <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
               <img src={logo} id="LogoImg" />
             </div>
             <Col>
-              <div id="CompanyName2">
+              <div id="CompanyName2" onClick={() => history.push("/view_company", { companyId: companyId.id })} >
                 {companyName}
               </div>
               <div id="CompanyLocation2">
@@ -138,7 +144,7 @@ const OngoingGigTile = (props) => {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleToClose}
-                      color="primary" autoFocus>
+                      color="primary" autoFocus text="Close">
                       Close
           </Button>
                   </DialogActions>
