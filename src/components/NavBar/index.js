@@ -38,6 +38,7 @@ const NavBar = (props) => {
           {isWorker && (<Row> <NavButton to="/my_applications" buttonText="Applications" icon={<ChecklistIcon size={16} />} /> </Row>)}
           {isCompany && (<Row> <NavButton to="/search_workers" buttonText="Workers" icon={<PeopleIcon size={16} />} /> </Row>)}
           {isCompany && (<Row> <NavButton to="/listed_gigs" buttonText="Listed gigs" icon={<ListUnorderedIcon size={16} />} /> </Row>)}
+          {isCompany && (<Row> <NavButton to="/company_applications" buttonText="Applications" icon={<ChecklistIcon size={16} />} /> </Row>)}
           <Row> <NavButton to="/my_profile" buttonText="Profile" icon={<PersonIcon size={16} />} /> </Row>
           <Row> <NavButton to="/notifs" buttonText="Notifications" icon={<BellIcon size={16} />} /> </Row>
           <Row> <NavButton to="/signin" buttonText="Sign-out" isSignOut icon={<SignOutIcon size={16} />} /> </Row>
