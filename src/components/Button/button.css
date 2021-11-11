@@ -1,5 +1,6 @@
 #ButtonBox {
     border-radius: 8px;
+    display: flex;
     justify-content: center;
     align-content: center;
     padding-top: 10px;

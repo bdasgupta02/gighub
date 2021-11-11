@@ -86,8 +86,8 @@ const OngoingGigTile = (props) => {
     <div>
 
       <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-        <Col id="MainColumn2">
-          <Row>
+        <Col id="MainColumn2" >
+          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
 
             <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
               <img src={logo} id="LogoImg" />
@@ -113,20 +113,20 @@ const OngoingGigTile = (props) => {
               <div id='Highlight2'> {isFlexible ? 'Flexible' : 'Fixed'}</div>
             </Col>
           </Row>
-          <Row>
+          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
             <div id="JobTitle2">
               Deliverables:
           </div>
           </Row>
           <Row justify="between">
-            <Col xs={7}>
+            <Col xs={7} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
               <div id="JobDesc2">
                 {jobDesc}
               </div>
               <div style={{ height: '40%' }}></div>
               <a href={link}> View contract </a>
             </Col>
-            <Col xs={4}>
+            <Col xs={4} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
               <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
               <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
               <div style={{ height: '20px' }}></div>

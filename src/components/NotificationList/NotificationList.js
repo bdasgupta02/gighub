@@ -19,7 +19,6 @@ const NotificationList = (props) => {
 
     useEffect(() => {
         if (reviewList == null) {
-
             setReviewList(props.reviewList)
         }
         if (bookedGigs == null) {
@@ -30,11 +29,13 @@ const NotificationList = (props) => {
 
     return (
         <div style={{ height: '5px' }}>
+            {console.log("bookedGigs in notiflist: ", bookedGigs)}
             { reviewList != null && reviewList.length != 0 && reviewList.map(review =>
                 <NotificationTile review={review} />)
             }
-            { bookedGigs != null && bookedGigs.length != 0 && bookedGigs.map(gig =>
+            { (bookedGigs != null && bookedGigs.length != []) && bookedGigs.map(gig =>
                 <NotificationTile bookedGig={gig} />)}
+            {((reviewList == null || reviewList.length == 0) && (bookedGigs == null || bookedGigs.length == 0)) && 'No new notifications!'}
         </div>
     )
 

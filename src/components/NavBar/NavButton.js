@@ -35,6 +35,25 @@ cursor: pointer;
   font-weight: bold;
 }
 `;
+export const NotifLinkStyle = styled(Link)`
+display: flex;
+align-items: center;
+border : 1px solid #00000000;
+border-radius: 8px;
+background-color: white;
+text-decoration: none;
+color: #B8B8B8;
+height: 48px;
+
+font-size:  14px;
+margin: 10px;
+cursor: pointer;
+&:hover {
+  color: #545454;
+  box-shadow: 4px 10px 15px #00000026;
+  background-color: #EDEDED;
+}
+`;
 
 
 const NavButton = (props) => {
@@ -52,7 +71,9 @@ const NavButton = (props) => {
 
 
   return (
-    <NavLink exact to={props.to ?? "/"} onClick={isSignOut ? handleSignOut : isNotif && props.parentFunction}>
+    <NavLink exact to={props.to ?? "#"} onClick={isSignOut ? handleSignOut : isNotif && props.parentFunction}
+      activeClassName={isNotif && NotifLinkStyle}
+    >
       <div style={{ width: '140px', textAlign: 'left', marginLeft: '15px' }}>
         {props.icon}
         <div style={{ display: 'inline', marginLeft: '10px' }}>

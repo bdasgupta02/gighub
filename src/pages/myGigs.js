@@ -75,15 +75,17 @@ export default function MyGigs(props) {
   let pendingReview = true;
   return (
 
-    < div style={{ height: '100%' }}>
+    < div id="Base" style={{ height: '100%' }}>
 
-      <h1> Your Gigs</h1>
+      <div id="HeaderTexts">
+        <span id="HeaderTitle"> Your Gigs</span> <br />
+      </div>
       <div style={{ height: '50px' }}></div>
-      <h3 style={{ color: Constants.BRIGHT_BLUE }}> Ongoing gigs </h3>
+      <div id="SectionBG"> Ongoing gigs </div>
       <Row style={{ height: '30%', overflow: 'scroll' }}>
         <Col>
           {console.log('in render: ' + JSON.stringify(allBooked))}
-          {allBooked == null ? "No Booked Gigs Yet!" :
+          {allBooked == null ? <div id="NullText">   No Finished Gigs Yet! </div> :
 
             allBooked.map(gig =>
               <OngoingGigTile
@@ -108,13 +110,14 @@ export default function MyGigs(props) {
           }
         </Col>
       </Row>
-      <div style={{ height: '60px' }}></div>
 
-      <h3 style={{ color: Constants.BRIGHT_BLUE }}> Finished gigs </h3>
+
+      <div id="SectionBG">Finished Gigs</div>
 
       <Row style={{ height: '50%', overflow: 'scroll' }}>
 
-        {allFinished == null ? "No Finished Gigs Yet!" :
+
+        {allFinished == null ? <div id="NullText"> No Finished Gigs Yet! </div> :
 
           allFinished.map(gig => (
             <Col xs={3} style={{ marginTop: '20px' }}>

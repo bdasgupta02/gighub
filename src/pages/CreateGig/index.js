@@ -10,6 +10,7 @@ import { FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material'
 import { accessDB } from '../../database/firebase'
 import * as constants from '../../constants'
 import { useAuth } from '../../contexts/AuthContext'
+import { useHistory } from 'react-router'
 import './createGig.css'
 
 /**
@@ -18,6 +19,7 @@ import './createGig.css'
  * - date validation: end date < completeby < start date
  */
 function CreateGig() {
+    const history = useHistory()
     const { currentUserId } = useAuth()
     const [keywordCache, setKeywordCache] = useState('')
     const [gigDetails, setGigDetails] = useState({
@@ -28,13 +30,13 @@ function CreateGig() {
         isVariable: false,
         pay: 0,
         unit: '',
-        tags: [],
         completeBy: null,
         startDate: null,
         endDate: null,
         dateAdded: new Date(),
         capacity: 0,
         taken: 0,
+        companyId: accessDB.collection(constants.COMPANIES).doc(currentUserId)
     })
 
     const handleTextInput = (event, type) => {
@@ -93,16 +95,36 @@ function CreateGig() {
         })
     }
 
+    const handleNumberInput = (event, type) => {
+        setGigDetails({
+            ...gigDetails,
+            [type]: Number(event.target.value)
+        })
+    }
+
     const handleCreateGig = async () => {
         // empty check
         // date check
         // capacity check
         // add to company inside then
-        await accessDB.collection(constants.ACTIVE_GIGS).add(gigDetails).then(async (res) => {
-            await accessDB.collection(constants.COMPANIES).doc(currentUserId).collection(constants.POSTED_GIGS).add({
-                gig: res
+        // go to view gig -> gigId
+
+        if (gigDetails.title === '' || gigDetails.description === '' || gigDetails.pay === null || gigDetails.pay === 0 || gigDetails.unit === '' || gigDetails.completeBy === null || gigDetails.startDate === null || gigDetails.endDate === null || gigDetails.capacity === 0) {
+            alert('Error: One or more value(s) are empty!')
+        } else if (gigDetails.requirements.length === 0) {
+            alert('Error: Please add at least one requirement')
+        } else {
+
+            let id = ''
+            await accessDB.collection(constants.ACTIVE_GIGS).add(gigDetails).then(async (res) => {
+                id = res.id
+                await accessDB.collection(constants.COMPANIES).doc(currentUserId).collection(constants.POSTED_GIGS).add({
+                    gig: res
+                })
             })
-        })
+
+            history.push('/view_gig', { gigId: id })
+        }
     }
 
     /**
@@ -165,7 +187,7 @@ function CreateGig() {
                     Payment amount (in S$)
                 </div>
                 <div className="CGInputBoxSmall">
-                    <input className="CGInputText" placeholder="Amount" type="number" onChange={(event) => handleTextInput(event, 'pay')} value={gigDetails.pay} />
+                    <input className="CGInputText" placeholder="Amount" type="number" onChange={(event) => handleNumberInput(event, 'pay')} value={gigDetails.pay} />
                 </div>
                 <div className="CGLabel">
                     Payment for
@@ -257,7 +279,7 @@ function CreateGig() {
                     How many people can take this gig?
                 </div>
                 <div className="CGInputBoxSmall">
-                    <input className="CGInputText" placeholder="Capacity" type="number" value={gigDetails.capacity} onChange={(event) => handleTextInput(event, 'capacity')} />
+                    <input className="CGInputText" placeholder="Capacity" type="number" value={gigDetails.capacity} onChange={(event) => handleNumberInput(event, 'capacity')} />
                 </div>
 
 
