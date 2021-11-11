@@ -62,12 +62,12 @@ function GigChat(props) {
 
         // get data
         const workerRef = await accessDB.collection(constants.WORKERS).doc(workerId).get()
-        const workerData = workerRef.data()
+        const workerData = { ...workerRef.data(), id: workerRef.id }
 
         const companyRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).get()
         const companyRefInner = await companyRef.data().companyId.get()
-        const companyData = companyRefInner.data()
-        console.log(companyData)
+        const companyData = { ...companyRefInner.data(), id: companyRef.data().companyId.id } 
+        console.log(companyRef.data().companyId.id)
 
         const messagesRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection(constants.CHAT).doc(workerId).collection(constants.MESSAGES).get()
         const messagesData = typeof messagesRef === 'undefined' || messagesRef.size === 0 ? [] : messagesRef.docs.map(e => e.data())

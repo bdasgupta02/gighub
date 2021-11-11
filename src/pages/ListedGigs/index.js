@@ -33,7 +33,7 @@ function ListedGigs() {
             const postedGigGet = await postedGigRef.gig.get()
             console.log(postedGigGet.data())
             let postedGig = postedGigGet.data()
-            postedGig = { ...postedGig, id: postedGig.id, isArchived: false, company: currentUserDB }
+            postedGig = { ...postedGig, id: postedGigGet.id, isArchived: false, company: currentUserDB }
             postedGigsCache.push(postedGig)
         }
 
@@ -43,7 +43,7 @@ function ListedGigs() {
             const archivedGigRef = archivedGigsGet.docs[i].data()
             const archivedGigGet = await archivedGigRef.gig.get()
             let archivedGig = archivedGigGet.data()
-            archivedGig = { ...archivedGig, id: archivedGig.id, isArchived: true, company: currentUserDB }
+            archivedGig = { ...archivedGig, id: archivedGigGet.id, isArchived: true, company: currentUserDB }
             archivedGigsCache.push(archivedGig)
         }
 
@@ -69,6 +69,7 @@ function ListedGigs() {
             {postedGigs.map((e) => {
                 console.log(e)
                 const convertedParams = {
+                    id: e.id,
 
                     // check if these need changing
                     isNew: false,
