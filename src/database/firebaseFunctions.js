@@ -108,7 +108,10 @@ export async function getWorkerAppliedGigs(workerId) {
       let gig = doc.get('gig');
       let includedGigDoc = await getDoc(gig);
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-      retArray.push(includedGigDoc.data());
+      retArray.push({
+        ...includedGigDoc.data(),
+        id: includedGigDoc.id
+      });
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
       //   retArray.push(x.data())
@@ -132,10 +135,14 @@ export async function getWorkerArchivedGigs(workerId) {
     workerSubSnapshot.docs.map(async (doc) => {
       //looking at indivisual gigs in AppliedGig subcollection
       let gig = doc.get('gig');
-      let includedGigData = await (await getDoc(gig)).data();
+      let includedGigData = await getDoc(gig)
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
       includedGigData['gigRef'] = gig;
-      retArray.push(includedGigData);
+      retArray.push({
+        ...includedGigData.data(),
+        gigRef: gig,
+        id: includedGigData.id
+      });
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
       //   retArray.push(x.data())
