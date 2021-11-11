@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import FullPage from '../FullPage'
 import { accessDB } from '../../database/firebase'
 import * as constants from '../../constants'
 import ChatLogo from './ChatLogo'
 import { Col, Row, Container } from 'react-grid-system'
+import ChatItem from './ChatItem'
+import firebase from '@firebase/app-compat'
+import Button from '../../components/Button'
+import { PaperAirplaneIcon } from '@primer/octicons-react'
+import { useLocation } from 'react-router'
 import './gigChat.css'
 
 /**
@@ -20,12 +25,13 @@ import './gigChat.css'
  * - move all functions to firebase
  * - add constants for chat and messages collections
  * - if isWorker then use currentuserId
- * - on click on the name and logo should go to profile
+ * - on click on the name and logo should go to profile (view profile)
+ * - cross testing (after all of the above are done)
  */
 function GigChat(props) {
-    // props needed: gigId, workerId
-
     const { currentUserId, isWorker } = useAuth()
+    const { gigId, workerId } = useLocation().state
+
 
     // new message
     const [newMessage, setNewMessage] = useState('')
@@ -41,21 +47,15 @@ function GigChat(props) {
     })
     const [messages, setMessages] = useState([])
     const [gig, setGig] = useState({})
+    const messageEl = useRef(null)
 
 
 
 
 
 
-    // Hardcoded
-    const gigId = '22eTmjT1E2lSjMsQ7fIX'
-    const workerId = 'JXoSVOEbbeeTxnUOkurEgENA7kg1'
 
-
-
-
-
-
+    // DB
     const fetch = async () => {
         // create chat if not exists
         // get all the data
@@ -72,26 +72,74 @@ function GigChat(props) {
         const workerData = workerRef.data()
 
         const companyRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).get()
-        const companyRefInnerId = companyRef.data().companyId
-        const companyInnerRef = await accessDB.collection(constants.COMPANIES).doc(companyRefInnerId).get()
-        const companyData = companyInnerRef.data()
+        const companyRefInner = await companyRef.data().companyId.get()
+        const companyData = companyRefInner.data()
         console.log(companyData)
 
         const messagesRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection('chat').doc(workerId).collection('messages').get()
         const messagesData = typeof messagesRef === 'undefined' || messagesRef.size === 0 ? [] : messagesRef.docs.map(e => e.data())
 
+        messagesData.sort((a, b) => b.timestamp.seconds < a.timestamp.seconds ? 1 : -1)
         setCompany(companyData)
         setWorker(workerData)
         setMessages(messagesData)
         setGig(gigData)
     }
 
+    const handleAddMessage = async () => {
+        if (newMessage === '') {
+            alert('Error: New message cannot be empty!')
+        } else {
+            await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection('chat').doc(workerId).collection('messages').add({
+                creatorId: currentUserId,
+                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                content: newMessage
+            })
+        }
+
+        setNewMessage('')
+        fetch()
+    }
+
     useEffect(() => {
         fetch()
     }, [])
 
+
+
+
+
+
+
+    // auto scroll
+    useEffect(() => {
+        if (messageEl) {
+            messageEl.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+    }, [])
+
+
+
+
+
+
+
+    // ops
+    const editNewMessage = (event) => {
+        setNewMessage(event.target.value)
+    }
+
+
+
+
+
+
     const RecLogo = isWorker ? <ChatLogo src={company.profilePicture} name={company.name} /> : <ChatLogo src={worker.profilePicture} name={worker.name} />
     const recName = isWorker ? company.name : worker.name
+    const SendLogo = isWorker ? <ChatLogo src={worker.profilePicture} name={worker.name} /> : <ChatLogo src={company.profilePicture} name={company.name} />
     return (
         <FullPage header="View chat">
             <Row style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
@@ -110,11 +158,50 @@ function GigChat(props) {
 
             <div style={{ width: '100%', height: '60px' }} />
 
-            <div style={{ width: '100%' }}>
-                test
+            <div ref={messageEl} className="GCMessages">
+
+                {messages.map(e => {
+                    const date = new Date(e.timestamp.seconds * 1000)
+                    const sender = currentUserId === e.creatorId
+
+                    const convertedParams = {
+                        isSender: sender,
+                        logo: sender ? RecLogo : SendLogo,
+                        content: e.content,
+                        timeString: date.toDateString() + ", " + date.toTimeString().substring(0, 8)
+                    }
+
+                    const recStyle = {
+                        width: 'fit-content',
+                        paddingRight: '26px',
+                        marginRight: 'auto'
+                    }
+
+                    const sendStyle = {
+                        width: 'fit-content',
+                        paddingLeft: '26px',
+                        marginLeft: 'auto'
+                    }
+
+                    return (
+                        <div style={sender ? sendStyle : recStyle}>
+                            <ChatItem {...convertedParams} />
+                        </div>
+                    )
+                })}
+
             </div>
 
-        </FullPage>
+            <div style={{ width: '100%', height: '20px' }} />
+
+            <div>
+                <input id="GCNewMsgInput" placeholder="Write a new message" value={newMessage} onChange={editNewMessage} /> 
+            </div>
+            <div style={{ height: '1px', width: '15px'}} />
+            <Button type="PRIMARY" text="Send" forceWidth="140px" onClick={handleAddMessage} icon={<PaperAirplaneIcon size={16} />} />
+            
+
+        </FullPage >
     )
 }
 

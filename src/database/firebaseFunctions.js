@@ -104,24 +104,27 @@ export async function getWorkerAppliedGigs(workerId) {
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
-  await Promise.all(
-    workerSubSnapshot.docs.map(async (doc) => {
-      //looking at indivisual gigs in AppliedGig subcollection
-      let gig = doc.get('gig');
-      let includedGigDoc = await getDoc(gig);
-      //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-      retArray.push({
-        ...includedGigDoc.data(),
-        id: includedGigDoc.id,
-        status: doc.get('status')
-      });
-      // includedGigDoc.then((x) => {
-      //   console.log("x is: " + JSON.stringify(x.data()))
-      //   retArray.push(x.data())
+  if (!workerSubSnapshot.empty) {
+    await Promise.all(
+      workerSubSnapshot.docs.map(async (doc) => {
+        console.log('doc in workerSubSnapshot: ' + doc)
+        //looking at indivisual gigs in AppliedGig subcollection
+        let gig = doc.get('gig');
+        let includedGigDoc = await getDoc(gig);
+        console.log('IncludedGigDoc: ' + includedGigDoc.data().companyId.id); //this returns a promise.
+        retArray.push({
+          ...includedGigDoc.data(),
+          id: includedGigDoc.id,
+          status: doc.get('status')
+        });
+        // includedGigDoc.then((x) => {
+        //   console.log("x is: " + JSON.stringify(x.data()))
+        //   retArray.push(x.data())
 
-      // })
-    })
-  );
+        // })
+      })
+    )
+  };
 
   return retArray;
 }
@@ -130,6 +133,17 @@ export async function getApplicationData(workerId, gigId) {
   const res = await accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId).get()
 
   return res.data()
+}
+
+export async function setApplicationStatus(workerId, gigId, newStatus) {
+  const applicationRef = accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId)
+  applicationRef.update({
+    status: newStatus
+  }).then(() => {
+    alert("good")
+  }).catch(error => {
+    alert(error)
+  })
 }
 
 export async function getWorkerArchivedGigs(workerId) {
@@ -809,6 +823,40 @@ export async function deleteWorkerProfilePicture(workerId) {
     profilePicture: ''
   }
   updateWorkerDetails(workerDetails);
+}
+
+
+export async function getApplicationsByCompanyId(companyId) {
+  //getWorkerAppliedGigs for all workers --> each is an array of gigs. check gig.id == gig.id in the gig.id of the company's posted gigs
+  //add gig[workerId] = worker.id
+  //add to temp = []
+  //return that
+  let temp = []
+  return accessDB.collection("workers").get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((workerDoc) => {
+        const workerId = workerDoc.id
+
+        console.log('worker id in getApplicationsByComp: ' + workerId);
+        // doc.data() is never undefined for query doc snapshots
+        getWorkerAppliedGigs(workerId).then(
+          gigArr => {
+            console.log("gigARr for worker: " + workerId + " " + gigArr.length)
+            gigArr.forEach(el => {
+              if (el.companyId.id == companyId) {
+                console.log('same company!')
+                el['workerId'] = workerId
+                temp.push(el)
+              }
+            })
+          }
+        )
+
+      });
+    }).then(() => { return temp })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 }
 
 /*

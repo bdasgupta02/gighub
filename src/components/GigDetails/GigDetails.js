@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -11,7 +11,7 @@ import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
 import LogoBox from "../LogoBox/index"
-import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs, getWorker, getApplicationData } from "../../database/firebaseFunctions";
+import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs, getWorker, getApplicationData, setApplicationStatus } from "../../database/firebaseFunctions";
 
 
 import Dialog from "@material-ui/core/Dialog";
@@ -33,6 +33,8 @@ const GigDetails = (props) => {
   const { currentUser, currentUserId, isWorker } = useAuth()
 
   const location = useLocation().state
+  const history = useHistory()
+
   const { gigId, focusWorkerId, reviewable, extraReviewDataGigRef } = location
   let mode = ''
 
@@ -190,15 +192,15 @@ const GigDetails = (props) => {
               <Col></Col>
             </Row>
             <Row className="GDHeaderTags">
-              <div>
+              <div className="GDHighlights">
                 {details.isFlexible ? (<Highlight type="FLEXIBLE" />) : (<span></span>)}
               </div>
-              <div>
+              <div className="GDHighlights">
                 {details.isVariable ? (<Highlight type="VARIABLE" />) : (<span></span>)}
               </div>
               {details.requirements.map((tag) => {
                 return (
-                  <div>
+                  <div className="GDHighlights">
                     <Highlight type={tag} />
                   </div>
                 )
@@ -207,7 +209,7 @@ const GigDetails = (props) => {
             <Row className="spacingRow">
               <Col></Col>
             </Row>
-            <Row>
+            <Row className="GDApplicant" onClick={() => history.push("/view_profile", { userId: details.companyId, userType: 'company' })}>
               <Col sm={2}>
                 <div className="GDHeaderLogo" >
                   <LogoBox src={details.companyLogo} name={details.companyName} />
@@ -326,7 +328,12 @@ const GigDetails = (props) => {
 
                   {/* Worker POV */}
                   {isWorker ? (<span>
-                    {hasApplied ? (<Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
+                    {hasApplied ? (
+                      <div>
+                        <Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />
+                        <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: props.id, workerId: currentUserId, companyId: details.companyId })} />
+                      </div>
+                    ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
 
                   {reviewable != null && reviewable ? <div>
@@ -341,18 +348,65 @@ const GigDetails = (props) => {
 
                   {!isWorker && mode == 'companyPovFocusWorker' && details.companyId == currentUserId ? (
                     <div>
-                      <div>
-                        <Button text="Chat" forceWidth="90px" type="PRIMARY" />
-                      </div>
-                      <div>
-                        <Button text="Worker Profile" forceWidth="90px" type="PRIMARY" />
-                      </div>
-                      <div>
-                        <Button text="Change Status" forceWidth="90px" type="PRIMARY" />
-                      </div>
+                      <hr></hr>
+
+                      <Row>
+                        <Col>
+                          <span className="GDSectionTitle">Application Status: <span className="GDAppStatus">{focusApplicationData.status}</span></span>
+                        </Col>
+                      </Row>
+
+                      <Row className="spacingRow">
+                        <Col></Col>
+                      </Row>
+
+                      <Row className="GDApplicant" onClick={() => history.push("/view_profile", { userId: focusWorkerId, userType: 'worker' })}>
+                        <Col sm={2}>
+                          <div className="GDHeaderLogo" >
+                            <LogoBox src={focusWorkerData.profilePicture} name={focusWorkerData.name} />
+                          </div>
+                        </Col>
+                        <Col sm={10} className="GDHeader">
+                          <span className="GDName1">Applicant Name: </span><br></br>
+                          <span className="GDName2">{focusWorkerData.name}</span>
+                        </Col>
+                      </Row>
+
+                      <Row className="spacingRow">
+                        <Col></Col>
+                      </Row>
+
+                      <Row>
+                        <Col>
+                          <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: props.id, workerId: focusWorkerId, companyId: currentUserId })} />
+                        </Col>
+                      </Row>
+
+                      <Row className="spacingRow">
+                        <Col></Col>
+                      </Row>
+
+                      {focusApplicationData.status == 'Applied' ? (
+                        <Row>
+                          <Col sm={5}>
+                            <Button text="OFFER" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Offered")} />
+                          </Col>
+                          <Col>
+                            <Button text="REJECT" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Rejected")} />
+                          </Col>
+                        </Row>
+                      ) : (<span></span>)}
+
+                      {focusApplicationData.status == 'Assigned' ? (
+                        <Row>
+                          <Col>
+                            <Button text="CLOSE" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Closed")} />
+                          </Col>
+                        </Row>
+                      ) : (<span></span>)}
+
                     </div>
                   ) : (<span></span>)}
-
                 </div>
 
                 <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
