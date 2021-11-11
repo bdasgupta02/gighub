@@ -392,41 +392,30 @@ export async function createSkill(skillDetails) {
  * May want to limit file size as well.
  * uuidv4() used to ensure that there is no duplicate reference name
  * @param {File} picture a File, preferably of an image type. No error will be thrown even if the file is not an image type.
- * @returns {String} the download link (in HTTPS:// format) to be stored as a String in firestore
+ * @returns {Promise<String>} the download link (in HTTPS:// format) to be stored as a String in firestore
  */
 export async function createProfilePicture(picture) {
   let picName = picture.name + uuidv4();
   const storageRef = ref(storage, 'profile_pics/' + picName);
 
-  let url = await uploadBytes(storageRef, picture).then(() => {
-    return getDownloadURL(storageRef).then((result) => {
-      return result;
-    }).catch((error) => {
-      console.log(' Either file failed to upload or downloadURL failed: ' + error);
-      return '';
-    });
-  });
-  return url;
+  let upload = await uploadBytes(storageRef, picture);
+  let dlURL = getDownloadURL(upload.ref);
+
+  return dlURL;
 }
 
 /**
  * While not enforced in db function, should enforce the uploaded file is actually a document type.
  * @param {File} resume a File, preferably of pdf type. No error will be thrown even if the file is not a pdf.
- * @returns {string} the download link (in HTTPS:// format) to be stored as a String in firestore
+ * @returns {Promise<String>} the download link (in HTTPS:// format) to be stored as a String in firestore
  */
 export async function createResume(resume) {
   let resumeName = resume.name + uuidv4();
   const storageRef = ref(storage, 'resumes/' + resumeName);
 
-  let url = await uploadBytes(storageRef, resume).then(() => {
-    return getDownloadURL(storageRef).then((result) => {
-      return result;
-    }).catch((error) => {
-      console.log(' Either file failed to upload or downloadURL failed: ' + error);
-      return '';
-    });
-  });
-  return url;
+  let upload = await uploadBytes(storageRef, resume);
+  let dlURL = getDownloadURL(upload.ref);
+  return dlURL;
 }
 
 /*

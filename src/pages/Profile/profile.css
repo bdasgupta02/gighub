@@ -77,3 +77,23 @@
     font-size: 14px;
     color: #545454;
 }
+
+.ProfileModalStyle{
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+.EditProfileModal {
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E8F0F2;
+}
+
+.ProfileGap {
+    width: 5px
+}

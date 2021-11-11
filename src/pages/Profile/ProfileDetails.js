@@ -2,15 +2,18 @@ import ProfileSkill from './ProfileSkill';
 import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
 import ReactModal from 'react-modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FileUploader from '../../components/FileUploader';
 import { FileType } from '../../enum/FileType';
 import {
   createResume,
   updateWorkerDetails,
 } from '../../database/firebaseFunctions';
+import { XCircleIcon } from '@primer/octicons-react';
 
 import './profile.css';
+
+const modalStyle = {};
 
 /**
  * NOTE: No link safety for resume, will redirect to a firebase 404 if valid firestore link but invalid details
@@ -20,28 +23,54 @@ import './profile.css';
  * @returns
  */
 export function ProfileDetails(props) {
+  let hasResumeTemp = props.resumeLink !== '';
+  const [hasResume, setHasResume] = useState(hasResumeTemp);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [newResumeFile, setNewResumeFile] = useState(null);
-  const modalStyle = {};
-  let hasResume = props.resumeLink !== '';
-  hasResume = false;
+  useEffect(() => {
+    let userId = props.userId;
+    if (newResumeFile !== null) {
+      createResume(newResumeFile).then((url) => {
+        let updateDetails = {
+          id: userId,
+          resume: url,
+        };
+        updateWorkerDetails(updateDetails);
+        setHasResume(true);
+      });
+    }
+  }, [newResumeFile]);
 
   function openModal() {
     setIsOpen(true);
   }
 
   function closeModal() {
-    let userId = props.userId;
     setIsOpen(false);
-    if (newResumeFile !== null) {
-      let resumeUrl = createResume(newResumeFile);
-      let updateDetails = {
-        id: { userId },
-        resume: { resumeUrl },
-      };
-      updateWorkerDetails(updateDetails);
-      //setNewResumeFile(null);
+  }
+
+  function removeResume() {
+    let userId = props.userId;
+    let updateDetails = {
+      id: userId,
+      resume: ''
     }
+    updateWorkerDetails(updateDetails);
+    setHasResume(false);
+  }
+  let line1 = props.location.addressLine1 ?? '';
+  let line2 = props.location.hasOwnProperty('addressLine2')
+    ? ', ' + props.location.addressLine2
+    : '';
+  let city = props.location.hasOwnProperty('city')
+    ? ', ' + props.location.city
+    : '';
+  let postal = props.location.hasOwnProperty('postal')
+    ? ' ' + props.location.postal
+    : '';
+  let constructedLocation = line1 + line2 + city + postal;
+  if (constructedLocation == '') {
+    constructedLocation = 'No Location Set';
   }
 
   return (
@@ -52,59 +81,67 @@ export function ProfileDetails(props) {
           <Row className="ProfilePageItemHeader">Name</Row>
           <Row>{props.userName}</Row>
         </Col>
-        <Col>
-          <Row className="ProfilePageItemHeader">Resume</Row>
-          <Row>
-            {hasResume ? (
-              <a
-                href={props.resumeLink}
-                style={{
-                  cursor: 'pointer',
-                  color: '#545454',
-                  fontFamily: 'Roboto',
-                  fontSize: '14px',
-                  textDecorationLine: 'underline',
-                }}
-              >
-                Download resume
-              </a>
-            ) : (
-              // (<button className="ProfilePageResume" onClick={addResume}>Add resume</button>)
-              <a
-                href={null}
-                onClick={openModal}
-                style={{
-                  cursor: 'pointer',
-                  color: '#545454',
-                  fontFamily: 'Roboto',
-                  fontSize: '14px',
-                  textDecorationLine: 'underline',
-                }}
-              >
-                Add resume
-              </a>
-            )}
-          </Row>
-          <ReactModal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={modalStyle}
-            contentLabel="Add resume"
-          >
-            <FileUploader
-              setFileOutput={setNewResumeFile}
-              fileTypeEnum={FileType.DOCUMENTS}
-            />
-          </ReactModal>
-        </Col>
+        {props.isWorker ? (
+          <Col>
+            <Row className="ProfilePageItemHeader">Resume</Row>
+            <Row>
+              {hasResume ? (
+                <div>
+                  <a
+                    href={props.resumeLink}
+                    style={{
+                      cursor: 'pointer',
+                      color: '#545454',
+                      fontFamily: 'Roboto',
+                      fontSize: '14px',
+                      textDecorationLine: 'underline',
+                    }}
+                  >
+                    Download resume
+                  </a>
+                  <a onClick={removeResume} style={{cursor:'pointer'}}> <XCircleIcon size={16}/></a>
+                </div>
+              ) : (
+                // (<button className="ProfilePageResume" onClick={addResume}>Add resume</button>)
+                <a
+                  href={null}
+                  onClick={openModal}
+                  style={{
+                    cursor: 'pointer',
+                    color: '#545454',
+                    fontFamily: 'Roboto',
+                    fontSize: '14px',
+                    textDecorationLine: 'underline',
+                  }}
+                >
+                  Add resume
+                </a>
+              )}
+            </Row>
+            <ReactModal
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              className="ProfileModalStyle"
+              contentLabel="Add resume"
+            >
+              <FileUploader
+                setFileOutput={setNewResumeFile}
+                fileTypeEnum={FileType.DOCUMENTS}
+                closer={closeModal}
+              />
+            </ReactModal>
+          </Col>
+        ) : (
+          <div />
+        )}
       </Row>
       <Row className="ProfilePageItemSpacer" />
-      <Row>
-        <Col>
-          <Row className="ProfilePageItemHeader">Age</Row>
-          <Row>{props.usersAge}</Row>
-        </Col>
-        {props.isWorker ? (
+      {props.isWorker ? (
+        <Row>
+          <Col>
+            <Row className="ProfilePageItemHeader">Age</Row>
+            <Row>{props.usersAge}</Row>
+          </Col>
           <Col>
             <Row className="ProfilePageItemHeader">Skills</Row>
             <Row md={5} sm={2}>
@@ -113,24 +150,24 @@ export function ProfileDetails(props) {
               ))}
             </Row>
           </Col>
-        ) : (
-          <div />
-        )}
-      </Row>
-
-      <Row className="ProfilePageItemSpacer" />
-      <Row>
-        {props.isWorker ? (
+        </Row>
+      ) : (
+        <div />
+      )}
+      {props.isWorker ? <Row className="ProfilePageItemSpacer" /> : <div />}
+      {props.isWorker ? (
+        <Row>
           <Col>
             <Row className="ProfilePageItemHeader">Gender</Row>
             <Row>{props.usersGender}</Row>
           </Col>
-        ) : (
-          <div />
-        )}
-      </Row>
+        </Row>
+      ) : (
+        <Col>
+          <Row className="ProfilePageItemHeader">Location</Row>
+          <Row> {constructedLocation}</Row>
+        </Col>
+      )}
     </Container>
   );
 }
-
-function addResume() {}
