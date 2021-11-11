@@ -5,6 +5,7 @@ import logo from '../../assets/google.svg';
 import './dashListingTile.css';
 import { getCompany } from '../../database/firebaseFunctions';
 import LogoBox from '../LogoBox';
+import { useHistory } from 'react-router';
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
@@ -19,6 +20,8 @@ const DashListingTile = (props) => {
   const [isHovering, setIsHovering] = useState(false);
   const [companyData, setCompanyData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const history = useHistory();
 
   let collectedData = [];
   useEffect(() => {
@@ -87,6 +90,7 @@ const DashListingTile = (props) => {
         : jobDeadline;
     const AnimatedContainer = animated(Container);
     return (
+      <div onClick={() => history.push("/view_gig", { gigId: props.gigId })}>
       <AnimatedContainer
         className="DLTTileText"
         id="DLTDashTileBackground"
@@ -116,6 +120,7 @@ const DashListingTile = (props) => {
           </Row>
         </Col>
       </AnimatedContainer>
+      </div>
     );
   }
 };
