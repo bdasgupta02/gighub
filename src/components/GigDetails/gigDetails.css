@@ -23,6 +23,17 @@
   overflow-x: hidden;
 }
 
+.GDComment {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 18px;
+  color: #545454;
+  
+  max-width: 50vw;
+  overflow-x: hidden;
+}
+
 .GDHeaderTitle {
   font-family: Roboto;
   font-style: normal;

@@ -417,6 +417,17 @@ const GigDetails = (props) => {
 
                         <Row>
                           <div className="GDButtons">
+                            Optional comments:<br></br>
+                            <span className="GDComment">{focusApplicationData.optionalComments == "" ? ("N/A") : (focusApplicationData.optionalComments)}</span>
+                          </div>
+                        </Row>
+
+                        <Row className="spacingRow">
+                          <Col></Col>
+                        </Row>
+
+                        <Row>
+                          <div className="GDButtons">
                             <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: focusWorkerId, companyId: currentUserId })} />
                           </div>
                         </Row>
