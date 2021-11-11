@@ -17,9 +17,11 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db, { storage } from './firebase';
+import db, { accessDB, storage } from './firebase';
 import * as constants from '../constants';
 import { load } from 'dotenv';
+import states from '../enum/GigStates'
+
 
 /*
 RETRIEVE
@@ -124,10 +126,7 @@ export async function getWorkerAppliedGigs(workerId) {
 }
 
 export async function getWorkerArchivedGigs(workerId) {
-  const workerSubCol = collection(
-    db,
-    constants.WORKERS + '/' + workerId + '/' + constants.ARCHIVED_GIGS
-  );
+  const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.CLOSED)
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
@@ -141,6 +140,7 @@ export async function getWorkerArchivedGigs(workerId) {
       retArray.push({
         ...includedGigData.data(),
         gigRef: gig,
+        pendingReview: doc.get('pendingReview'),
         id: includedGigData.id
       });
       // includedGigDoc.then((x) => {
@@ -154,10 +154,11 @@ export async function getWorkerArchivedGigs(workerId) {
 }
 
 export async function getWorkerBookedGigs(workerId) {
-  const workerSubCol = collection(
-    db,
-    constants.WORKERS + '/' + workerId + '/' + constants.BOOKED_GIGS
-  );
+  // const workerSubCol = collection(
+  //   db,
+  //   constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS, where("status", "==", states.ASSIGNED)
+  // );
+  const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.ASSIGNED)
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
@@ -561,6 +562,10 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw 'Document does not exist!';
     }
     const reviewRef = collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS);
+
+    console.log("in creatingreview: reviewerId: " + reviewDetails.reviewerId + ' gigId: ' + reviewDetails.gig.id)
+    const workerGigDoc = accessDB.collection(constants.WORKERS + '/' + reviewDetails.reviewerId + '/' + constants.APPLIED_GIGS).doc(reviewDetails.gig.id)
+    console.log("workerGigDoc: " + JSON.stringify(workerGigDoc))
     let companyData = companyDoc.data();
     let oldNumReviews = companyData.numReviews;
     let oldAvg = companyData.avgReview;
@@ -577,6 +582,7 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw new Error('Error in recorded review scores stored in database!');
     }
 
+    await workerGigDoc.update({ pendingReview: false })
     await updateDoc(companyDocRef, { avgReview: newAvgReviews, numReviews: increment(1) });
     await addDoc(reviewRef, reviewDetails);
     //console.log('Transaction successfully committed!');

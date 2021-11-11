@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import logo from '../../assets/GighubLogo.js';
-import './ongoingGigTile.css'
+import './applicationsTile.css'
 import Button from '../../components/Button'
 import * as Constants from '../../constants'
 import Dialog from "@material-ui/core/Dialog";
@@ -15,10 +15,10 @@ import {
   AlertIcon
 } from '@primer/octicons-react';
 
-import './ongoingGigTile.css'
+import './applicationsTile.css'
 import { useHistory } from 'react-router';
 
-const OngoingGigTile = (props) => {
+const ApplicationsTile = (props) => {
   const [isHovering, setIsHovering] = useState(false)
   const [open, setOpen] = React.useState(false);
   const handleClickToOpen = () => {
@@ -119,14 +119,14 @@ const OngoingGigTile = (props) => {
           </div>
           </Row>
           <Row justify="between">
-            <Col xs={7} >
+            <Col xs={7} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
               <div id="JobDesc2">
                 {jobDesc}
               </div>
               <div style={{ height: '40%' }}></div>
               <a href={link}> View contract </a>
             </Col>
-            <Col xs={4} >
+            <Col xs={4} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
               <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
               <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
               <div style={{ height: '20px' }}></div>
@@ -163,4 +163,4 @@ const OngoingGigTile = (props) => {
   )
 }
 
-export default OngoingGigTile
+export default ApplicationsTile

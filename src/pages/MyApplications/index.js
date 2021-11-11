@@ -1,11 +1,3 @@
-import React from 'react'
+import MyApplications from './MyApplications'
 
-function MyApplications() {
-    return (
-        <div>
-            
-        </div>
-    )
-}
-
-export default MyApplications
+export default MyApplications;
