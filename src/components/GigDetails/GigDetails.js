@@ -10,7 +10,16 @@ import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
-import { getActiveGig, getCompany, applyToGig } from "../../database/firebaseFunctions";
+import LogoBox from "../LogoBox/index"
+import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs } from "../../database/firebaseFunctions";
+
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import CreateReviewTile from '../CreateReviewTile/CreateReviewTile';
 
 import ReactModal from "react-modal"
 
@@ -24,10 +33,13 @@ const GigDetails = (props) => {
   const { currentUser, currentUserId, isWorker } = useAuth()
 
   const location = useLocation().state
-  const { gigId } = location
+  const { gigId, reviewable, extraReviewDataGigRef } = location
 
+  const [hasApplied, setHasApplied] = useState(false)
+  const [appliedGigs, setAppliedGigs] = useState([])
   const [applyDetails, setApplyDetails] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isOpenReview, setIsOpenReview] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
     title: '',
@@ -37,7 +49,6 @@ const GigDetails = (props) => {
     isVariable: false,
     pay: 0,
     unit: '',
-    tags: [],
     completeBy: null,
     startDate: null,
     endDate: null,
@@ -45,11 +56,11 @@ const GigDetails = (props) => {
     companyLogo: '',
     companyName: '',
     capacity: '',
-    taken: ''
+    taken: '',
+    companyId: ''
   })
 
   // DB
-  // TODO: retrieval key, how to deal with tags
   const fetch = async () => {
     setLoading(true)
     let newDetails = {
@@ -68,13 +79,13 @@ const GigDetails = (props) => {
       isVariable: gigData.isVariable,
       pay: gigData.pay,
       unit: gigData.pay,
-      tags: gigData.tags,
       completeBy: gigData.completeBy,
       startDate: gigData.startDate,
       endDate: gigData.endDate,
       dateAdded: gigData.dateAdded,
       taken: gigData.taken,
-      capacity: gigData.capacity
+      capacity: gigData.capacity,
+      companyId: gigData.companyId.id
     }
 
     const companies = await getCompany(gigData.companyId.id)
@@ -91,8 +102,20 @@ const GigDetails = (props) => {
     setLoading(false)
   }
 
+  const fetchApplicationStatus = async () => {
+    const allAppliedGigs = await getWorkerAppliedGigs(currentUserId)
+
+    allAppliedGigs.forEach((currGig) => {
+      if (currGig.id == gigId) {
+        setHasApplied(true)
+        return
+      }
+    })
+  }
+
   useEffect(() => {
     fetch()
+    fetchApplicationStatus()
   }, [])
 
   const handleApplyDetails = (e) => {
@@ -137,8 +160,7 @@ const GigDetails = (props) => {
             <Row>
               <Col sm={2}>
                 <div className="GDHeaderLogo" >
-                  {/*TODO: Dynamic rendering of logo*/}
-                  <img className="GDCompanyLogo" src={details.companyLogo} />
+                  <LogoBox src={details.companyLogo} name={details.companyName} />
                 </div>
               </Col>
               <Col sm={10} className="GDHeader">
@@ -251,7 +273,26 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <div className="extraVerticalPadding">
-                  {isWorker ? (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />) : (<span></span>)}
+                  {isWorker ? (<span>
+                    {hasApplied ? (<Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
+                  </span>) : (<span></span>)}
+
+                  {reviewable != null && reviewable ? <div>
+                    <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
+                  <Dialog open={isOpenReview} onClose={() => { setIsOpenReview(false) }}>
+                    <DialogContent>
+                      <DialogContentText>
+
+                        <CreateReviewTile gigRef={extraReviewDataGigRef} companyId={details.companyId} />
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => { setIsOpenReview(false) }}
+                        color="primary" autoFocus text="Close"
+                      />
+                    </DialogActions>
+                  </Dialog>
+
                 </div>
                 <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
                   <Row align="center" justify="center" className="GDModalBase">
