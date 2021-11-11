@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 
@@ -12,9 +12,24 @@ import NotificationTile from './NotificationTile';
 // TODO: need to check if phone taps behave the same with hover
 
 const NotificationList = (props) => {
+    //props 
+    // reviewList ==> filter those that are 'wasViewed == false'
+    const [reviewList, setReviewList] = useState()
+
+    useEffect(() => {
+        if (reviewList == null) {
+            let temp = props.reviewList.filter(el => !el.wasViewed)
+            setReviewList(temp)
+        }
+    }, [props.reviewList])
+
 
     return (
-        <NotificationTile />
+        <div style={{ height: '5px' }}>
+            { reviewList != null && reviewList.map(review =>
+                <NotificationTile review={review} />)
+            }
+        </div>
     )
 
 }

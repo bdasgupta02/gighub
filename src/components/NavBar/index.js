@@ -77,6 +77,7 @@ const NavBar = (props) => {
     ), where('wasViewed', '==', false));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       console.log('in snapshot: ' + querySnapshot)
+      temp = []
       querySnapshot.forEach((doc) => {
         console.log('data')
         temp.push(doc.data())
@@ -133,7 +134,7 @@ const NavBar = (props) => {
         >
           <DialogContent>
             <DialogContentText>
-              <NotificationList />
+              <NotificationList reviewList={reviews} />
             </DialogContentText>
           </DialogContent>
 

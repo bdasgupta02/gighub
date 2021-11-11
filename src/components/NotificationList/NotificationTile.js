@@ -6,6 +6,7 @@ import LogoBox from '../LogoBox';
 import { useHistory } from 'react-router';
 import LogoGenerator from '../LogoGenerator';
 import './notificationList.css'
+import { formatTimestamp } from "../../auxiliary/Auxiliary"
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
@@ -17,6 +18,8 @@ const NotificationTile = (props) => {
     const isGigUpdate = props.isGigUpdate
     const isNewBooked = props.isNewBooked
     const [company, setCompany] = useState()
+
+    let review = props.review;
 
 
     // placeholders for now:
@@ -47,6 +50,7 @@ const NotificationTile = (props) => {
 
     const tileBackgroundAnimated = useSpring({
         backgroundColor: isHovering ? "#DBD8D8" : "#FFFFFFA6",
+        height: '100px',
         config: config.default
     })
 
@@ -55,9 +59,9 @@ const NotificationTile = (props) => {
     return (
         <div onClick={() => { history.push("/my_profile") }}>
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-
                 <Col id="GLMainColumn">
-                    <span> hi </span>
+                    <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs! </span>
+                    <span> {review != null && formatTimestamp(review.date)} </span>
                 </Col>
 
             </AnimatedContainer>
