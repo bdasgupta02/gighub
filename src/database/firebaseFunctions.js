@@ -142,7 +142,7 @@ export async function setApplicationStatus(workerId, gigId, newStatus) {
   applicationRef.update({
     status: newStatus
   }).then(() => {
-    alert("good")
+    
   }).catch(error => {
     alert(error)
   })

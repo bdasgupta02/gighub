@@ -19,42 +19,28 @@ function MyApplications() {
         //add to temp = []
         //return that
         let temp = []
-        return accessDB.collection("workers").get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((workerDoc) => {
-                    const workerId = workerDoc.id
-                    const name = workerDoc.data().name
 
-                    console.log('worker id in getApplicationsByComp: ' + workerId);
-                    // doc.data() is never undefined for query doc snapshots
-                    getWorkerAppliedGigs(workerId).then(
-                        gigArr => {
-                            console.log("gigARr for worker: " + workerId + " " + gigArr.length)
-                            gigArr.forEach(el => {
-                                if (el.companyId.id == companyId) {
-                                    console.log('same company! ' + JSON.stringify(el))
-                                    el['workerId'] = workerId
-                                    el['workerName'] = name
-                                    getCompanyByRef(el.companyId).then(
-                                        compData => {
-                                            el['companyData'] = compData;
-                                            console.log('new el in applied gigs: ' + JSON.stringify(el))
-                                            if ([states.APPLIED, states.REJECTED, states.OFFERED, states.OFFER_REJECTED].includes(el.status)) {
-                                                temp.push(el)
-                                                setGigs(temp)
-                                            }
-                                        })
+        const workersRef = await accessDB.collection("workers").get()
 
-                                }
-                            })
-                        }
-                    )
+        workersRef.forEach(async (worker) => {
+          const workerId = worker.id
+          const name = worker.data().name
 
-                });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
+          const gigArr = await getWorkerAppliedGigs(workerId)
+          gigArr.forEach(async (gig) => {
+            if (gig.companyId.id === companyId) {
+              gig['workerId'] = workerId
+              gig['workerName'] = name
+
+              const innerCompany = await getCompanyByRef(gig.companyId)
+              gig['companyData'] = innerCompany
+
+                temp.push(gig)
+            }
+          })
+        })
+
+        setGigs(temp)
     }
 
 
@@ -67,7 +53,7 @@ function MyApplications() {
                     el => getCompanyByRef(el.companyId).then(
                         compData => {
                             el['companyData'] = compData;
-                            console.log('new el in applied gigs: ' + JSON.stringify(el))
+                            
                             if ([states.APPLIED, states.REJECTED, states.OFFERED, states.OFFER_REJECTED].includes(el.status)) {
                                 tempBooked.push(el)
                                 setGigs(tempBooked)
