@@ -140,6 +140,7 @@ export async function getWorkerArchivedGigs(workerId) {
       retArray.push({
         ...includedGigData.data(),
         gigRef: gig,
+        pendingReview: doc.get('pendingReview'),
         id: includedGigData.id
       });
       // includedGigDoc.then((x) => {
