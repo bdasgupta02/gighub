@@ -117,11 +117,11 @@ const WorkerOne = (props) => {
             </Row>
             <div className="SpacerBig" />
             <Row>
-                <Button text="Continue" type="PRIMARY" forceWidth="120px" onClick={handleContinue} />
+                <Button text="Continue" type="PRIMARY" forceWidth="180px" onClick={handleContinue} />
             </Row>
             <div className="Spacer" />
             <Row>
-                <Button text="Cancel" type="SECONDARY" forceWidth="120px" onClick={onCancel} />
+                <Button text="Cancel" type="SECONDARY" forceWidth="180px" onClick={onCancel} />
             </Row>
             <div className="Spacer" />
             {error !== '' ? (
@@ -189,11 +189,11 @@ const WorkerTwo = (props) => {
             </div>
             <div className="SpacerBig" />
             <Row>
-                <Button text="Create account" type="PRIMARY" forceWidth="120px" onClick={handleSignUp} />
+                <Button text="Create account" type="PRIMARY" forceWidth="180px" onClick={handleSignUp} />
             </Row>
             <div className="Spacer" />
             <Row>
-                <Button text="Cancel" type="SECONDARY" forceWidth="120px" onClick={onCancel} />
+                <Button text="Cancel" type="SECONDARY" forceWidth="180px" onClick={onCancel} />
             </Row>
             <div className="Spacer" />
             {error !== '' ? (
@@ -285,11 +285,11 @@ const CompanyOne = (props) => {
             </Row>
             <div className="SpacerBig" />
             <Row>
-                <Button text="Create account" type="PRIMARY" forceWidth="120px" onClick={handleSignUp} />
+                <Button text="Create account" type="PRIMARY" forceWidth="180px" onClick={handleSignUp} />
             </Row>
             <div className="Spacer" />
             <Row>
-                <Button text="Cancel" type="SECONDARY" forceWidth="120px" onClick={onCancel} />
+                <Button text="Cancel" type="SECONDARY" forceWidth="180px" onClick={onCancel} />
             </Row>
             <div className="SpacerChin" />
         </Container>
@@ -415,7 +415,7 @@ const StartingScreen = (props) => {
             </Row>
             <div className="SpacerBig" />
             <Row>
-                <Button text="Continue" type="PRIMARY" forceWidth="120px" onClick={handleContinue} />
+                <Button text="Continue" type="PRIMARY" forceWidth="180px" onClick={handleContinue} />
             </Row>
             <div className="Spacer" />
             {error !== '' ? (
