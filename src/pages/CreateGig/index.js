@@ -4,7 +4,7 @@ import { Switch } from '@mui/material'
 import Button from '../../components/Button'
 import DatePicker from 'react-date-picker'
 import { Row, Col } from 'react-grid-system'
-import Keyword from '../../components/Keyword'
+import Keyword from '../../components/DivKeyword'
 import VariableUnit from '../../enum/VariableUnit'
 import { FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material'
 import { accessDB } from '../../database/firebase'
@@ -234,9 +234,9 @@ function CreateGig() {
                     <Button type="PRIMARY" text="Add skill" forceWidth="100px" onClick={handleAddKeyword} />
                 </div>
                 <div style={{ width: '100%', height: '20px' }} />
-                <div>
+                <div style={{ width: '80%' }}>
                     {gigDetails.requirements.map(e => (
-                        <div style={{ width: 'fit-content' }}>
+                        <div style={{ width: 'fit-content', display: 'inline-block', marginRight: '8px', marginTop: '8px' }}>
                             <Keyword keyword={e} onClose={handleRemoveKeyword} />
                         </div>
                     ))}
