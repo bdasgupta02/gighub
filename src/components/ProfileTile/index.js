@@ -22,8 +22,9 @@ function ProfileTile(props) {
     const logo = typeof user.profilePicture === 'undefined' || user.profilePicture === "" ? <LogoGenerator name={user.name} /> : <img style={{ width: '70%', height: '70%' }} src={user.profilePicture} />
 
     // ops
+    console.log(user)
     const handleClick = () => {
-        history.push("/view_profile", { user: user, isWorker: isWorker })
+        history.push("/view_profile", { userId: user.id, userType: 'worker' })
     }
 
     const AnimatedContainer = animated(Container)

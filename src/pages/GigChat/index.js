@@ -22,9 +22,6 @@ import './gigChat.css'
  * - if the current user is worker, the other must be company (will be searched from company) and vice versa
  * 
  * TODO:
- * - move all functions to firebase
- * - add constants for chat and messages collections
- * - if isWorker then use currentuserId
  * - on click on the name and logo should go to profile (view profile)
  * - cross testing (after all of the above are done)
  */
@@ -65,14 +62,14 @@ function GigChat(props) {
 
         // get data
         const workerRef = await accessDB.collection(constants.WORKERS).doc(workerId).get()
-        const workerData = workerRef.data()
+        const workerData = { ...workerRef.data(), id: workerRef.id }
 
         const companyRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).get()
         const companyRefInner = await companyRef.data().companyId.get()
-        const companyData = companyRefInner.data()
-        console.log(companyData)
+        const companyData = { ...companyRefInner.data(), id: companyRef.data().companyId.id } 
+        console.log(companyRef.data().companyId.id)
 
-        const messagesRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection('chat').doc(workerId).collection('messages').get()
+        const messagesRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection(constants.CHAT).doc(workerId).collection(constants.MESSAGES).get()
         const messagesData = typeof messagesRef === 'undefined' || messagesRef.size === 0 ? [] : messagesRef.docs.map(e => e.data())
 
         messagesData.sort((a, b) => b.timestamp.seconds < a.timestamp.seconds ? 1 : -1)
@@ -85,7 +82,7 @@ function GigChat(props) {
         if (newMessage === '') {
             alert('Error: New message cannot be empty!')
         } else {
-            await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection('chat').doc(workerId).collection('messages').add({
+            await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).collection('chat').doc(workerId).collection(constants.MESSAGES).add({
                 creatorId: currentUserId,
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 content: newMessage
