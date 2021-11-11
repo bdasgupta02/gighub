@@ -94,7 +94,9 @@ const GigDetails = (props) => {
   }
 
   const fetchApplicationData = async (inputWorkerId) => {
+    console.log("Hello " + inputWorkerId)
     const focusApplicationData = await getApplicationData(inputWorkerId, gigId)
+    console.log("Hello " + focusApplicationData)
 
     setFocusApplicationData({
       dateApplied: formatTimestamp(focusApplicationData.dateApplied),
@@ -153,6 +155,7 @@ const GigDetails = (props) => {
     allAppliedGigs.forEach((currGig) => {
       if (currGig.id == gigId) {
         setHasApplied(true)
+        
         return
       }
     })
@@ -162,7 +165,6 @@ const GigDetails = (props) => {
     fetch()
     if (mode == 'workerPov') {
       fetchApplicationStatus()
-      fetchApplicationData(currentUserId)
     }
 
     if (mode == 'companyPovFocusWorker') {
@@ -379,7 +381,7 @@ const GigDetails = (props) => {
 
                       <Row>
                         <Col>
-                          <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: props.id, workerId: focusWorkerId, companyId: currentUserId })} />
+                          <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: focusWorkerId, companyId: currentUserId })} />
                         </Col>
                       </Row>
 
