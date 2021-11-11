@@ -135,6 +135,17 @@ export async function getApplicationData(workerId, gigId) {
   return res.data()
 }
 
+export async function setApplicationStatus(workerId, gigId, newStatus) {
+  const applicationRef = accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId)
+  applicationRef.update({
+    status: newStatus
+  }).then(() => {
+    alert("good")
+  }).catch(error => {
+    alert(error)
+  })
+}
+
 export async function getWorkerArchivedGigs(workerId) {
   const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.CLOSED)
   const workerSubSnapshot = await getDocs(workerSubCol);
