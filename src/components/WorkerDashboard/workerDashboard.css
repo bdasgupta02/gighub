@@ -69,6 +69,11 @@
   margin-top: -70px;
 }
 
+.WDHighlightsTile {
+  margin-right: 20px;
+  width: fit-content;
+}
+
 #WDSectionBG {
   height: 292px;
   padding: 0px;

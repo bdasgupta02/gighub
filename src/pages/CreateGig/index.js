@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import FullPage from '../FullPage'
 import { Switch } from '@mui/material'
+import Button from '../../components/Button'
+import DatePicker from 'react-date-picker'
+import { Row } from 'react-grid-system'
 import './createGig.css'
 
 function CreateGig() {
@@ -16,13 +19,25 @@ function CreateGig() {
         completeBy: null,
         startDate: null,
         endDate: null,
-        dateAdded: null
+        dateAdded: new Date()
     })
 
     const handleTextInput = (event, type) => {
         setGigDetails({
             ...gigDetails,
             [type]: event.target.value
+        })
+    }
+
+    const handleDateInput = (date, type) => {
+        /**
+         * Validation:
+         * 
+         */
+
+        setGigDetails({
+            ...gigDetails,
+            [type]: date
         })
     }
 
@@ -98,12 +113,50 @@ function CreateGig() {
                     <input className="CGInputText" placeholder="Unit" type="text" />
                 </div>
 
-                <div>
+                {/** Tags: text box -> keywords **/}
+                <Row>
 
+                </Row>
+
+
+                {/** All the dates **/}
+                {/** StartDate **/}
+                <div className="CGLabel">
+                    Start date
                 </div>
+                <div className="CGSubLabel">
+                    When does a worker begin working on it?
+                </div>
+                <DatePicker value={gigDetails.startDate} onChange={(date) => handleDateInput(date, 'startDate')} />
 
+
+                {/** Complete By **/}
+                <div className="CGLabel">
+                    Complete by
+                </div>
+                <div className="CGSubLabel">
+                    Last date a worker can work on the gig
+                </div>
+                <DatePicker value={gigDetails.completeBy} onChange={(date) => handleDateInput(date, 'completeBy')} />
+
+                {/** End Date (specify listing) **/}
+                <div className="CGLabel">
+                    End date
+                </div>
+                <div className="CGSubLabel">
+                    Last date that this gig will be publicly listed
+                </div>
+                <DatePicker value={gigDetails.endDate} onChange={(date) => handleDateInput(date, 'endDate')} />
+
+
+
+                <div style={{ width: '100%', height: '60px' }} />
                 <div>
-
+                    <Button type="PRIMARY" text="Create gig" forceWidth="150px" />
+                </div>
+                <div style={{ width: '100%', height: '10px' }} />
+                <div>
+                    <Button type="WHITE" text="Cancel" forceWidth="150px" />
                 </div>
 
             </form>

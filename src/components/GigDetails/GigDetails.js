@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
 
 import logo from "../../assets/google.svg"
 import Button from "../Button/index"
 import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
+
+import LoadingIndicator from '../../components/LoadingIndicator'
+import { getActiveGig, getCompany } from "../../database/firebaseFunctions";
 
 import ReactModal from "react-modal"
 
@@ -13,21 +16,59 @@ import "./gigDetails.css"
 import { } from '@primer/octicons-react'
 
 const GigDetails = (props) => {
-  let title = "Event Poster Designer"
+  const gigId = "OWw7TwaqU0J92oXYqdXj"
+
+  const [loading, setLoading] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
-    title: "Event Poster Designer",
-    tags: ["85% MATCH", "FLEXIBLE", "NEW"],
-    listingDate: "20/10/2021",
-    listingLogo: "",
-    listingPoster: "National University of Singapore",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    availableUntil: "20/11/2021",
-    deliverables: "1x Event poster (in .ai format)",
-    payment: "5 cents",
-    completeBy: "15/12/2021",
-    spots: "2"
+    title: "",
+    tags: ["PLS FIX", "PLS FIX", "PLS FIX"],
+    dateAdded: "",
+    companyLogo: "",
+    companyName: "",
+    description: "",
+    endDate: "",
+    deliverables: "XXX",
+    pay: "",
+    completeBy: "",
+    spots: "XXX"
   })
+
+  // DB
+  // TODO: retrieval key, how to deal with tags
+  const fetch = async () => {
+    setLoading(true)
+    let newDetails = {
+      ...details
+    }
+
+    const gigsData = await getActiveGig(gigId)
+    const gigData = gigsData[0]
+
+    console.log("TEST: " + gigData.title)
+    newDetails = {
+      ...newDetails,
+      title: gigData.title,
+      description: gigData.description,
+      pay: gigData.pay
+    }
+
+    const companies = await getCompany(gigData.companyId.id)
+    const company = companies[0]
+
+    newDetails = {
+      ...newDetails,
+      companyName: company.name,
+    }
+
+    setDetails(newDetails)
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   return (
     <div>
@@ -60,8 +101,8 @@ const GigDetails = (props) => {
                 </div>
               </Col>
               <Col sm={10}>
-                <span className="GDHeaderSub1">Listed on {details.listingDate} by</span> <br></br>
-                <span className="GDHeaderSub2">{details.listingPoster}</span>
+                <span className="GDHeaderSub1">Listed on {details.dateAdded} by</span> <br></br>
+                <span className="GDHeaderSub2">{details.companyName}</span>
               </Col>
             </Row>
           </Col>
@@ -105,7 +146,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  {details.availableUntil}
+                  {details.endDate}
                 </span>
               </Col>
             </Row>
@@ -139,7 +180,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  {details.payment}
+                  {details.pay}
                 </span>
               </Col>
             </Row>
