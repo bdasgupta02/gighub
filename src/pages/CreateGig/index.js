@@ -28,13 +28,13 @@ function CreateGig() {
         requirements: [],
         isFlexible: false,
         isVariable: false,
-        pay: 0,
+        pay: null,
         unit: '',
         completeBy: null,
         startDate: null,
         endDate: null,
         dateAdded: new Date(),
-        capacity: 0,
+        capacity: null,
         taken: 0,
         companyId: accessDB.collection(constants.COMPANIES).doc(currentUserId)
     })
@@ -118,7 +118,7 @@ function CreateGig() {
             let id = ''
             await accessDB.collection(constants.ACTIVE_GIGS).add(gigDetails).then(async (res) => {
                 id = res.id
-                await accessDB.collection(constants.COMPANIES).doc(currentUserId).collection(constants.POSTED_GIGS).add({
+                await accessDB.collection(constants.COMPANIES).doc(currentUserId).collection(constants.POSTED_GIGS).doc(id).set({
                     gig: res
                 })
             })

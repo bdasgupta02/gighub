@@ -2,4 +2,10 @@
     font-size: 28px;
     font-weight: bold;
     color: #9E9E9E;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
