@@ -130,7 +130,7 @@ const GigDetails = (props) => {
       isFlexible: gigData.isFlexible,
       isVariable: gigData.isVariable,
       pay: gigData.pay,
-      unit: gigData.pay,
+      unit: gigData.unit,
       completeBy: gigData.completeBy,
       startDate: gigData.startDate,
       endDate: gigData.endDate,
@@ -381,7 +381,7 @@ const GigDetails = (props) => {
                   {/* Company POV */}
                   {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
                     <div className="GDButtons">
-                      <Button text="Edit" forceWidth="90px" type="PRIMARY" />
+                      <Button text="Edit" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/edit_gig", { gigId: gigId })}/>
                     </div>
                   ) : (<span></span>)}
 
