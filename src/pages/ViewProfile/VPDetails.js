@@ -2,7 +2,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import React, { useState } from 'react';
 import ProfileSkill from '../Profile/ProfileSkill';
 
-import '../Profile/profile.css'
+import '../Profile/profile.css';
 
 const modalStyle = {};
 
@@ -84,7 +84,10 @@ export function VPDetails(props) {
             </Row>
           </Col>
         ) : (
-          <div />
+          <Col>
+            <Row className="ProfilePageItemHeader">UEN</Row>
+            <Row> {props.UEN}</Row>
+          </Col>
         )}
       </Row>
       <Row className="ProfilePageItemSpacer" />
@@ -104,7 +107,7 @@ export function VPDetails(props) {
           </Col>
         </Row>
       ) : (
-        <div />
+        <Row></Row>
       )}
       {props.isWorker ? <Row className="ProfilePageItemSpacer" /> : <div />}
 
@@ -112,6 +115,7 @@ export function VPDetails(props) {
         <Row className="ProfilePageItemHeader">Location</Row>
         <Row> {constructedLocation}</Row>
       </Col>
+      <Row className='ProfilePageSectionSpacer'/>
     </Container>
   );
 }
