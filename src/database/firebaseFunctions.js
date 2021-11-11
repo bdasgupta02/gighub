@@ -126,6 +126,12 @@ export async function getWorkerAppliedGigs(workerId) {
   return retArray;
 }
 
+export async function getApplicationData(workerId, gigId) {
+  const res = await accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId).get()
+
+  return res.data()
+}
+
 export async function getWorkerArchivedGigs(workerId) {
   const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.CLOSED)
   const workerSubSnapshot = await getDocs(workerSubCol);

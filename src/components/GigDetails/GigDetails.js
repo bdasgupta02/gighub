@@ -11,7 +11,7 @@ import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
 import LogoBox from "../LogoBox/index"
-import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs,getWorker } from "../../database/firebaseFunctions";
+import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs, getWorker, getApplicationData } from "../../database/firebaseFunctions";
 
 
 import Dialog from "@material-ui/core/Dialog";
@@ -34,7 +34,6 @@ const GigDetails = (props) => {
 
   const location = useLocation().state
   const { gigId, focusWorkerId, reviewable, extraReviewDataGigRef } = location
-
   let mode = ''
 
   if (isWorker) {
@@ -47,8 +46,17 @@ const GigDetails = (props) => {
     }
   }
 
-  const [focusWorkerData, setFocusWorkerData] = useState()
-  const [focusApplicationData, setFocusApplicationData] = useState()
+  const [focusWorkerData, setFocusWorkerData] = useState({
+    name: '',
+    profilePicture: ''
+  })
+  const [focusApplicationData, setFocusApplicationData] = useState({
+    dateApplied: '',
+    optionalComments: '',
+    pendingCompanyReview: '',
+    pendingReview: '',
+    status: ''
+  })
   const [hasApplied, setHasApplied] = useState(false)
   const [appliedGigs, setAppliedGigs] = useState([])
   const [applyDetails, setApplyDetails] = useState('')
@@ -75,10 +83,24 @@ const GigDetails = (props) => {
   })
 
   const fetchFocusWorker = async () => {
-    const focusWorkerData = await getWorker(focusWorkerId)
-    setFocusWorkerData(focusWorkerData[0])
+    const focusWorkersData = await getWorker(focusWorkerId)
+    const focusWorkerData = focusWorkersData[0]
+    setFocusWorkerData({
+      name: focusWorkerData.name,
+      profilePicture: focusWorkerData.profilePicture
+    })
+  }
 
-    // get application data
+  const fetchApplicationData = async () => {
+    const focusApplicationData = await getApplicationData(focusWorkerId, gigId)
+
+    setFocusApplicationData({
+      dateApplied: formatTimestamp(focusApplicationData.dateApplied),
+      optionalComments: focusApplicationData.optionalComments,
+      pendingCompanyReview: focusApplicationData.pendingCompanyReview,
+      pendingReview: focusApplicationData.pendingReview,
+      status: focusApplicationData.status
+    })
   }
 
   // DB
@@ -136,10 +158,13 @@ const GigDetails = (props) => {
 
   useEffect(() => {
     fetch()
-    fetchApplicationStatus()
+    if (mode == 'workerPov') {
+      fetchApplicationStatus()
+    }
 
     if (mode == 'companyPovFocusWorker') {
       fetchFocusWorker()
+      fetchApplicationData()
     }
   }, [])
 
