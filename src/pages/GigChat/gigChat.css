@@ -22,3 +22,55 @@
     font-weight: normal;
     color: #545454;
 }
+
+.CIBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 25px;
+}
+
+.CIOuterBoxCommon {
+    font-size: 15px;
+    width: fit-content;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.CIOuterBoxRec {
+    background-color: white;
+    color: #545454;
+    border-bottom-left-radius: 0px;
+}
+
+.CIOuterBoxSend {
+    background-color: #2FC2CC;
+    font-weight: bold;
+    color: white;
+    border-bottom-right-radius: 0px;
+}
+
+.CIInnerDateString {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.GCMessages {
+    width: 600px; 
+    background-color: #d8e3e6;
+    border-radius: 16px;
+    overflow-y: auto;
+    padding: 16px;
+    max-height: 70vh;
+}
+
+#GCNewMsgInput {
+    border: 0 none;
+    outline: 0 none;
+    height: 35px;
+    border-radius: 8px;
+    background-color: white;
+    width: 445px;
+    font-size: 15px;
+    padding-left: 10px;
+}
