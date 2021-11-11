@@ -7,6 +7,8 @@ import { SearchIcon } from '@primer/octicons-react'
 import { createFilter } from 'react-search-input'
 import { Row, Col } from 'react-grid-system'
 import LoadingIndicator from '../../components/LoadingIndicator'
+import { accessDB } from '../../database/firebase'
+import * as constants from '../../constants'
 import './searchWorkers.css'
 
 function SearchWorkers() {
@@ -16,8 +18,18 @@ function SearchWorkers() {
 
     const getDB = async () => {
         setLoading(true)
-        const workersData = await getWorkers()
-        setWorkers(workersData)
+        let workerCache = []
+        const workerRef = await accessDB.collection(constants.WORKERS).get()
+        for (let i = 0; i < workerRef.docs.length; i++) {
+            let worker = workerRef.docs[i].data()
+            worker = { ...worker, id: workerRef.docs[i].id }
+            console.log(worker)
+            workerCache.push(worker)
+        }
+        console.log(workerRef.docs)
+        
+
+        setWorkers(workerCache)
         setLoading(false)
     }
 

@@ -25,6 +25,8 @@ export const WORKERS = 'workers';
 export const APPLIED_GIGS = 'appliedGigs';
 export const BOOKED_GIGS = 'bookedGigs';
 export const GOALS = 'goals';
+export const CHAT = 'chat';
+export const MESSAGES = 'messages';
 //export const ARCHIVED_GIGS = 'archivedGigs';
 
 export const SKILLS = 'skills';
