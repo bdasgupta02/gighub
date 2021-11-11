@@ -179,12 +179,12 @@ export default function SearchGigs(props) {
                         const convertedParams = {
                             // change this to real values
                             isNew: false,
-
+                            id: e.id,
                             isGoodMatch: e.isGoodMatch,
                             isFlexible: e.isFlexible,
                             jobDesc: e.description,
                             payAmt: "S$ " + e.pay,
-                            jobTitle: e.jobTitle,
+                            title: e.title,
                             payFor: e.unit,
                             companyName: e.company.name,
                             companyCity: e.company.location.city,

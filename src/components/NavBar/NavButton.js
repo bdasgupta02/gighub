@@ -2,6 +2,13 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext.js';
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import { useState } from 'react'
+import Button from '../Button'
 
 export const NavLink = styled(Link)`
 display: flex;
@@ -31,8 +38,10 @@ cursor: pointer;
 
 
 const NavButton = (props) => {
-  const { isSignOut } = props
+  const { isSignOut, isNotif } = props
   const { signout } = useAuth()
+  const [notifOpen, setNotifOpen] = useState(false)
+
 
   const handleSignOut = () => {
     if (typeof isSignOut !== 'undefined' && isSignOut !== null && isSignOut === true) {
@@ -40,14 +49,17 @@ const NavButton = (props) => {
     }
   }
 
+
+
   return (
-    <NavLink exact to={props.to ?? "/"} onClick={handleSignOut}>
+    <NavLink exact to={props.to ?? "/"} onClick={isSignOut ? handleSignOut : isNotif && props.parentFunction}>
       <div style={{ width: '140px', textAlign: 'left', marginLeft: '15px' }}>
         {props.icon}
         <div style={{ display: 'inline', marginLeft: '10px' }}>
           {props.buttonText}
         </div>
       </div>
+
     </NavLink>
   );
 };

@@ -1,0 +1,115 @@
+.GLTileText {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.GLSpacer {
+    margin-top: 0px;
+}
+
+.GLBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#GLTileBackground {
+    height: 100px;
+    width: 280px;
+    border-radius: 12px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#GLMainColumn {
+    display: flex;
+    flex-direction: column;
+  
+}
+
+#GLTileBackground:hover {
+    cursor: pointer;
+}
+
+#GLLogoBox {
+    background-color: '#E8F0F2';
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    margin-left: 16px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+#LogoImg {
+    height: 26px;
+    width: 26px;
+    display: block;
+    margin: 0 auto;
+}
+
+#GLCompanyName {
+    font-size: 20px;
+    font-weight: bold;
+    color: #545454;
+    margin-top: 3px;
+}
+
+#GLCompanyLocation {
+    font-weight: bold;
+    color: #ABABAB;
+}
+
+#GLJobTitle {
+    color: #545454;
+    font-weight: bold;
+}
+
+#GLJobDesc {
+    color: #ABABAB;
+}
+
+#GLPayTextBox {
+    margin-top: auto;
+    margin-bottom: 16px;
+}
+
+.GLPayText {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#GLPayForCol {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#GLPayForText {
+    align-self: flex-start;
+    text-align: start;
+    color: #ABABAB;
+}
+
+#GLHighlight {
+    height: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 8px;
+    background-color: #08F0FF2E;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+    color: #00A9B4;
+}
