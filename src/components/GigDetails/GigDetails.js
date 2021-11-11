@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
+import { useLocation } from 'react-router-dom'
 
 import logo from "../../assets/google.svg"
 import Button from "../Button/index"
@@ -18,7 +19,8 @@ import { } from '@primer/octicons-react'
 import { formatTimestamp } from "../../auxiliary/Auxiliary"
 
 const GigDetails = (props) => {
-  const gigId = "OWw7TwaqU0J92oXYqdXj"
+  const location = useLocation().state
+  const { gigId } = location
 
   const [loading, setLoading] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)

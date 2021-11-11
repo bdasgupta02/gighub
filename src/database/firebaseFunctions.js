@@ -25,7 +25,12 @@ RETRIEVE
 export async function getActiveGigs() {
   const activeGigsCol = collection(db, constants.ACTIVE_GIGS);
   const activeGigsSnapshot = await getDocs(activeGigsCol);
-  const activeGigsList = activeGigsSnapshot.docs.map((doc) => doc.data());
+  const activeGigsList = activeGigsSnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      id: doc.id
+    }
+  } );
 
   return activeGigsList;
 }
