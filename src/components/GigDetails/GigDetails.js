@@ -10,7 +10,7 @@ import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
-import { getActiveGig, getCompany, applyToGig } from "../../database/firebaseFunctions";
+import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs } from "../../database/firebaseFunctions";
 
 import ReactModal from "react-modal"
 
@@ -26,6 +26,8 @@ const GigDetails = (props) => {
   const location = useLocation().state
   const { gigId } = location
 
+  const [hasApplied, setHasApplied] = useState(false)
+  const [appliedGigs, setAppliedGigs] = useState([])
   const [applyDetails, setApplyDetails] = useState('')
   const [loading, setLoading] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
@@ -37,7 +39,6 @@ const GigDetails = (props) => {
     isVariable: false,
     pay: 0,
     unit: '',
-    tags: [],
     completeBy: null,
     startDate: null,
     endDate: null,
@@ -49,7 +50,6 @@ const GigDetails = (props) => {
   })
 
   // DB
-  // TODO: retrieval key, how to deal with tags
   const fetch = async () => {
     setLoading(true)
     let newDetails = {
@@ -68,7 +68,6 @@ const GigDetails = (props) => {
       isVariable: gigData.isVariable,
       pay: gigData.pay,
       unit: gigData.pay,
-      tags: gigData.tags,
       completeBy: gigData.completeBy,
       startDate: gigData.startDate,
       endDate: gigData.endDate,
@@ -91,8 +90,20 @@ const GigDetails = (props) => {
     setLoading(false)
   }
 
+  const fetchApplicationStatus = async () => {
+    const allAppliedGigs = await getWorkerAppliedGigs(currentUserId)
+
+    allAppliedGigs.forEach((currGig) => {
+      if (currGig.gigId == gigId) {
+        setHasApplied(true)
+        return
+      }
+    })
+  }
+
   useEffect(() => {
     fetch()
+    fetchApplicationStatus()
   }, [])
 
   const handleApplyDetails = (e) => {
@@ -251,7 +262,9 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <div className="extraVerticalPadding">
-                  {isWorker ? (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />) : (<span></span>)}
+                  {isWorker ? (<span>
+                    {hasApplied ? (<Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
+                  </span>) : (<span></span>)}
                 </div>
                 <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
                   <Row align="center" justify="center" className="GDModalBase">

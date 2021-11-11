@@ -108,7 +108,10 @@ export async function getWorkerAppliedGigs(workerId) {
       let gig = doc.get('gig');
       let includedGigDoc = await getDoc(gig);
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
-      retArray.push(includedGigDoc.data());
+      retArray.push({
+        ...includedGigDoc.data(),
+        gigId: includedGigDoc.id
+      });
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
       //   retArray.push(x.data())
