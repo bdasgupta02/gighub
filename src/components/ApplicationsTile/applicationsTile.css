@@ -1,0 +1,138 @@
+.TileText2 {
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.Spacer2 {
+    margin-top: auto;
+}
+
+.Bottom2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#TileBackground2 {
+    height: 40%;
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+#MainColumn2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+}
+
+#TileBackground2:hover {
+    cursor: pointer;
+}
+
+#LogoBox2 {
+    box-shadow: inset 4px 10px 40px #00000020;
+    background-color: '#E8F0F2';
+    height: 50px;
+    width: 50px;
+    border-radius: 6px;
+    margin-left: 16px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+#LogoImg2 {
+    height: 26px;
+    width: 26px;
+    display: block;
+    margin: 0 auto;
+}
+
+#CompanyName2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #545454;
+    margin-top: 3px;
+}
+
+#CompanyName2:hover {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00A9B4;
+    margin-top: 3px;
+}
+
+#CompanyLocation2 {
+    font-weight: bold;
+    color: #ABABAB;
+}
+
+#JobTitle2 {
+    color: #545454;
+    font-weight: bold;
+}
+
+#JobDesc2 {
+    color: #ABABAB;
+}
+
+#PayTextBox2 {
+    margin-top: auto;
+    margin-bottom: 16px;
+}
+
+.PayText2 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#PayForCol2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#PayForText2 {
+    align-self: flex-start;
+    text-align: start;
+    color: #ABABAB;
+}
+
+#Highlights2 {
+
+}
+
+#Highlight2 {
+    height: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-right: 8px;
+    background-color: #08F0FF2E;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 6px;
+    color: #00A9B4;
+}
+
+
+a{
+    font-size: 11px;
+    font-family: 'Roboto', sans-serif;
+    color: #00A9B4;
+}

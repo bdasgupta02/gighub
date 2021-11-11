@@ -141,10 +141,10 @@ const NavBar = (props) => {
             <Row> <NavButton to="/" buttonText="Dashboard" icon={<BrowserIcon size={16} />} /> </Row>
             <Row> <NavButton to="/search_gigs" buttonText="Search gigs" icon={<SearchIcon size={16} />} /> </Row>
             {isWorker && (<Row> <NavButton to="/my_gigs" buttonText="My gigs" icon={<NoteIcon size={16} />} /> </Row>)}
-            {isWorker && (<Row> <NavButton to="/my_applications" buttonText="Applications" icon={<ChecklistIcon size={16} />} /> </Row>)}
+            <Row> <NavButton to="/my_applications" buttonText="Applications" icon={<ChecklistIcon size={16} />} /> </Row>
             {isCompany && (<Row> <NavButton to="/search_workers" buttonText="Workers" icon={<PeopleIcon size={16} />} /> </Row>)}
             {isCompany && (<Row> <NavButton to="/listed_gigs" buttonText="Listed gigs" icon={<ListUnorderedIcon size={16} />} /> </Row>)}
-            {isCompany && (<Row> <NavButton to="/" buttonText="Applications" icon={<ChecklistIcon size={16} />} /> </Row>)}
+
             <Row> <NavButton to="/my_profile" buttonText="Profile" icon={<PersonIcon size={16} />} /> </Row>
             <Row> <NavButton buttonText="Notifications" isNotif icon={<BellIcon size={16} />} parentFunction={handleNotif} /> </Row>
             <Row> <NavButton to="/signin" buttonText="Sign-out" isSignOut icon={<SignOutIcon size={16} />} /> </Row>

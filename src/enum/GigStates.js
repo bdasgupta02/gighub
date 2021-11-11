@@ -1,9 +1,10 @@
 const states = {
     APPLIED: 'Applied',
     OFFERED: 'Offered',
-    UNSUCCESFUL: 'Unsuccessful',
+    REJECTED: 'Rejected',
+    OFFER_REJECTED: 'OfferRejected',
     ASSIGNED: 'Assigned',
-    ENDED: 'Ended',
+    CLOSED: 'Closed',
     VOIDED: 'Voided'
 }
 

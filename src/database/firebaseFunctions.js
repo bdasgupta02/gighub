@@ -17,9 +17,11 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db, { storage } from './firebase';
+import db, { accessDB, storage } from './firebase';
 import * as constants from '../constants';
 import { load } from 'dotenv';
+import states from '../enum/GigStates'
+
 
 /*
 RETRIEVE
@@ -121,10 +123,7 @@ export async function getWorkerAppliedGigs(workerId) {
 }
 
 export async function getWorkerArchivedGigs(workerId) {
-  const workerSubCol = collection(
-    db,
-    constants.WORKERS + '/' + workerId + '/' + constants.ARCHIVED_GIGS
-  );
+  const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.CLOSED)
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
@@ -147,10 +146,11 @@ export async function getWorkerArchivedGigs(workerId) {
 }
 
 export async function getWorkerBookedGigs(workerId) {
-  const workerSubCol = collection(
-    db,
-    constants.WORKERS + '/' + workerId + '/' + constants.BOOKED_GIGS
-  );
+  // const workerSubCol = collection(
+  //   db,
+  //   constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS, where("status", "==", states.ASSIGNED)
+  // );
+  const workerSubCol = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).where("status", "==", states.ASSIGNED)
   const workerSubSnapshot = await getDocs(workerSubCol);
   //  console.log('workerSubSnapshot: ' + (workerSubSnapshot));
   let retArray = [];
