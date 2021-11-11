@@ -334,7 +334,7 @@ const GigDetails = (props) => {
                     {hasApplied ? (
                       <div>
                         <Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />
-                        <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: props.id, workerId: currentUserId, companyId: details.companyId })} />
+                        <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: currentUserId, companyId: details.companyId })} />
                       </div>
                     ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
