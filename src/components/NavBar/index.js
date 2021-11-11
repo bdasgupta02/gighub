@@ -47,6 +47,7 @@ const NavBar = (props) => {
   const isCompany = typeof isWorker !== 'undefined' && isWorker === false
   const [notifOpen, setNotifOpen] = useState(false)
   const [reviews, setReviews] = useState([])
+  const [bookedGigs, setBookedGigs] = useState()
 
   const useStyles = makeStyles({
     topScrollPaper: {
@@ -57,7 +58,8 @@ const NavBar = (props) => {
     dialogPaper: {
       minHeight: '30vh',
       maxHeight: '40vh',
-      maxWidth: '300px'
+      maxWidth: '300px',
+      mWidth: '300px'
     },
   })
   const classes = useStyles()
@@ -69,12 +71,16 @@ const NavBar = (props) => {
     setNotifOpen(true);
   }
 
-  const workerReviewSub = (workerId) => {
+  const getReviewSub = (userId) => {
     let temp = []
-    const q = query(collection(
+
+    const q = isWorker ? query(collection(
       db,
-      "workers" + '/' + workerId + '/' + "reviews"
-    ), where('wasViewed', '==', false));
+      "workers" + '/' + userId + '/' + "reviews"
+    ), where('wasViewed', '==', false)) : query(collection(
+      db,
+      "companies" + '/' + userId + '/' + "reviews"
+    ), where('wasViewed', '==', false))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       console.log('in snapshot: ' + querySnapshot)
       temp = []
@@ -86,14 +92,35 @@ const NavBar = (props) => {
       console.log("Current unviewed reviews: ", temp.join(", "))
       setReviews(temp)
     })
-    // const unsub = onSnapshot(doc(db, "workers", workerId + '/' + constants.REVIEWS), (doc) => {
-    //   console.log(" data in wrokerReviewSub: ", JSON.stringify(doc.data()));
-    // });
   }
+
+  const getWorkerGigUpdates = (userId) => {
+    let temp = []
+
+    const q = query(collection(
+      db,
+      "workers" + '/' + userId + '/' + "bookedGigs"
+    ))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      console.log('in snapshot: ' + querySnapshot)
+      temp = []
+      querySnapshot.forEach((doc) => {
+        console.log('data')
+        temp.push(doc.data())
+
+      })
+      console.log("Current notification bookedGigs: ", temp.join(", "))
+      setBookedGigs(temp)
+    })
+  }
+
 
   useEffect(() => {
     if (currentUser != null) {
-      workerReviewSub(currentUser.uid)
+      getReviewSub(currentUser.uid);
+      if (isWorker) {
+        getWorkerGigUpdates(currentUser.uid);
+      }
     }
   }, [])
 
@@ -123,22 +150,41 @@ const NavBar = (props) => {
 
           </Col>
         </nav>
-        <Dialog open={notifOpen}
-          onClose={(value) => { setNotifOpen(false) }}
-          scroll="paper"
-          classes={{
-            scrollPaper: classes.topScrollPaper,
-            paper: classes.dialogPaper
-          }}
-          BackdropProps={{ style: { backgroundColor: "transparent" } }}
-        >
-          <DialogContent>
-            <DialogContentText>
-              <NotificationList reviewList={reviews} />
-            </DialogContentText>
-          </DialogContent>
+        {isWorker &&
+          <Dialog open={notifOpen}
+            onClose={(value) => { setNotifOpen(false) }}
+            scroll="paper"
+            classes={{
+              scrollPaper: classes.topScrollPaper,
+              paper: classes.dialogPaper
+            }}
+            BackdropProps={{ style: { backgroundColor: "transparent" } }}
+          >
+            <DialogContent>
+              <DialogContentText>
+                <NotificationList reviewList={reviews} bookedGigs={bookedGigs} />
+              </DialogContentText>
+            </DialogContent>
 
-        </Dialog>
+          </Dialog>}
+
+        {!isWorker &&
+          <Dialog open={notifOpen}
+            onClose={(value) => { setNotifOpen(false) }}
+            scroll="paper"
+            classes={{
+              scrollPaper: classes.topScrollPaper,
+              paper: classes.dialogPaper
+            }}
+            BackdropProps={{ style: { backgroundColor: "transparent" } }}
+          >
+            <DialogContent>
+              <DialogContentText>
+                <NotificationList reviewList={reviews} />
+              </DialogContentText>
+            </DialogContent>
+
+          </Dialog>}
       </div>
 
 

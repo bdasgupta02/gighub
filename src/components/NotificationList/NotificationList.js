@@ -15,20 +15,26 @@ const NotificationList = (props) => {
     //props 
     // reviewList ==> filter those that are 'wasViewed == false'
     const [reviewList, setReviewList] = useState()
+    const [bookedGigs, setBookedGigs] = useState()
 
     useEffect(() => {
         if (reviewList == null) {
-            let temp = props.reviewList.filter(el => !el.wasViewed)
-            setReviewList(temp)
+
+            setReviewList(props.reviewList)
+        }
+        if (bookedGigs == null) {
+            setBookedGigs(props.bookedGigs)
         }
     }, [props.reviewList])
 
 
     return (
         <div style={{ height: '5px' }}>
-            { reviewList != null && reviewList.map(review =>
+            { reviewList != null && reviewList.length != 0 && reviewList.map(review =>
                 <NotificationTile review={review} />)
             }
+            { bookedGigs != null && bookedGigs.length != 0 && bookedGigs.map(gig =>
+                <NotificationTile bookedGig={gig} />)}
         </div>
     )
 

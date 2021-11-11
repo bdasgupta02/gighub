@@ -27,12 +27,7 @@ RETRIEVE
 export async function getActiveGigs() {
   const activeGigsCol = collection(db, constants.ACTIVE_GIGS);
   const activeGigsSnapshot = await getDocs(activeGigsCol);
-  const activeGigsList = activeGigsSnapshot.docs.map((doc) => {
-    return {
-      ...doc.data(),
-      id: doc.id
-    }
-  } );
+  const activeGigsList = activeGigsSnapshot.docs.map((doc) => doc.data());
 
   return activeGigsList;
 }
@@ -830,6 +825,25 @@ export const workerReviewSub = (workerId) => {
   const q = query(collection(
     db,
     constants.WORKERS + '/' + workerId + '/' + constants.REVIEWS
+  ), where('wasViewed', '==', false));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+    querySnapshot.forEach((doc) => {
+      reviews.push(doc.data())
+    })
+    console.log("Current unviewed reviews: ", reviews.join(", "))
+  })
+  return unsubscribe
+  // const unsub = onSnapshot(doc(db, "workers", workerId + '/' + constants.REVIEWS), (doc) => {
+  //   console.log(" data in wrokerReviewSub: ", JSON.stringify(doc.data()));
+  // });
+}
+
+export const companyReviewSub = (companyId) => {
+  let reviews = []
+  const q = query(collection(
+    db,
+    constants.COMPANIES + '/' + companyId + '/' + constants.REVIEWS
   ), where('wasViewed', '==', false));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
 

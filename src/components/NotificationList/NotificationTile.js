@@ -20,6 +20,7 @@ const NotificationTile = (props) => {
     const [company, setCompany] = useState()
 
     let review = props.review;
+    let bookedGig = props.bookedGig
 
 
     // placeholders for now:
@@ -59,12 +60,22 @@ const NotificationTile = (props) => {
     return (
         <div onClick={() => { history.push("/my_profile") }}>
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
-                <Col id="GLMainColumn">
-                    <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs!
+                {review != null &&
+                    <Col id="GLMainColumn">
+                        <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs!
                     You got <span style={{ fontWeight: 'bold' }}> {review.numStars}</span> stars. </span>
-                    <span> {review != null && formatTimestamp(review.date)} </span>
-                </Col>
+                        <span> {review != null && formatTimestamp(review.date)} </span>
+                    </Col>
+                }
 
+                {bookedGig != null &&
+                    <Col id="GLMainColumn">
+                        <span>  Congratulations! You have a new <span style={{ fontWeight: 'bold' }}>booked gig!</span> </span>
+
+                        <span> {bookedGig != null && formatTimestamp(bookedGig.dateBooked)} </span>
+                    </Col>
+
+                }
             </AnimatedContainer>
         </div>)
 
