@@ -16,8 +16,13 @@ import './profile.css';
 const modalStyle = {};
 
 /**
+ *
+ * @param {Date} dob
+ */
+
+/**
  * NOTE: No link safety for resume, will redirect to a firebase 404 if valid firestore link but invalid details
- * required props: isWorker, userName, resumeLink, usersAge, usersGender, userId
+ * required props: isWorker, userName, resumeLink, dob, usersGender, userId
  * optional props: workerSkills
  * @param {*} props
  * @returns
@@ -27,6 +32,19 @@ export function ProfileDetails(props) {
   const [hasResume, setHasResume] = useState(hasResumeTemp);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [newResumeFile, setNewResumeFile] = useState(null);
+  let dateString;
+  if (props.dob !== undefined) {
+    let dob = new Date(props.dob.seconds);
+    //console.log(dob);
+    dateString =
+      dob.getDate() +
+      ' ' +
+      getNamedMonth(dob.getMonth()) +
+      ' ' +
+      dob.getFullYear();
+  } else {
+    dateString = 'No date of birth specified'
+  }
   useEffect(() => {
     let userId = props.userId;
     if (newResumeFile !== null) {
@@ -53,8 +71,8 @@ export function ProfileDetails(props) {
     let userId = props.userId;
     let updateDetails = {
       id: userId,
-      resume: ''
-    }
+      resume: '',
+    };
     updateWorkerDetails(updateDetails);
     setHasResume(false);
   }
@@ -99,7 +117,10 @@ export function ProfileDetails(props) {
                   >
                     Download resume
                   </a>
-                  <a onClick={removeResume} style={{cursor:'pointer'}}> <XCircleIcon size={16}/></a>
+                  <a onClick={removeResume} style={{ cursor: 'pointer' }}>
+                    {' '}
+                    <XCircleIcon size={16} />
+                  </a>
                 </div>
               ) : (
                 // (<button className="ProfilePageResume" onClick={addResume}>Add resume</button>)
@@ -139,8 +160,8 @@ export function ProfileDetails(props) {
       {props.isWorker ? (
         <Row>
           <Col>
-            <Row className="ProfilePageItemHeader">Age</Row>
-            <Row>{props.usersAge}</Row>
+            <Row className="ProfilePageItemHeader">Date Of Birth</Row>
+            <Row>{dateString}</Row>
           </Col>
           <Col>
             <Row className="ProfilePageItemHeader">Skills</Row>
@@ -156,12 +177,7 @@ export function ProfileDetails(props) {
       )}
       {props.isWorker ? <Row className="ProfilePageItemSpacer" /> : <div />}
       {props.isWorker ? (
-        <Row>
-          <Col>
-            <Row className="ProfilePageItemHeader">Gender</Row>
-            <Row>{props.usersGender}</Row>
-          </Col>
-        </Row>
+        <div></div>
       ) : (
         <Col>
           <Row className="ProfilePageItemHeader">Location</Row>
@@ -170,4 +186,33 @@ export function ProfileDetails(props) {
       )}
     </Container>
   );
+}
+
+function getNamedMonth(month) {
+  switch (month) {
+    case 0:
+      return 'Jan';
+    case 1:
+      return 'Feb';
+    case 2:
+      return 'Mar';
+    case 3:
+      return 'Apr';
+    case 4:
+      return 'May';
+    case 5:
+      return 'Jun';
+    case 6:
+      return 'Jul';
+    case 7:
+      return 'Aug';
+    case 8:
+      return 'Sep';
+    case 9:
+      return 'Oct';
+    case 10:
+      return 'Nov';
+    case 11:
+      return 'Dec';
+  }
 }
