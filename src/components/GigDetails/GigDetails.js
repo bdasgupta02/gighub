@@ -94,9 +94,7 @@ const GigDetails = (props) => {
   }
 
   const fetchApplicationData = async (inputWorkerId) => {
-    console.log("Hello " + inputWorkerId)
     const focusApplicationData = await getApplicationData(inputWorkerId, gigId)
-    console.log("Hello " + focusApplicationData)
 
     setFocusApplicationData({
       dateApplied: formatTimestamp(focusApplicationData.dateApplied),
@@ -155,6 +153,7 @@ const GigDetails = (props) => {
     allAppliedGigs.forEach((currGig) => {
       if (currGig.id == gigId) {
         setHasApplied(true)
+        fetchApplicationData(currentUserId)
         
         return
       }

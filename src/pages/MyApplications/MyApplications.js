@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from "react-router-dom"
 import ApplicationsTile from '../../components/ApplicationsTile'
 import { useAuth } from '../../contexts/AuthContext'
 import { getCompanyByRef, getWorkerAppliedGigs } from '../../database/firebaseFunctions'
@@ -7,7 +8,8 @@ import { accessDB } from '../../database/firebase'
 
 
 function MyApplications() {
-
+    const history = useHistory()
+    
     const { isWorker, currentUser } = useAuth()
     const [gigs, setGigs] = useState()
 
@@ -21,6 +23,7 @@ function MyApplications() {
             .then((querySnapshot) => {
                 querySnapshot.forEach((workerDoc) => {
                     const workerId = workerDoc.id
+                    const name = workerDoc.data().name
 
                     console.log('worker id in getApplicationsByComp: ' + workerId);
                     // doc.data() is never undefined for query doc snapshots
@@ -31,6 +34,7 @@ function MyApplications() {
                                 if (el.companyId.id == companyId) {
                                     console.log('same company! ' + JSON.stringify(el))
                                     el['workerId'] = workerId
+                                    el['workerName'] = name
                                     getCompanyByRef(el.companyId).then(
                                         compData => {
                                             el['companyData'] = compData;
@@ -109,6 +113,8 @@ function MyApplications() {
                     companyId={gig.companyId}
                     gigStatus={gig.status}
                     gigId={gig.id}
+                    workerName={gig.workerName}
+                    workerId={gig.workerId}
                 />
             )
             }
