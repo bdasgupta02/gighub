@@ -35,6 +35,7 @@ const NotificationList = (props) => {
             }
             { bookedGigs != null && bookedGigs.length != 0 && bookedGigs.map(gig =>
                 <NotificationTile bookedGig={gig} />)}
+            {(reviewList == null || reviewList.length == 0 && bookedGigs == null || bookedGigs.length == 0) && 'No new notifications!'}
         </div>
     )
 

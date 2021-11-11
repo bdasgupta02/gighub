@@ -59,7 +59,7 @@ const NavBar = (props) => {
       minHeight: '30vh',
       maxHeight: '40vh',
       maxWidth: '300px',
-      mWidth: '300px'
+      minWidth: '300px'
     },
   })
   const classes = useStyles()
