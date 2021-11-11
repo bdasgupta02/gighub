@@ -195,3 +195,12 @@
 .GDApplicant {
   cursor: pointer;
 }
+
+.GDAppStatus {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  
+  color: #000000;
+}
