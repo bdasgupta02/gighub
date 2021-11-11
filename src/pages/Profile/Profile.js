@@ -5,67 +5,144 @@ import Button from '../../components/Button';
 import { useAuth } from '../../contexts/AuthContext';
 import './profile.css';
 import { ProfileHeader } from './ProfileHeader';
-import {ProfilePicture} from './ProfilePicture';
-import {ProfileDetails} from './ProfileDetails'
+import { ProfilePicture } from './ProfilePicture';
+import { ProfileDetails } from './ProfileDetails';
 import { ProfileSignInDetails } from './ProfileSignInDetails';
+import ReactModal from 'react-modal';
+import EditProfile from './EditProfile';
+import FullPage from '../FullPage';
 
-const workerSkills = [
-  'Test0',
-  'Test1',
-  'Test2',
-  'Test3',
-  'Test4',
-  'Test5',
-  'Test6',
-  'Test7',
-  'Test8',
-  'Test9',
-  'Test10',
-];
+// let workerSkills = [
+//   'Test0',
+//   'Test1',
+//   'Test2',
+//   'Test3',
+//   'Test4',
+//   'Test5',
+//   'Test6',
+//   'Test7',
+//   'Test8',
+//   'Test9',
+//   'Test10',
+// ];
 
-const avgReview = 123;
-const numReview = 29;
-const password = 'PASSWORD_OF_USER123';
-let profilePicLink =
-  'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/profile_pics%2FFrame%204(1).png?alt=media&token=d7e2e7ec-b7ad-43e4-a1c5-ddd10fb7fbee';
-const resumeLink =
-  'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/resumes%2FPlaceholder%20resume.pdf?alt=media&token=d3fb483c-24e5-48e4-b5f6-bc074fc9d7ee';
-const userName = 'Robert Paulson';
-let hasProfilePic;
-let usersGender = 'M'
-let userEmail='TESTTESTTEST@TEST.com'
-let usersAge='99999999999999'
+// let avgReview = 123;
+// let numReview = 29;
+// let password = 'PASSWORD_OF_USER123';
+// let profilePicLink =
+//   'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/profile_pics%2FFrame%204(1).png?alt=media&token=d7e2e7ec-b7ad-43e4-a1c5-ddd10fb7fbee';
+// let resumeLink =
+//   'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/resumes%2FPlaceholder%20resume.pdf?alt=media&token=d3fb483c-24e5-48e4-b5f6-bc074fc9d7ee';
+// let userName = 'Robert Paulson';
+// let hasProfilePic;
+// let usersGender = 'NA';
+// let userEmail = 'TESTTESTTEST@TEST.com';
+// let usersAge = '99999999999999';
 
+let usersGender = 'NA';
+const modalStyle = {};
 /**
  * if profile pic link is invalid, a dead-image will appear instead
- * @param {*} props
+ * @param {*} props no props required
  * @returns
  */
 export default function Profile(props) {
   let { isWorker, currentUserId } = useAuth();
-  isWorker = true;
-  hasProfilePic = profilePicLink !== '';
-  hasProfilePic = false;
+  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  return (
-    <div id="ProfilePageGeneric">
-      <ProfileHeader avgReview={avgReview} numReview={numReview}/>
-      <ProfilePicture hasProfilePic={hasProfilePic} profilePicLink={profilePicLink} userName={userName} userId={currentUserId}/>
-      <ProfileDetails isWorker={true} userName={userName} resumeLink={resumeLink} usersAge={usersAge} userId = {currentUserId} usersGender={usersGender} workerSkills={workerSkills}/>
-      <ProfileSignInDetails userEmail={userEmail} userPassword={password}/>
+  function openModal() {
+    setModalIsOpen(true);
+  }
 
-      <Container>
-        <Row className="ProfilePageSectionSpacer" />
-        <Row>
-          <Button
-            type="PRIMARY"
-            text="Edit profile"
-            onClick={editProfile}
-          ></Button>
-        </Row>
-      </Container>
-    </div>
-  );
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
+  let collectedData = [];
+  useEffect(() => {
+    if (isWorker) {
+      getWorker(currentUserId).then((retrievedData) => {
+        collectedData.push(retrievedData[0]);
+        setUserData(collectedData);
+        setIsLoading(false);
+      });
+    } else {
+      getCompany(currentUserId).then((retrievedData) => {
+        collectedData.push(retrievedData[0]);
+        setUserData(collectedData);
+        setIsLoading(false);
+      });
+    }
+  }, []);
+
+  // let hasProfilePic = profilePicLink !== '';
+  if (isLoading) {
+    console.log('loading');
+    return <div>Loading...</div>;
+  } else {
+    console.log(userData[0]);
+    let userInfo = userData[0];
+    let hasProfilePic = false;
+    let profilePicLink = '';
+    if (
+      userInfo.hasOwnProperty('profilePicture') &&
+      userInfo.profilePicture !== ''
+    ) {
+      hasProfilePic = true;
+      profilePicLink = userInfo.profilePicture;
+    }
+
+    return (
+      <div id="ProfilePageGeneric">
+        <ProfileHeader
+          avgReview={userInfo.avgReview}
+          numReview={userInfo.numReview}
+        />
+        <ProfilePicture
+          hasProfilePic={hasProfilePic}
+          profilePicLink={profilePicLink}
+          userName={userInfo.name}
+          userId={currentUserId}
+          isWorker={isWorker}
+        />
+        <ProfileDetails
+          isWorker={isWorker}
+          userName={userInfo.name}
+          resumeLink={userInfo.resume}
+          usersAge={userInfo.age}
+          userId={currentUserId}
+          usersGender={usersGender}
+          workerSkills={userInfo.skills}
+          location = {userInfo.location}
+        />
+        <ProfileSignInDetails
+          userEmail={userInfo.email}
+          userPassword={userInfo.password}
+        />
+
+        <Container>
+          <Row className="ProfilePageSectionSpacer" />
+          <ReactModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            className="EditProfileModal"
+            contentLabel="Edit profile"
+          >
+            <EditProfile/>
+          </ReactModal>
+          <Row>
+            <Button
+              type="PRIMARY"
+              text="Edit profile"
+              onClick={openModal}
+            ></Button>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 }
 
 // function workerProfile(props) {
@@ -130,7 +207,5 @@ export default function Profile(props) {
 function changePicture(props) {}
 
 function getPicture(props) {}
-
-
 
 function editProfile(props) {}

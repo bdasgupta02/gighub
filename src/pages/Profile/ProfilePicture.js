@@ -1,16 +1,20 @@
 import { Container, Row, Col } from 'react-grid-system';
 import Button from '../../components/Button';
 import './profile.css';
-import { createProfilePicture, updateWorkerDetails } from '../../database/firebaseFunctions';
+import {
+  createProfilePicture,
+  updateCompanyDetails,
+  updateWorkerDetails,
+} from '../../database/firebaseFunctions';
 import { FileType } from '../../enum/FileType';
 import ReactModal from 'react-modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import LogoGenerator from '../../components/LogoGenerator';
 import FileUploader from '../../components/FileUploader';
 
 /**
- * Required props: hasProfilePic, userId
+ * Required props: userId, isWorker
  *
  * Optional props: profilePicLink || userName
  * @param {*} props
@@ -18,34 +22,89 @@ import FileUploader from '../../components/FileUploader';
  */
 const modalStyle = {};
 export function ProfilePicture(props) {
-  const [newProfilePicFile, setNewProfilePicture] = useState();
+  let hasProfilePicTemp = props.profilePicLink !== '';
+  let profilePicTemp = '';
+  if (hasProfilePicTemp) {
+    profilePicTemp = props.profilePicLink;
+  }
+  const [newProfilePicFile, setNewProfilePicture] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [profilePicLink, setProfilePicLink] = useState(profilePicTemp)
+  const [hasProfilePic, setHasProfilePic] = useState(hasProfilePicTemp)
+  useEffect(() => {
+    console.log(props.userId);
+    if (newProfilePicFile !== null) {
+      changePicture(newProfilePicFile);
+    }
+  }, [newProfilePicFile]);
+
+  function removePicture() {
+    let userId = props.userId;
+    let update = {
+      id: userId,
+      profilePicture: '',
+    };
+    //console.log(userId);
+    //console.log('picture removed');
+    if (props.isWorker) {
+      updateWorkerDetails(update);
+    } else {
+      updateCompanyDetails(update);
+    }
+    setHasProfilePic(false);
+  }
+
+  function changePicture(newPicture) {
+    if (newPicture !== null) {
+      createProfilePicture(newPicture).then((url) => {
+        let userId = props.userId;
+        let update = {
+          id: userId,
+          profilePicture: url,
+        };
+        //console.log('new picture added');
+        if (props.isWorker) {
+          updateWorkerDetails(update);
+        } else {
+          updateCompanyDetails(update);
+        }
+        setProfilePicLink(url);
+      });
+    }
+  }
+
+  // let hasProfilePic = props.profilePicLink !== '';
+  // let profilePicLink = '';
+  // if (hasProfilePic) {
+  //   profilePicLink = props.profilePicLink;
+  // }
+  function closeModal() {
+    setModalIsOpen(false);
+  }
 
   function openModal() {
     setModalIsOpen(true);
   }
-  function closeModal() {
-    setModalIsOpen(false);
-    changePicture(newProfilePicFile, props.userId)
-  }
+
   return (
     <Container>
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={modalStyle}
-        contentLabel="Add resume"
+        className='ProfileModalStyle'
+        contentLabel="Change picture"
       >
         <FileUploader
           setFileOutput={setNewProfilePicture}
           fileTypeEnum={FileType.PICTURES}
+          closer={closeModal}
         />
       </ReactModal>
       <Row>
-        {props.hasProfilePic ? (
+        {hasProfilePic ? (
           <div>
             {' '}
-            <img className="ProfilePicture" src={props.profilePicLink} />{' '}
+            <img className="ProfilePicture" src={profilePicLink} />{' '}
           </div>
         ) : (
           <div
@@ -63,18 +122,14 @@ export function ProfilePicture(props) {
         <Col xs={2}>
           <Row className="ProfilePagePictureButtonSpacer" />
           <Row>
-            <Button
-              type="PRIMARY"
-              text="Change picture"
-              onClick={openModal}
-            />
+            <Button type="PRIMARY" text="Change picture" onClick={openModal} />
           </Row>
           <Row className="ProfilePagePictureButtonSpacer" />
           <Row>
             <Button
               type="WHITE"
               text="Remove picture"
-              onClick={removePicture(props.userId)}
+              onClick={removePicture}
             />
           </Row>
         </Col>
@@ -82,22 +137,4 @@ export function ProfilePicture(props) {
       <Row className="ProfilePageMainHeaderSpacer"></Row>
     </Container>
   );
-}
-
-function removePicture(userId) {
-  let update = {
-    id: userId,
-    profilePicture: '',
-  };
-  updateWorkerDetails(update);
-}
-function changePicture(newPicture, userId) {
-  if (newPicture !== null) {
-    let newPictureURL = createProfilePicture(newPicture);
-    let update = {
-      id: userId,
-      profilePicture: newPictureURL
-    }
-    updateWorkerDetails(update);
-  }
 }
