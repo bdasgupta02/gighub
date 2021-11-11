@@ -100,7 +100,9 @@ const GigDetails = (props) => {
   }
 
   const handleApply = () => {
+    console.log(gigId, currentUserId)
     applyToGig(gigId, currentUserId)
+    setApplyTabIsOpen(false)
   }
 
   return (
