@@ -5,7 +5,7 @@ import logo from "../../assets/google.svg"
 import Button from "../Button/index"
 import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
-
+import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
 import { getActiveGig, getCompany } from "../../database/firebaseFunctions";
 
@@ -15,23 +15,28 @@ import "./gigDetails.css"
 
 import { } from '@primer/octicons-react'
 
+import { formatTimestamp } from "../../auxiliary/Auxiliary"
+
 const GigDetails = (props) => {
   const gigId = "OWw7TwaqU0J92oXYqdXj"
 
   const [loading, setLoading] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
-    title: "",
-    tags: ["PLS FIX", "PLS FIX", "PLS FIX"],
-    dateAdded: "",
-    companyLogo: "",
-    companyName: "",
-    description: "",
-    endDate: "",
-    deliverables: "XXX",
-    pay: "",
-    completeBy: "",
-    spots: "XXX"
+    title: '',
+    description: '',
+    requirements: [],
+    isFlexible: false,
+    isVariable: false,
+    pay: 0,
+    unit: '',
+    tags: [],
+    completeBy: null,
+    startDate: null,
+    endDate: null,
+    dateAdded: '',
+    companyLogo: '',
+    companyName: ''
   })
 
   // DB
@@ -45,12 +50,20 @@ const GigDetails = (props) => {
     const gigsData = await getActiveGig(gigId)
     const gigData = gigsData[0]
 
-    console.log("TEST: " + gigData.title)
     newDetails = {
       ...newDetails,
       title: gigData.title,
       description: gigData.description,
-      pay: gigData.pay
+      requirements: gigData.requirements,
+      isFlexible: gigData.isFlexible,
+      isVariable: gigData.isVariable,
+      pay: gigData.pay,
+      unit: gigData.pay,
+      tags: gigData.tags,
+      completeBy: gigData.completeBy,
+      startDate: gigData.startDate,
+      endDate: gigData.endDate,
+      dateAdded: gigData.dateAdded,
     }
 
     const companies = await getCompany(gigData.companyId.id)
@@ -59,6 +72,7 @@ const GigDetails = (props) => {
     newDetails = {
       ...newDetails,
       companyName: company.name,
+      companyLogo: company.profilePicture
     }
 
     setDetails(newDetails)
@@ -82,7 +96,13 @@ const GigDetails = (props) => {
               <Col></Col>
             </Row>
             <Row className="GDHeaderTags">
-              {details.tags.map((tag) => {
+              <div>
+                {details.isFlexible ? (<Highlight type="FLEXIBLE" />) : (<span></span>)}
+              </div>
+              <div>
+                {details.isVariable ? (<Highlight type="VARIABLE" />) : (<span></span>)}
+              </div>
+              {details.requirements.map((tag) => {
                 return (
                   <div>
                     <Highlight type={tag} />
@@ -97,11 +117,11 @@ const GigDetails = (props) => {
               <Col sm={2}>
                 <div className="GDHeaderLogo" >
                   {/*TODO: Dynamic rendering of logo*/}
-                  <img src={logo} />
+                  <img className="GDCompanyLogo" src={details.companyLogo} />
                 </div>
               </Col>
-              <Col sm={10}>
-                <span className="GDHeaderSub1">Listed on {details.dateAdded} by</span> <br></br>
+              <Col sm={10} className="GDHeader">
+                <span className="GDHeaderSub1">Listed on {formatTimestamp(details.dateAdded)} by</span> <br></br>
                 <span className="GDHeaderSub2">{details.companyName}</span>
               </Col>
             </Row>
@@ -125,6 +145,7 @@ const GigDetails = (props) => {
                 </span>
               </Col>
             </Row>
+
             <Row className="emptyRow">
               <Col></Col>
             </Row>
@@ -146,24 +167,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  {details.endDate}
-                </span>
-              </Col>
-            </Row>
-
-            <Row className="spacingRow">
-              <Col></Col>
-            </Row>
-
-            <Row>
-              <Col>
-                <span className="GDSectionSubTitle">Deliverables</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <span className="GDSectionContent">
-                  {details.deliverables}
+                  {formatTimestamp(details.endDate)}
                 </span>
               </Col>
             </Row>
@@ -180,7 +184,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  {details.pay}
+                  {details.pay} / {details.unit}
                 </span>
               </Col>
             </Row>
@@ -197,24 +201,7 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <span className="GDSectionContent">
-                  {details.completeBy}
-                </span>
-              </Col>
-            </Row>
-
-            <Row className="spacingRow">
-              <Col></Col>
-            </Row>
-
-            <Row>
-              <Col>
-                <span className="GDSectionSubTitle">Spots</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <span className="GDSectionContent">
-                  {details.spots}
+                  {formatTimestamp(details.completeBy)}
                 </span>
               </Col>
             </Row>
