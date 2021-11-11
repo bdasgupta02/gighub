@@ -11,6 +11,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+import LogoBox from "../LogoBox/index"
+
 import {
   AlertIcon
 } from '@primer/octicons-react';
@@ -71,6 +73,8 @@ const ApplicationsTile = (props) => {
   let companyId = props.companyId ?? null;
   let gigStatus = props.gigStatus ?? 'Processing...'
   let gigId = props.gigId ?? null
+  let workerId = props.workerId ?? ""
+  let workerName = props.workerName ?? ""
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -88,18 +92,29 @@ const ApplicationsTile = (props) => {
     config: config.default
   })
 
+  let passedToHistory = {
+    gigId: gigId,
+  }
+
+  if (!isWorker) {
+    passedToHistory = {
+      ...passedToHistory,
+      focusWorkerId: workerId
+    }
+  }
+
 
 
   const AnimatedContainer = animated(Container)
   return (
     <div>
 
-      <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+      <AnimatedContainer onClick={() => history.push("/view_gig", { ...passedToHistory })} className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn2" >
           <Row>
 
-            <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
-              <img src={logo} id="LogoImg" />
+            <div onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
+              <LogoBox src={companyLogo} name={companyName} />
             </div>
             <Col>
               <div id="CompanyName2" onClick={() => history.push("/view_company", { companyId: companyId.id })} >
@@ -124,7 +139,7 @@ const ApplicationsTile = (props) => {
                 {gigStatus}
               </Row>
               <Row justify="center" align="center">
-                <div id="linkText" onClick={() => history.push({ pathname: "/view_gig", state: { gigId: gigId } })}> View gig to respond</div>
+                <div id="linkText">{!isWorker ? (<span>{workerName}</span>) : (<span></span>)}</div>
               </Row>
             </Col>
           </Row>

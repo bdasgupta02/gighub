@@ -36,6 +36,7 @@ const GigDetails = (props) => {
   const history = useHistory()
 
   const { gigId, focusWorkerId, reviewable, extraReviewDataGigRef } = location
+
   let mode = ''
 
   if (isWorker) {
@@ -94,9 +95,8 @@ const GigDetails = (props) => {
   }
 
   const fetchApplicationData = async (inputWorkerId) => {
-    console.log("Hello " + inputWorkerId)
     const focusApplicationData = await getApplicationData(inputWorkerId, gigId)
-    console.log("Hello " + focusApplicationData)
+    console.log(inputWorkerId + " / " + gigId)
 
     setFocusApplicationData({
       dateApplied: formatTimestamp(focusApplicationData.dateApplied),
@@ -155,7 +155,8 @@ const GigDetails = (props) => {
     allAppliedGigs.forEach((currGig) => {
       if (currGig.id == gigId) {
         setHasApplied(true)
-        
+        fetchApplicationData(currentUserId)
+
         return
       }
     })
@@ -333,14 +334,42 @@ const GigDetails = (props) => {
                   {isWorker ? (<span>
                     {hasApplied ? (
                       <div>
-                        <Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />
-                        <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: currentUserId, companyId: details.companyId })} />
+                        <hr></hr>
+                        <div className="GDBar">
+                          <Row>
+                            <div>
+                              <span className="GDSectionTitle">Application Status: <span className="GDAppStatus">{focusApplicationData.status}</span></span>
+                            </div>
+                          </Row>
+
+                          <Row className="spacingRow">
+                            <Col></Col>
+                          </Row>
+
+                          <Row>
+                            <div className="GDButtons">
+                              <Button text="Chat" forceWidth="190px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: currentUserId, companyId: details.companyId })} />
+                            </div>
+                          </Row>
+
+                          {focusApplicationData.status == 'Offered' ? (
+                            <Row>
+                              <div className="GDButtons">
+                                <Button text="ACCEPT" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(currentUserId, gigId, "Assigned")} />
+                              </div>
+                              <div className="GDButtons">
+                                <Button text="REJECT" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(currentUserId, gigId, "OfferRejected")} />
+                              </div>
+                            </Row>
+                          ) : (<span></span>)}
+
+                        </div>
                       </div>
                     ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
 
                   {reviewable != null && reviewable ? <div>
-                    <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
+                    <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
 
                   {/* Company POV */}
                   {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
