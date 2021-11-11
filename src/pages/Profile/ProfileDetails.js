@@ -34,7 +34,7 @@ export function ProfileDetails(props) {
   const [newResumeFile, setNewResumeFile] = useState(null);
   let dateString;
   if (props.dob !== undefined) {
-    let dob = new Date(props.dob.seconds);
+    let dob = new Date(props.dob.seconds*1000);
     //console.log(dob);
     dateString =
       dob.getDate() +
