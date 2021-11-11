@@ -184,7 +184,7 @@ export default function SearchGigs(props) {
                             isFlexible: e.isFlexible,
                             jobDesc: e.description,
                             payAmt: "S$ " + e.pay,
-                            jobTitle: e.jobTitle,
+                            title: e.title,
                             payFor: e.unit,
                             companyName: e.company.name,
                             companyCity: e.company.location.city,
