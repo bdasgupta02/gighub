@@ -12,34 +12,6 @@ import ReactModal from 'react-modal';
 import EditProfile from './EditProfile';
 import FullPage from '../FullPage';
 
-// let workerSkills = [
-//   'Test0',
-//   'Test1',
-//   'Test2',
-//   'Test3',
-//   'Test4',
-//   'Test5',
-//   'Test6',
-//   'Test7',
-//   'Test8',
-//   'Test9',
-//   'Test10',
-// ];
-
-// let avgReview = 123;
-// let numReview = 29;
-// let password = 'PASSWORD_OF_USER123';
-// let profilePicLink =
-//   'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/profile_pics%2FFrame%204(1).png?alt=media&token=d7e2e7ec-b7ad-43e4-a1c5-ddd10fb7fbee';
-// let resumeLink =
-//   'https://firebasestorage.googleapis.com/v0/b/gighub-c8dcf.appspot.com/o/resumes%2FPlaceholder%20resume.pdf?alt=media&token=d3fb483c-24e5-48e4-b5f6-bc074fc9d7ee';
-// let userName = 'Robert Paulson';
-// let hasProfilePic;
-// let usersGender = 'NA';
-// let userEmail = 'TESTTESTTEST@TEST.com';
-// let usersAge = '99999999999999';
-
-let usersGender = 'NA';
 const modalStyle = {};
 /**
  * if profile pic link is invalid, a dead-image will appear instead
@@ -50,14 +22,14 @@ export default function Profile(props) {
   let { isWorker, currentUserId } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [cancel, setCancel] = useState(false);
 
-  function openModal() {
-    setModalIsOpen(true);
+  function startEditing() {
+    setIsEditing(true);
   }
-
-  function closeModal() {
-    setModalIsOpen(false);
+  function endEditing() {
+    setIsEditing(false);
   }
 
   let collectedData = [];
@@ -110,10 +82,9 @@ export default function Profile(props) {
         <ProfileDetails
           isWorker={isWorker}
           userName={userInfo.name}
-          resumeLink={userInfo.resume}
-          usersAge={userInfo.age}
+          resumeLink={userInfo.resume ?? ''}
+          dob={userInfo.dob}
           userId={currentUserId}
-          usersGender={usersGender}
           workerSkills={userInfo.skills}
           location = {userInfo.location}
         />
@@ -124,19 +95,11 @@ export default function Profile(props) {
 
         <Container>
           <Row className="ProfilePageSectionSpacer" />
-          <ReactModal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            className="EditProfileModal"
-            contentLabel="Edit profile"
-          >
-            <EditProfile/>
-          </ReactModal>
           <Row>
             <Button
               type="PRIMARY"
               text="Edit profile"
-              onClick={openModal}
+              onClick={startEditing}
             ></Button>
           </Row>
         </Container>
