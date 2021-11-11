@@ -13,6 +13,14 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import LogoBox from "../LogoBox/index"
 import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs } from "../../database/firebaseFunctions";
 
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import CreateReviewTile from '../CreateReviewTile/CreateReviewTile';
+
 import ReactModal from "react-modal"
 
 import "./gigDetails.css"
@@ -25,12 +33,13 @@ const GigDetails = (props) => {
   const { currentUser, currentUserId, isWorker } = useAuth()
 
   const location = useLocation().state
-  const { gigId } = location
+  const { gigId, reviewable, extraReviewDataGigRef } = location
 
   const [hasApplied, setHasApplied] = useState(false)
   const [appliedGigs, setAppliedGigs] = useState([])
   const [applyDetails, setApplyDetails] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isOpenReview, setIsOpenReview] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
     title: '',
@@ -47,7 +56,8 @@ const GigDetails = (props) => {
     companyLogo: '',
     companyName: '',
     capacity: '',
-    taken: ''
+    taken: '',
+    companyId: ''
   })
 
   // DB
@@ -74,7 +84,8 @@ const GigDetails = (props) => {
       endDate: gigData.endDate,
       dateAdded: gigData.dateAdded,
       taken: gigData.taken,
-      capacity: gigData.capacity
+      capacity: gigData.capacity,
+      companyId: gigData.companyId.id
     }
 
     const companies = await getCompany(gigData.companyId.id)
@@ -95,7 +106,7 @@ const GigDetails = (props) => {
     const allAppliedGigs = await getWorkerAppliedGigs(currentUserId)
 
     allAppliedGigs.forEach((currGig) => {
-      if (currGig.gigId == gigId) {
+      if (currGig.id == gigId) {
         setHasApplied(true)
         return
       }
@@ -265,6 +276,23 @@ const GigDetails = (props) => {
                   {isWorker ? (<span>
                     {hasApplied ? (<Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
+
+                  {reviewable != null && reviewable ? <div>
+                    <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
+                  <Dialog open={isOpenReview} onClose={() => { setIsOpenReview(false) }}>
+                    <DialogContent>
+                      <DialogContentText>
+
+                        <CreateReviewTile gigRef={extraReviewDataGigRef} companyId={details.companyId} />
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => { setIsOpenReview(false) }}
+                        color="primary" autoFocus text="Close"
+                      />
+                    </DialogActions>
+                  </Dialog>
+
                 </div>
                 <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
                   <Row align="center" justify="center" className="GDModalBase">

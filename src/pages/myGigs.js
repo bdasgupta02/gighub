@@ -135,6 +135,8 @@ export default function MyGigs(props) {
                   link={gig.contractLink}
                   startDate={gig.startDate.toDate().toDateString()}
                   endDate={gig.endDate.toDate().toDateString()}
+                  reviewable={gig.pendingReview}
+                  extraReviewDataGigRef={gig.gigRef}
                 />
                 {gig.pendingReview ? <div className="ReviewTag">
                   <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
