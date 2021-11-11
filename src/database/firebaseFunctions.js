@@ -561,6 +561,10 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw 'Document does not exist!';
     }
     const reviewRef = collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS);
+
+    console.log("in creatingreview: reviewerId: " + reviewDetails.reviewerId + ' gigId: ' + reviewDetails.gig.id)
+    const workerGigDoc = accessDB.collection(constants.WORKERS + '/' + reviewDetails.reviewerId + '/' + constants.APPLIED_GIGS).doc(reviewDetails.gig.id)
+    console.log("workerGigDoc: " + JSON.stringify(workerGigDoc))
     let companyData = companyDoc.data();
     let oldNumReviews = companyData.numReviews;
     let oldAvg = companyData.avgReview;
@@ -577,6 +581,7 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw new Error('Error in recorded review scores stored in database!');
     }
 
+    await workerGigDoc.update({ pendingReview: false })
     await updateDoc(companyDocRef, { avgReview: newAvgReviews, numReviews: increment(1) });
     await addDoc(reviewRef, reviewDetails);
     //console.log('Transaction successfully committed!');
