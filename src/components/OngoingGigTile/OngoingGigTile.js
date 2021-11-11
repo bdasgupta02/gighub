@@ -87,7 +87,7 @@ const OngoingGigTile = (props) => {
 
       <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn2" >
-          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
+          <Row>
 
             <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
               <img src={logo} id="LogoImg" />

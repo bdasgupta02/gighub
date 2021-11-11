@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import logo from '../../assets/GighubLogo.js';
@@ -17,10 +17,15 @@ import {
 
 import './applicationsTile.css'
 import { useHistory } from 'react-router';
+import { useAuth } from '../../contexts/AuthContext.js';
+import { getWorkerAppliedGigs } from '../../database/firebaseFunctions.js';
 
 const ApplicationsTile = (props) => {
   const [isHovering, setIsHovering] = useState(false)
   const [open, setOpen] = React.useState(false);
+  const { isWorker, currentUser } = useAuth();
+  const [gigs, setGigs] = useState()
+
   const handleClickToOpen = () => {
     setOpen(true);
   };
@@ -28,6 +33,8 @@ const ApplicationsTile = (props) => {
     setOpen(false);
   };
   const history = useHistory();
+
+
 
   /* final props:
   const companyName = props.companyName
@@ -62,6 +69,8 @@ const ApplicationsTile = (props) => {
   const link = props.contractLink ?? 'https://google.com'
   let contactNum = props.contactNum ?? "No information input."
   let companyId = props.companyId ?? null;
+  let gigStatus = props.gigStatus ?? 'Processing...'
+  let gigId = props.gigId ?? null
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -87,7 +96,7 @@ const ApplicationsTile = (props) => {
 
       <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn2" >
-          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
+          <Row>
 
             <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
               <img src={logo} id="LogoImg" />
@@ -109,57 +118,21 @@ const ApplicationsTile = (props) => {
               <span className="PayText2">{payAmt}/</span>
               <span id="PayForText2">{payFor}</span>
             </Col>
-            <Col xs={1}>
-              <div id='Highlight2'> {isFlexible ? 'Flexible' : 'Fixed'}</div>
-            </Col>
-          </Row>
-          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
-            <div id="JobTitle2">
-              Deliverables:
-          </div>
-          </Row>
-          <Row justify="between">
-            <Col xs={7} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
-              <div id="JobDesc2">
-                {jobDesc}
-              </div>
-              <div style={{ height: '40%' }}></div>
-              <a href={link}> View contract </a>
-            </Col>
-            <Col xs={4} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
-              <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
-              <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
-              <div style={{ height: '20px' }}></div>
-              <Row>
 
-                <Col xs={9}>
-                  <Button text="Contact Employer" onClick={handleClickToOpen}> </Button>
-                </Col>
-                <Dialog open={open} onClose={handleToClose}>
-                  <DialogTitle>{"Contact " + companyName}</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      {"Phone number: " + contactNum}
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleToClose}
-                      color="primary" autoFocus text="Close">
-                      Close
-          </Button>
-                  </DialogActions>
-                </Dialog>
-                <Col xs={1}>
-                  <Button icon={<AlertIcon />} type="SECONDARY"> </Button>
-                </Col>
+            <Col>
+              <Row justify="center">
+                {gigStatus}
+              </Row>
+              <Row justify="center" align="center">
+                <div id="linkText" onClick={() => history.push({ pathname: "/view_gig", state: { gigId: gigId } })}> View gig to respond</div>
               </Row>
             </Col>
           </Row>
         </Col>
 
-      </AnimatedContainer>
+      </AnimatedContainer >
 
-    </div>
+    </div >
   )
 }
 

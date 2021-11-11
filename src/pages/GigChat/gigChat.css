@@ -1,0 +1,24 @@
+#CLLogoCircle {
+    box-shadow: inset 4px 10px 40px #00000020;
+    background-color: '#E8F0F2';
+    height: 34px;
+    width: 34px;
+    border-radius: 25px;
+    margin-left: 16px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.GCSubName {
+    font-size: 15px;
+    font-weight: bold;
+    color: #545454;
+}
+
+.GCSubWith {
+    font-size: 14px;
+    font-weight: normal;
+    color: #545454;
+}

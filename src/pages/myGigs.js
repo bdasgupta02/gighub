@@ -58,6 +58,7 @@ export default function MyGigs(props) {
               el['companyData'] = compData;
               console.log('new el: ' + JSON.stringify(el.companyId.id))
               tempFinished.push(el)
+              console.log("in my gigs: fnished gigs: " + JSON.stringify(el))
               setAllFinished(tempFinished)
             }))
 

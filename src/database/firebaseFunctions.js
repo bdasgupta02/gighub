@@ -112,7 +112,8 @@ export async function getWorkerAppliedGigs(workerId) {
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
       retArray.push({
         ...includedGigDoc.data(),
-        id: includedGigDoc.id
+        id: includedGigDoc.id,
+        status: doc.get('status')
       });
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
@@ -123,6 +124,12 @@ export async function getWorkerAppliedGigs(workerId) {
   );
 
   return retArray;
+}
+
+export async function getApplicationData(workerId, gigId) {
+  const res = await accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId).get()
+
+  return res.data()
 }
 
 export async function getWorkerArchivedGigs(workerId) {
@@ -140,6 +147,7 @@ export async function getWorkerArchivedGigs(workerId) {
       retArray.push({
         ...includedGigData.data(),
         gigRef: gig,
+        pendingReview: doc.get('pendingReview'),
         id: includedGigData.id
       });
       // includedGigDoc.then((x) => {
@@ -561,6 +569,10 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw 'Document does not exist!';
     }
     const reviewRef = collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS);
+
+
+    const workerGigDoc = accessDB.collection(constants.WORKERS + '/' + reviewDetails.reviewerId + '/' + constants.APPLIED_GIGS).doc(reviewDetails.gig.id)
+
     let companyData = companyDoc.data();
     let oldNumReviews = companyData.numReviews;
     let oldAvg = companyData.avgReview;
@@ -577,6 +589,7 @@ export async function createCompanyReview(reviewDetails, companyId) {
       throw new Error('Error in recorded review scores stored in database!');
     }
 
+    await workerGigDoc.update({ pendingReview: false })
     await updateDoc(companyDocRef, { avgReview: newAvgReviews, numReviews: increment(1) });
     await addDoc(reviewRef, reviewDetails);
     //console.log('Transaction successfully committed!');
