@@ -10,6 +10,7 @@ import firebase from '@firebase/app-compat'
 import Button from '../../components/Button'
 import { PaperAirplaneIcon } from '@primer/octicons-react'
 import { useLocation } from 'react-router'
+import { useHistory } from 'react-router'
 import './gigChat.css'
 
 /**
@@ -21,11 +22,9 @@ import './gigChat.css'
  * (need to implement this in the view gig page)
  * - if the current user is worker, the other must be company (will be searched from company) and vice versa
  * 
- * TODO:
- * - on click on the name and logo should go to profile (view profile)
- * - cross testing (after all of the above are done)
  */
 function GigChat(props) {
+    const history = useHistory()
     const { currentUserId, isWorker } = useAuth()
     const { gigId, workerId } = useLocation().state
 
@@ -35,10 +34,12 @@ function GigChat(props) {
 
     // data
     const [company, setCompany] = useState({
+        id: '',
         profilePicture: '',
         name: '',
     })
     const [worker, setWorker] = useState({
+        id: '',
         profilePicture: '',
         name: '',
     })
@@ -132,9 +133,10 @@ function GigChat(props) {
     const RecLogo = isWorker ? <ChatLogo src={company.profilePicture} name={company.name} /> : <ChatLogo src={worker.profilePicture} name={worker.name} />
     const recName = isWorker ? company.name : worker.name
     const SendLogo = isWorker ? <ChatLogo src={worker.profilePicture} name={worker.name} /> : <ChatLogo src={company.profilePicture} name={company.name} />
+    const destId = isWorker ? company.id : worker.id
     return (
         <FullPage header="View chat">
-            <Row style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+            <Row style={{ width: '100%', display: 'flex', alignItems: 'center' }} onClick={() => history.push('/view_profile', { userId: destId, userType: isWorker ? 'company' : 'worker' })}>
                 <div style={{ width: 'fit-content' }}>
                     {RecLogo}
                 </div>
