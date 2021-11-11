@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,11 +31,18 @@ import CompanyApplications from './pages/CompanyApplications'
 
 
 const NavSwitcher = () => {
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, currentUser } = useAuth()
+  const [user, setUser] = useState()
+
+
+
 
   return (
-    <Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }}>
-      {isSignedIn && <NavBar />}
+    < Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }
+    }>
+      { isSignedIn && <NavBar />}
+
+
       <div style={{ width: '100%', overflow: 'auto' }}>
         <Switch>
 
@@ -55,8 +62,9 @@ const NavSwitcher = () => {
 
           <Route path="/signin" component={SignInPage} />
         </Switch>
+
       </div>
-    </Box>
+    </Box >
   )
 }
 
