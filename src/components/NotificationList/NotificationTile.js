@@ -60,7 +60,8 @@ const NotificationTile = (props) => {
         <div onClick={() => { history.push("/my_profile") }}>
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
                 <Col id="GLMainColumn">
-                    <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs! </span>
+                    <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs!
+                    You got <span style={{ fontWeight: 'bold' }}> {review.numStars}</span> stars. </span>
                     <span> {review != null && formatTimestamp(review.date)} </span>
                 </Col>
 
