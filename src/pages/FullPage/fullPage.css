@@ -2,6 +2,7 @@
     min-height: 100vh;
     min-width: 100%;
     background-color: #E8F0F2;
+    font-family: 'Roboto', sans-serif;
 }
 
 #FPPadding {
@@ -13,5 +14,4 @@
     font-size: 36px;
     font-weight: bold;
     color: #545454;
-    font-family: 'Roboto', sans-serif;
 }

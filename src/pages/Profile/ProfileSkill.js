@@ -1,5 +1,5 @@
 import "./profile.css"
-const ProfileSKill = (props) => {
+const ProfileSkill = (props) => {
   const { text } = props;
 
   return (
@@ -9,4 +9,4 @@ const ProfileSKill = (props) => {
   );
 };
 
-export default ProfileSKill;
+export default ProfileSkill;

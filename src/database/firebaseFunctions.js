@@ -611,10 +611,10 @@ export async function createWorkerReview(reviewDetails, workerId) {
       let newAvgReviews;
       let newNumReviews;
 
-      if (oldNumReviews == 0 && oldAvg < 0) {
+      if (oldNumReviews === 0 && oldAvg < 0) {
         newAvgReviews = reviewDetails.numStars;
         newNumReviews = 1;
-      } else if (oldNumReviews != 0 && oldAvg >= 0) {
+      } else if (oldNumReviews !== 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews * 1 + 1;
       } else {
@@ -711,7 +711,7 @@ export async function applyToGig(gigId, workerId) {
   };
 
   batch.set(inWorkerRef, gigData);
-  batch.set(inGigRef.workerData);
+  batch.set(inGigRef, workerData);
   //batch add to worker's applied gig
   //batch add to gig's application list
 
@@ -765,7 +765,7 @@ export async function hireWorker(gigId, workerId) {
     let newNumSpots = numSpots * 1 + 1;
     batch.set(gigMainRef, { numHired: newNumSpots });
 
-    if (numSpots == newNumSpots) {
+    if (numSpots === newNumSpots) {
       let gigApplicantColRef = collection(
         db,
         constants.ACTIVE_GIGS,

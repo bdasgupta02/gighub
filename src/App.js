@@ -25,18 +25,14 @@ import ViewGig from './pages/ViewGig';
 import MyApplications from './pages/MyApplications';
 import MyGigs from './pages/myGigs';
 import SearchGigs from './pages/SearchGigs'
-import CompanyDetails from './pages/companyDetails';
-import { workerAppliedGigsSubscription, workerReviewSub, retrieveMessages } from './database/firebaseMessaging'
-import { getTokenFn } from './database/firebaseMessaging'
+import CreateGig from './pages/CreateGig'
+import CompanyDetails from './pages/companyDetails'
+import CompanyApplications from './pages/CompanyApplications'
 
 
 const NavSwitcher = () => {
   const { isSignedIn, currentUser } = useAuth()
   const [user, setUser] = useState()
-
-  // const [isTokenFound, setTokenFound] = useState(false);
-  // getTokenFn(setTokenFound);
-
 
 
 
@@ -45,15 +41,11 @@ const NavSwitcher = () => {
     < Box style={{ flexGrow: 1, display: 'flex', minHeight: '100vh' }
     }>
       { isSignedIn && <NavBar />}
-      {/* 
-
-      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
-      {!isTokenFound && <h1> Need notification permission ❗️ </h1>} */}
 
 
       <div style={{ width: '100%', overflow: 'auto' }}>
         <Switch>
-          <PrivateRoute exact path="/view_company" component={CompanyDetails} />
+
           <PrivateRoute exact path="/" component={Dashboard} />
           <PrivateRoute exact path="/my_gigs" component={MyGigs} />
           <PrivateRoute exact path="/view_gig" component={ViewGig} />
@@ -64,8 +56,11 @@ const NavSwitcher = () => {
           <PrivateRoute exact path="/listed_gigs" component={ListedGigs} />
           <PrivateRoute exact path="/search_gigs" component={SearchGigs} />
           <PrivateRoute exact path="/search_workers" component={SearchWorkers} />
-          <Route path="/signin" component={SignInPage} />
+          <PrivateRoute exact path="/create_gig" component={CreateGig} />
+          <PrivateRoute exact path="/view_company" component={CompanyDetails} />
+          <PrivateRoute exact path="/company_applications" component={CompanyApplications} />
 
+          <Route path="/signin" component={SignInPage} />
         </Switch>
 
       </div>

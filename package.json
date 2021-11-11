@@ -19,6 +19,8 @@
     "firebase": "^9.4.0",
     "multiselect-react-dropdown": "^2.0.7",
     "react": "^17.0.2",
+    "react-calendar": "^3.5.0",
+    "react-date-picker": "^8.3.5",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^4.0.1",
     "react-grid-system": "^7.3.1",

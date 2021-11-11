@@ -51,28 +51,6 @@ const NotificationTile = (props) => {
     })
 
 
-    // init highlights
-    let highlights = []
-    if (isGoodMatch) {
-        highlights.push(
-            <Highlight type="GOOD_MATCH" />
-        )
-    }
-    if (isFlexible) {
-        highlights.push(
-            <Highlight type="FLEXIBLE" />
-        )
-    } else {
-        highlights.push(
-            <Highlight type="FIXED" />
-        )
-    }
-    if (isNew) {
-        highlights.push(
-            <Highlight type="NEW" />
-        )
-    }
-
     const AnimatedContainer = animated(Container)
     return (
         <div onClick={() => { history.push("/my_profile") }}>

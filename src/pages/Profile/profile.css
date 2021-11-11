@@ -8,16 +8,30 @@
     min-height: 100vh;
     line-height: 1.5;
 }
+
+.ProfilePageResume {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #545454
+}
 .ProfilePageMainHeader {
     font-size: 36px;
     font-weight: bold;
     color: #545454
 }
 
+.ProfilePageMainHeaderSpacer {
+    height: 50px;
+}
+
 .ProfilePageSectionHeader {
     font-size: 20px;
     font-weight: bold;
     color: #545454
+}
+
+.ProfilePageSectionSpacer {
+    height:45px;
 }
 
 .ProfilePageItemHeader{
@@ -28,6 +42,16 @@
     width: 108px;
     height: 108px;
     border-radius: 50%;
+    margin-right: 10px;
+    background-color: white
+}
+
+.ProfilePagePictureButtonSpacer {
+    height: 10px;
+}
+
+.ProfilePageItemSpacer {
+    height: 10px;
 }
 
 #ProfilePageSkill {
@@ -35,6 +59,7 @@
     font-size: 11px;
     font-weight: 700;
     margin-right: 8px;
+    margin-top: 5px;
     background-color: #40effc65;
     display: flex;
     justify-content: center;
@@ -45,4 +70,10 @@
     border-radius: 15px;
     width: fit-content;
     color: #00A9B4;
+}
+
+.ProfilePageResume{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #545454;
 }
