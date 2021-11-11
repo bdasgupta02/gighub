@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Container, Row, Col } from 'react-grid-system'
-import Keyword from '../Keyword'
+import Keyword from '../DivKeyword'
 import ToggleSwitch from '../ToggleSwitch'
 import Button from '../Button'
 import { useAuth } from '../../contexts/AuthContext'
@@ -180,11 +180,11 @@ const WorkerTwo = (props) => {
                 <input className="InputText" type="text" placeholder="Enter your skills" value={keywordCache} onChange={event => handleInputChange(event)} onKeyPress={handleAdd} />
             </Row>
             <div className="Spacer" />
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', width: '100%', width: '260px' }}>
+            <div style={{ width: '100%' }}>
                 {details.skills.map((key) => (
-                    <Col>
+                    <div style={{ width: 'fit-content', display: 'inline-block', marginRight: '8px', marginTop: '8px' }}>
                         <Keyword keyword={key} onClose={handleClose} />
-                    </Col>
+                    </div>
                 ))}
             </div>
             <div className="SpacerBig" />
