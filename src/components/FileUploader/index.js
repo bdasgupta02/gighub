@@ -33,6 +33,7 @@ import './fileUploader.css';
 export default function FileUploader(props) {
     let setFileOutput = props.setFileOutput;
     let fileTypeEnum = props.fileTypeEnum;
+    let closerFunction = props.closer;
     const [file, setFile] = useState(null);
 
     const onInputChange = (e) => {
@@ -41,8 +42,10 @@ export default function FileUploader(props) {
     };
 
     const onSubmit = (e) => {
+        e.preventDefault();
         console.log(file);
         setFileOutput(file);
+        closerFunction();
     }
     return(
     <form action="#" id="#" onSubmit={onSubmit}>
