@@ -112,7 +112,8 @@ export async function getWorkerAppliedGigs(workerId) {
       //  console.log('IncludedGigDoc: ' + includedGigDoc); //this returns a promise.
       retArray.push({
         ...includedGigDoc.data(),
-        id: includedGigDoc.id
+        id: includedGigDoc.id,
+        status: doc.get('status')
       });
       // includedGigDoc.then((x) => {
       //   console.log("x is: " + JSON.stringify(x.data()))
@@ -563,9 +564,9 @@ export async function createCompanyReview(reviewDetails, companyId) {
     }
     const reviewRef = collection(db, constants.COMPANIES, companyId + '/' + constants.REVIEWS);
 
-    console.log("in creatingreview: reviewerId: " + reviewDetails.reviewerId + ' gigId: ' + reviewDetails.gig.id)
+
     const workerGigDoc = accessDB.collection(constants.WORKERS + '/' + reviewDetails.reviewerId + '/' + constants.APPLIED_GIGS).doc(reviewDetails.gig.id)
-    console.log("workerGigDoc: " + JSON.stringify(workerGigDoc))
+
     let companyData = companyDoc.data();
     let oldNumReviews = companyData.numReviews;
     let oldAvg = companyData.avgReview;
