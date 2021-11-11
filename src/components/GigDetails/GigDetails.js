@@ -21,6 +21,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import CreateReviewTile from '../CreateReviewTile/CreateReviewTile';
+import CreateCompanyReviewTile from '../CreateReviewTile/CreateCompanyReviewTile';
 
 import ReactModal from "react-modal"
 
@@ -66,6 +67,7 @@ const GigDetails = (props) => {
   const [applyDetails, setApplyDetails] = useState('')
   const [loading, setLoading] = useState(false)
   const [isOpenReview, setIsOpenReview] = useState(false)
+  const [isOpenCompanyReview, setIsOpenCompanyReview] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
     title: '',
@@ -373,6 +375,8 @@ const GigDetails = (props) => {
 
                   {focusApplicationData.pendingReview ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
+                  {focusApplicationData.pendingCompanyReview ? <div>
+                    <Button onClick={() => { setIsOpenCompanyReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
 
                   {/* Company POV */}
                   {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
@@ -495,6 +499,20 @@ const GigDetails = (props) => {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => { setIsOpenReview(false) }}
+                      color="primary" autoFocus text="Close"
+                    />
+                  </DialogActions>
+                </Dialog>
+
+                <Dialog open={isOpenCompanyReview} onClose={() => { setIsOpenCompanyReview(false) }}>
+                  <DialogContent>
+                    <DialogContentText>
+
+                      <CreateCompanyReviewTile gigRef={gigRef} workerId={focusWorkerId} />
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => { setIsOpenCompanyReview(false) }}
                       color="primary" autoFocus text="Close"
                     />
                   </DialogActions>
