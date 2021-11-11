@@ -86,7 +86,7 @@ export default function MyGigs(props) {
       <Row style={{ height: '30%', overflow: 'scroll' }}>
         <Col>
           {console.log('in render: ' + JSON.stringify(allBooked))}
-          {allBooked == null ? <div id="NullText">   No Finished Gigs Yet! </div> :
+          {allBooked == null ? <div id="NullText">No ongoing gigs!</div> :
 
             allBooked.map(gig =>
               <OngoingGigTile
@@ -96,9 +96,9 @@ export default function MyGigs(props) {
                 companyName={gig.companyData.name}
                 companyLogo={gig.companyData.profilePicture}
                 companyCity={gig.companyData.location.city}
-                payAmt={gig.dailyPay}
+                payAmt={"S$" + gig.pay}
                 isFlexible={gig.isFlexible}
-                payFor={(gig.endDate - gig.startDate) / 3600 / 24}
+                payFor={gig.unit}
                 link={gig.contractLink}
                 startDate={gig.startDate.toDate().toDateString()}
                 endDate={gig.endDate.toDate().toDateString()}
@@ -119,7 +119,7 @@ export default function MyGigs(props) {
       <Row style={{ height: '50%', overflow: 'scroll' }}>
 
 
-        {allFinished == null ? <div id="NullText"> No Finished Gigs Yet! </div> :
+        {allFinished == null ? <div id="NullText">No Finished Gigs Yet!</div> :
 
           allFinished.map(gig => (
             <Col xs={3} style={{ marginTop: '20px' }}>
@@ -132,9 +132,9 @@ export default function MyGigs(props) {
                   companyName={gig.companyData.name}
                   companyLogo={gig.companyData.profilePicture}
                   companyCity={gig.companyData.location.city}
-                  payAmt={gig.dailyPay}
+                  payAmt={"S$" + gig.pay}
                   isFlexible={gig.isFlexible}
-                  payFor={(gig.endDate - gig.startDate) / 3600 / 24}
+                  payFor={gig.unit}
                   link={gig.contractLink}
                   startDate={gig.startDate.toDate().toDateString()}
                   endDate={gig.endDate.toDate().toDateString()}
