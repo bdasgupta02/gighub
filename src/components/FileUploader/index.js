@@ -30,17 +30,21 @@ import './fileUploader.css';
 //           </form>
 //     )
 // };
-export default function FileUploader(setFileOutput, fileTypeEnum) {
+export default function FileUploader(props) {
+    let setFileOutput = props.setFileOutput;
+    let fileTypeEnum = props.fileTypeEnum;
     const [file, setFile] = useState(null);
 
     const onInputChange = (e) => {
         setFile(e.target.files[0]);
+        console.log("input changed to file")
     };
 
     const onSubmit = (e) => {
+        console.log(file);
         setFileOutput(file);
     }
-
+    return(
     <form action="#" id="#" onSubmit={onSubmit}>
         <div class="form-group files color">
             <label>Upload Your File</label>
@@ -48,7 +52,7 @@ export default function FileUploader(setFileOutput, fileTypeEnum) {
         </div>
         <button id="submit">Submit</button>
 
-    </form>
+    </form>);
 }
 
 /**

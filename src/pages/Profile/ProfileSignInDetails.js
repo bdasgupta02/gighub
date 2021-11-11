@@ -8,6 +8,7 @@ import { DotFillIcon } from '@primer/octicons-react';
  * @returns 
  */
 export function ProfileSignInDetails(props) {
+  //let allchar = new RegExp('.');
   return (
     <Container>
       <Row className="ProfilePageSectionSpacer" />
@@ -20,10 +21,10 @@ export function ProfileSignInDetails(props) {
         <Col>
           <Row className="ProfilePageItemHeader">Password</Row>
           <Row>
-            <div>
-              {Array.from(props.userPassword).map((char) => (
-                <DotFillIcon size={16} />
-              ))}
+            <div className="ProfilePageItemHeader">
+              {
+              props.userPassword.replace(/./g, '•')
+              }
             </div>
           </Row>
         </Col>

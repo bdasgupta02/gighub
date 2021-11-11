@@ -50,7 +50,7 @@ export default function Profile(props) {
   return (
     <div id="ProfilePageGeneric">
       <ProfileHeader avgReview={avgReview} numReview={numReview}/>
-      <ProfilePicture hasProfilePic={hasProfilePic} profilePicLink={profilePicLink} userName={userName}/>
+      <ProfilePicture hasProfilePic={hasProfilePic} profilePicLink={profilePicLink} userName={userName} userId={currentUserId}/>
       <ProfileDetails isWorker={true} userName={userName} resumeLink={resumeLink} usersAge={usersAge} userId = {currentUserId} usersGender={usersGender} workerSkills={workerSkills}/>
       <ProfileSignInDetails userEmail={userEmail} userPassword={password}/>
 

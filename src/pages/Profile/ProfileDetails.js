@@ -1,12 +1,14 @@
 import ProfileSkill from './ProfileSkill';
 import { Container, Row, Col } from 'react-grid-system';
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import {useState} from 'react';
+import ReactModal from 'react-modal';
+import { useState } from 'react';
 import FileUploader from '../../components/FileUploader';
 import { FileType } from '../../enum/FileType';
-import { createResume, updateWorkerDetails } from '../../database/firebaseFunctions';
-
+import {
+  createResume,
+  updateWorkerDetails,
+} from '../../database/firebaseFunctions';
 
 import './profile.css';
 
@@ -20,19 +22,30 @@ import './profile.css';
 export function ProfileDetails(props) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [newResumeFile, setNewResumeFile] = useState(null);
-  const modalStyle = {}
+  const modalStyle = {};
   let hasResume = props.resumeLink !== '';
   hasResume = false;
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    let userId = props.userId;
+    setIsOpen(false);
+    if (newResumeFile !== null) {
+      let resumeUrl = createResume(newResumeFile);
+      let updateDetails = {
+        id: { userId },
+        resume: { resumeUrl },
+      };
+      updateWorkerDetails(updateDetails);
+      //setNewResumeFile(null);
+    }
+  }
+
   return (
     <Container>
-      <Modal 
-      isOpen = {modalIsOpen}
-      onRequestClose = {closeModal}
-      style = {modalStyle}
-      contentLabel = "Add resume"
-      >
-        <FileUploader setFileOutput={setNewResumeFile} fileTypeEnum={FileType.DOCUMENTS}/>
-      </Modal>
       <Row className="ProfilePageSectionHeader"> Details </Row>
       <Row>
         <Col>
@@ -72,6 +85,17 @@ export function ProfileDetails(props) {
               </a>
             )}
           </Row>
+          <ReactModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={modalStyle}
+            contentLabel="Add resume"
+          >
+            <FileUploader
+              setFileOutput={setNewResumeFile}
+              fileTypeEnum={FileType.DOCUMENTS}
+            />
+          </ReactModal>
         </Col>
       </Row>
       <Row className="ProfilePageItemSpacer" />
@@ -109,23 +133,4 @@ export function ProfileDetails(props) {
   );
 }
 
-function addResume() {
-
-}
-
-function openModal() {
-  setIsOpen(true);
-}
-
-function closeModal() {
-  setIsOpen(false);
-  if (newResumeFile !== null) {
-    let resumeUrl = createResume(newResumeFile);
-    let updateDetails = {
-      id: {userId},
-      resume: {resumeUrl}
-    };
-    updateWorkerDetails(updateDetails);
-    setNewResumeFile(null);
-  }
-}
+function addResume() {}
