@@ -21,6 +21,8 @@ import db, { accessDB, storage } from './firebase';
 import * as constants from '../constants';
 import { load } from 'dotenv';
 import states from '../enum/GigStates'
+import firebase from '@firebase/app-compat';
+import GigStates from '../enum/GigStates'
 
 
 /*
@@ -711,35 +713,45 @@ export async function archiveGig(gigId) {
 }
 //will need to transact references in workers and companies
 
-export async function applyToGig(gigId, workerId) {
-  let batch = writeBatch(db);
-  let inGigRef = doc(
-    db,
-    constants.ACTIVE_GIGS,
-    gigId + '/' + constants.APPLICANTS + '/' + workerId
-  );
-  let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
-  let inWorkerRef = doc(
-    db,
-    constants.WORKERS,
-    workerId + '/' + constants.APPLIED_GIGS + '/' + gigId
-  );
-  let workerRef = doc(db, constants.WORKERS, workerId);
+export async function applyToGig(gigId, workerId, applyDetails) {
+  // let batch = writeBatch(db);
+  // let inGigRef = doc(
+  //   db,
+  //   constants.ACTIVE_GIGS,
+  //   gigId + '/' + constants.APPLICANTS + '/' + workerId
+  // );
+  // let gigRef = doc(db, constants.ACTIVE_GIGS, gigId);
+  // let inWorkerRef = doc(
+  //   db,
+  //   constants.WORKERS,
+  //   workerId + '/' + constants.APPLIED_GIGS + '/' + gigId
+  // );
+  // let workerRef = doc(db, constants.WORKERS, workerId);
 
-  let currentDate = new Date();
+  // let currentDate = new Date();
 
-  let gigData = {
-    gig: gigRef,
-    dateApplied: currentDate,
-    status: 'pending',
-  };
+  // let gigData = {
+  //   gig: gigRef,
+  //   dateApplied: currentDate,
+  //   status: 'pending',
+  // };
 
-  let workerData = {
-    worker: workerRef,
-  };
+  // let workerData = {
+  //   worker: workerRef,
+  // };
 
-  batch.set(inWorkerRef, gigData);
-  batch.set(inGigRef, workerData);
+  // batch.set(inWorkerRef, gigData);
+  // batch.set(inGigRef, workerData);
+
+  await accessDB.collection(constants.WORKERS).doc(workerId).collection(constants.APPLIED_GIGS).doc(gigId).set({
+    dateApplied: firebase.firestore.Timestamp.fromDate(new Date()),
+    gig: accessDB.collection(constants.ACTIVE_GIGS).doc(gigId),
+    optionalComments: applyDetails,
+    pendingCompanyReview: false,
+    pendingReview: false,
+    status: GigStates.APPLIED
+  })
+
   //batch add to worker's applied gig
   //batch add to gig's application list
 
