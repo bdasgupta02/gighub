@@ -119,14 +119,14 @@ const OngoingGigTile = (props) => {
           </div>
           </Row>
           <Row justify="between">
-            <Col xs={7} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
+            <Col xs={7} >
               <div id="JobDesc2">
                 {jobDesc}
               </div>
               <div style={{ height: '40%' }}></div>
               <a href={link}> View contract </a>
             </Col>
-            <Col xs={4} onClick={() => history.push("/view_company", { companyId: companyId.id })} >
+            <Col xs={4} >
               <span style={{ color: Constants.GREY, fontWeight: 'bold', margin: '20px' }}>Start: {startDate}</span>
               <span style={{ color: 'maroon', fontWeight: 'bold' }}>   Deadline: {endDate} </span>
               <div style={{ height: '20px' }}></div>

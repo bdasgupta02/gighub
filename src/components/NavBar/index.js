@@ -36,6 +36,7 @@ import {
 } from '@firebase/firestore';
 
 import db from '../../database/firebase';
+import states from '../../enum/GigStates';
 
 
 //https://primer.style/octicons/
@@ -99,8 +100,8 @@ const NavBar = (props) => {
 
     const q = query(collection(
       db,
-      "workers" + '/' + userId + '/' + "bookedGigs"
-    ))
+      "workers" + '/' + userId + '/' + "appliedGigs"
+    ), where("status", "==", states.ASSIGNED))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       console.log('in snapshot: ' + querySnapshot)
       temp = []
