@@ -11,11 +11,13 @@ import {
   updateDoc,
   runTransaction,
   increment,
+  onSnapshot,
+  where
 } from '@firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import db, { accessDB, storage } from './firebase';
+import db, { storage } from './firebase';
 import * as constants from '../constants';
 import { load } from 'dotenv';
 
@@ -614,10 +616,10 @@ export async function createWorkerReview(reviewDetails, workerId) {
       let newAvgReviews;
       let newNumReviews;
 
-      if (oldNumReviews == 0 && oldAvg < 0) {
+      if (oldNumReviews === 0 && oldAvg < 0) {
         newAvgReviews = reviewDetails.numStars;
         newNumReviews = 1;
-      } else if (oldNumReviews != 0 && oldAvg >= 0) {
+      } else if (oldNumReviews !== 0 && oldAvg >= 0) {
         newAvgReviews = oldAvg + reviewDetails.numStars;
         newNumReviews = oldNumReviews * 1 + 1;
       } else {
@@ -714,7 +716,7 @@ export async function applyToGig(gigId, workerId) {
   };
 
   batch.set(inWorkerRef, gigData);
-  batch.set(inGigRef.workerData);
+  batch.set(inGigRef, workerData);
   //batch add to worker's applied gig
   //batch add to gig's application list
 
@@ -768,7 +770,7 @@ export async function hireWorker(gigId, workerId) {
     let newNumSpots = numSpots * 1 + 1;
     batch.set(gigMainRef, { numHired: newNumSpots });
 
-    if (numSpots == newNumSpots) {
+    if (numSpots === newNumSpots) {
       let gigApplicantColRef = collection(
         db,
         constants.ACTIVE_GIGS,
@@ -803,3 +805,41 @@ export async function deleteWorkerProfilePicture(workerId) {
 /*
 HELPER FUNCTIONS
 */
+
+
+/*
+NOTIFICATION FUNCTIONS
+*/
+
+export const workerAppliedGigsSubscription = (workerId) => {
+  const q = query(collection(
+    db,
+    constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS
+  ));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const cities = [];
+    querySnapshot.forEach((doc) => {
+      cities.push(doc.data());
+    });
+    console.log("Current cities in CA: ", cities.join(", "));
+  });
+}
+
+export const workerReviewSub = (workerId) => {
+  let reviews = []
+  const q = query(collection(
+    db,
+    constants.WORKERS + '/' + workerId + '/' + constants.REVIEWS
+  ), where('wasViewed', '==', false));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+    querySnapshot.forEach((doc) => {
+      reviews.push(doc.data())
+    })
+    console.log("Current unviewed reviews: ", reviews.join(", "))
+  })
+  return unsubscribe
+  // const unsub = onSnapshot(doc(db, "workers", workerId + '/' + constants.REVIEWS), (doc) => {
+  //   console.log(" data in wrokerReviewSub: ", JSON.stringify(doc.data()));
+  // });
+}

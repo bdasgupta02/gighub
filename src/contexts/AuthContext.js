@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (details, isWorker) => {
         let uid = ''
-        const user = await auth.createUserWithEmailAndPassword(details.email, details.password).then( async (res) => {
+        const user = await auth.createUserWithEmailAndPassword(details.email, details.password).then(async (res) => {
             uid = res.user.uid
             if (isWorker !== undefined && isWorker) {
                 accessDB.collection('workers').doc(res.user.uid).set(details)
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         const companiesRef = accessDB.collection('companies')
         const companiesEmail = await companiesRef.where('email', '==', email).get()
 
-        
+
 
         console.log(workersEmail.docs)
         if (typeof workersEmail !== 'undefined' && workersEmail.docs.length > 0) {

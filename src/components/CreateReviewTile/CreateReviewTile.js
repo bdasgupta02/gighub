@@ -51,7 +51,7 @@ const CreateReviewTile = (props) => {
         if (allTags.length == 0) {
             let temp = []
             fbFunctions.getReviewTags().then(data =>
-                setAllTags(data))
+                setAllTags(data)) //["tag1" , "tag2"]
         }
 
         if (user == null) {
@@ -100,12 +100,13 @@ const CreateReviewTile = (props) => {
                     "textReview": textReview,
                     "numStars": numStars,
                     "reviewTags": selectedTags,
-                    "date": Date.now(),
+                    "date": new Date(),
                     "gig": gigRef
                 }
                 console.log("company id being passed: " + companyId);
                 await fbFunctions.createCompanyReview(review, companyId)
                 //REDIRECT
+                setSubmitError("Successfully reviewed company!")
                 setLoading(false)
             } catch (e) {
                 if (e.message.includes('user-not-found')) {

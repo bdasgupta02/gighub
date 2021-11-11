@@ -35,7 +35,7 @@ const Button = (props) => {
 
     const animatedClick = useSpring({
         // color animation
-        backgroundColor: type === 'SECONDARY' ? !isPressed ? '#ECECEC' : '#DBDBDB' : type === 'GREEN' ? isPressed ? '#ECECEC' : '#00A9B4' : type === 'WHITE' ? !isPressed ? '#FFFFFF' : '#DBDBDB' : !isPressed ? '#55E1EA' : '#2EB8C0',
+        backgroundColor: type === 'SECONDARY' ? !isPressed ? '#ECECEC' : '#DBDBDB' : type === 'GREEN' ? isPressed ? '#ECECEC' : '#00A9B4' : type === 'WHITE' ? !isPressed ? '#FFFFFF' : '#DBDBDB' : !isPressed ? '#2fc2cc' : '#27a4ab',
         config: {
             mass: 1,
             tension: 300,

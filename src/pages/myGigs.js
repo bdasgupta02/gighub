@@ -14,22 +14,25 @@ import DialogContent from "@material-ui/core/DialogContent";
 import { Timestamp } from 'firebase/firestore'
 import ReviewTile from '../components/ReviewTile/ReviewTile.js';
 import CreateReviewTile from '../components/CreateReviewTile/CreateReviewTile.js';
+import { useAuth } from '../contexts/AuthContext.js';
 
 export default function MyGigs(props) {
   /* Props:
   pendingReview: true or false
+  user.uid
    */
-
+  const { currentUser } = useAuth()
   const [allBooked, setAllBooked] = useState();
-  const allBookedPromise = fbFunctions.getWorkerBookedGigs('5ornuxQ4USWJujeQxXnJ');
+  // const allBookedPromise = fbFunctions.getWorkerBookedGigs('5ornuxQ4USWJujeQxXnJ');
+
   const [allFinished, setAllFinished] = useState();
   const [isOpenReview, setIsOpenReview] = useState(false)
 
 
   useEffect(() => {
     let tempBooked = []
-    if (allBooked == null) {
-      allBookedPromise.then(arr => {
+    if (allBooked == null && currentUser != null) {
+      fbFunctions.getWorkerBookedGigs(currentUser.uid).then(arr => {
         arr.map(
           el => fbFunctions.getCompanyByRef(el.companyId).then(
             compData => {
@@ -46,9 +49,9 @@ export default function MyGigs(props) {
 
     }
 
-    if (allFinished == null) {
+    if (allFinished == null && currentUser != null) {
       let tempFinished = []
-      fbFunctions.getWorkerArchivedGigs('5ornuxQ4USWJujeQxXnJ').then(arr => {
+      fbFunctions.getWorkerArchivedGigs(currentUser.uid).then(arr => {
         arr.map(
           el => fbFunctions.getCompanyByRef(el.companyId).then(
             compData => {
@@ -116,7 +119,7 @@ export default function MyGigs(props) {
           allFinished.map(gig => (
             <Col xs={3} style={{ marginTop: '20px' }}>
               <div > </div>
-              <div>
+              <div style={{ width: '300px' }}>
                 <GigListingTile
                   jobTitle={gig.title}
                   jobDesc={gig.description}
@@ -135,7 +138,7 @@ export default function MyGigs(props) {
                 <Dialog open={isOpenReview} onClose={() => { setIsOpenReview(false) }}>
                   <DialogContent>
                     <DialogContentText>
-                      {gig.companyId.id}
+
                       <CreateReviewTile gigRef={gig.gigRef} companyId={gig.companyId.id} />
                     </DialogContentText>
                   </DialogContent>

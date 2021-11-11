@@ -3,10 +3,12 @@ import FullPage from '../FullPage'
 import { Switch } from '@mui/material'
 import Button from '../../components/Button'
 import DatePicker from 'react-date-picker'
-import { Row } from 'react-grid-system'
+import { Row, Col } from 'react-grid-system'
+import Keyword from '../../components/Keyword'
 import './createGig.css'
 
 function CreateGig() {
+    const [keywordCache, setKeywordCache] = useState('')
     const [gigDetails, setGigDetails] = useState({
         title: '',
         description: '',
@@ -39,6 +41,20 @@ function CreateGig() {
             ...gigDetails,
             [type]: date
         })
+    }
+
+    const handleAddKeyword = () => {
+        if (keywordCache === '') {
+            alert('Keyword can\'t be empty')
+        }
+        const editedRequirements = gigDetails.requirements
+        const idx = editedRequirements.findIndex(x => x === keywordCache)
+        idx === - 1 ? setGigDetails({ ...gigDetails, requirements: editedRequirements }) : alert('Keyword has already been added!')
+        setKeywordCache('')
+    }
+
+    const handleRemoveKeyword = (keyword) => {
+
     }
 
     /**
@@ -114,9 +130,23 @@ function CreateGig() {
                 </div>
 
                 {/** Tags: text box -> keywords **/}
-                <Row>
-
-                </Row>
+                <div className="CGLabel">
+                    Requirements (skills)
+                </div>
+                <div className="CGSubLabel">
+                    What skills does the worker need to have for this gig?
+                </div>
+                <div className="CGInputBoxSmall">
+                    <input className="CGInputText" placeholder="Keyword" type="text" value={keywordCache} onChange={(event) => setKeywordCache(event.target.value)} />
+                </div>
+                <div style={{ width: '100%', height: '8px' }} />
+                <div style={{ width: 'fit-content' }}>
+                    <Button type="PRIMARY" text="Add skill" forceWidth="100px" onClick={handleAddKeyword} />
+                </div>
+                <div style={{ width: '100%', height: '20px' }} />
+                <div>
+                    keywords
+                </div>
 
 
                 {/** All the dates **/}
@@ -160,6 +190,7 @@ function CreateGig() {
                 </div>
 
             </form>
+            <div style={{ width: '100%', height: '100px' }} />
         </FullPage>
     )
 }
