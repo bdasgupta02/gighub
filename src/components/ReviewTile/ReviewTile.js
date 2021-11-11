@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { animated, useSpring, config } from 'react-spring'
 import { Container, Row, Col } from 'react-grid-system'
 import Highlight from './Highlight'
 import LogoGenerator from '../LogoGenerator';
 import './reviewTile.css'
 import ReviewStars from '../ReviewStars';
+import { getArchivedGig } from '../../database/firebaseFunctions';
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
 
 const ReviewTile = (props) => {
     const [isHovering, setIsHovering] = useState(false)
-
+    const [gig, setGig] = useState();
 
     // placeholders for now:
-    let gigTitle = props.gigTitle ?? 'Gift Packer'
+    // let gigTitle = props.gigTitle ?? 'Gift Packer'
     let date = props.date ?? '01/02/2000'
     let textReview = props.textReview ?? "Very prompt and friendly"
     let rating = props.rating ?? 2
     let tags = props.tags ?? []
+    let gigRef = props.gigRef ?? null
 
 
 
@@ -28,6 +30,16 @@ const ReviewTile = (props) => {
         backgroundColor: isHovering ? "#FFFFFFFF" : "#FFFFFFA6",
         config: config.default
     })
+
+
+    useEffect(() => {
+
+        if (gigRef != null) {
+            getArchivedGig(gigRef.id).then(
+                data => { setGig(data[0]) }
+            )
+        }
+    }, [])
 
 
     const AnimatedContainer = animated(Container)
@@ -40,7 +52,7 @@ const ReviewTile = (props) => {
 
                         <Col>
                             <div id="GLCompanyName">
-                                {gigTitle}
+                                {gig != null && gig.title}
                             </div>
                             <div id="GLCompanyLocation">
                                 {date}

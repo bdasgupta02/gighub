@@ -130,7 +130,7 @@ const NavBar = (props) => {
   return (
     <div>
       <div className="NBBackground">
-
+        {console.log("isworker? ", isWorker)}
         <nav>
           <Col xs={2} justify="center" align="center">
 
