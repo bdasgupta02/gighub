@@ -29,6 +29,7 @@ import CreateGig from './pages/CreateGig'
 import CompanyDetails from './pages/companyDetails'
 import CompanyApplications from './pages/CompanyApplications'
 import GigChat from './pages/GigChat';
+import CalendarPage from './pages/CalendarPage';
 
 
 const NavSwitcher = () => {
@@ -61,6 +62,7 @@ const NavSwitcher = () => {
           <PrivateRoute exact path="/view_company" component={CompanyDetails} />
           <PrivateRoute exact path="/company_applications" component={CompanyApplications} />
           <PrivateRoute exact path="/gig_chat" component={GigChat} />
+          <PrivateRoute exact path="/calendar" component={CalendarPage} />
 
           <Route path="/signin" component={SignInPage} />
         </Switch>

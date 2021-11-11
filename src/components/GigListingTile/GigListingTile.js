@@ -24,7 +24,7 @@ const GigListingTile = (props) => {
     let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
     let pendingReview = props.pendingReview ?? false;
     const payAmt = props.payAmt ?? "S$ 1,000"
-    const payFor = props.payFor ?? "10 days"
+    const payFor = props.payFor ?? "11 days"
     const isNew = props.isNew ?? false;
     const isGoodMatch = props.isGoodMatch ?? false;
     let isFlexible = props.isFlexible ?? false;
