@@ -8,104 +8,103 @@ import { accessDB } from '../../database/firebase'
 
 
 function MyApplications() {
-    const history = useHistory()
-    
-    const { isWorker, currentUser } = useAuth()
-    const [gigs, setGigs] = useState()
+  const history = useHistory()
 
-    const getApplicationsByCompanyId = async (companyId) => {
-        //getWorkerAppliedGigs for all workers --> each is an array of gigs. check gig.id == gig.id in the gig.id of the company's posted gigs
-        //add gig[workerId] = worker.id
-        //add to temp = []
-        //return that
-        let temp = []
+  const { isWorker, currentUser } = useAuth()
+  const [gigs, setGigs] = useState()
 
-        const workersRef = await accessDB.collection("workers").get()
+  const getApplicationsByCompanyId = async (companyId) => {
+    //getWorkerAppliedGigs for all workers --> each is an array of gigs. check gig.id == gig.id in the gig.id of the company's posted gigs
+    //add gig[workerId] = worker.id
+    //add to temp = []
+    //return that
+    let temp = []
 
-        workersRef.forEach(async (worker) => {
-          const workerId = worker.id
-          const name = worker.data().name
+    const workersRef = await accessDB.collection("workers").get()
 
-          const gigArr = await getWorkerAppliedGigs(workerId)
-          gigArr.forEach(async (gig) => {
-            if (gig.companyId.id === companyId) {
-              gig['workerId'] = workerId
-              gig['workerName'] = name
+    workersRef.forEach(async (worker) => {
+      const workerId = worker.id
+      const name = worker.data().name
 
-              const innerCompany = await getCompanyByRef(gig.companyId)
-              gig['companyData'] = innerCompany
+      const gigArr = await getWorkerAppliedGigs(workerId)
+      gigArr.forEach(async (gig) => {
+        if (gig.companyId.id === companyId) {
+          gig['workerId'] = workerId
+          gig['workerName'] = name
 
-                temp.push(gig)
-            }
-          })
-        })
-
-        setGigs(temp)
-    }
-
-
-    useEffect(() => {
-
-        let tempBooked = []
-        if (isWorker && currentUser != null && gigs == null) {
-            getWorkerAppliedGigs(currentUser.uid).then(arr => {
-                arr.map(
-                    el => getCompanyByRef(el.companyId).then(
-                        compData => {
-                            el['companyData'] = compData;
-                            
-                            if ([states.APPLIED, states.REJECTED, states.OFFERED, states.OFFER_REJECTED].includes(el.status)) {
-                                tempBooked.push(el)
-                                setGigs(tempBooked)
-                            }
-                        }))
-
-                //   console.log("after setting: " + tempBooked);
-            }
-
-            )
-        } else if (!isWorker && currentUser != null && gigs == null) {
-            getApplicationsByCompanyId(currentUser.uid)
+          const innerCompany = await getCompanyByRef(gig.companyId)
+          gig['companyData'] = innerCompany
+          temp.push(gig)
         }
-    }, [])
+      })
+    })
+
+    setGigs(temp)
+  }
 
 
-    return (
-        <div>
-            {gigs != null && console.log('appliedgigs length: ' + gigs.length)}
-            <div id="HeaderTexts"> Applications</div>
-            <div style={{ height: '10px' }}></div>
-            {(gigs != null && gigs.length != 0 && isWorker) && gigs.map(gig =>
-                <ApplicationsTile jobTitle={gig.title}
-                    companyName={gig.companyData.name}
-                    companyLogo={gig.companyData.profilePicture}
-                    companyCity={gig.companyData.location.city}
-                    payAmt={gig.dailyPay}
-                    payFor={(gig.endDate - gig.startDate) / 3600 / 24}
-                    companyId={gig.companyId}
-                    gigStatus={gig.status}
-                    gigId={gig.id}
-                />
-            )
-            }
+  useEffect(() => {
 
-            {(gigs != null && gigs.length != 0 && !isWorker) && gigs.map(gig =>
-                <ApplicationsTile jobTitle={gig.title}
-                    companyName={gig.companyData.name}
-                    companyLogo={gig.companyData.profilePicture}
-                    companyCity={gig.companyData.location.city}
-                    payAmt={gig.dailyPay}
-                    payFor={(gig.endDate - gig.startDate) / 3600 / 24}
-                    companyId={gig.companyId}
-                    gigStatus={gig.status}
-                    gigId={gig.id}
-                    workerName={gig.workerName}
-                    workerId={gig.workerId}
-                />
-            )
-            }
-        </div>
-    )
+    let tempBooked = []
+    if (isWorker && currentUser != null && gigs == null) {
+      getWorkerAppliedGigs(currentUser.uid).then(arr => {
+        arr.map(
+          el => getCompanyByRef(el.companyId).then(
+            compData => {
+              el['companyData'] = compData;
+
+              if ([states.APPLIED, states.REJECTED, states.OFFERED, states.OFFER_REJECTED].includes(el.status)) {
+                tempBooked.push(el)
+                setGigs(tempBooked)
+              }
+            }))
+
+        //   console.log("after setting: " + tempBooked);
+      }
+
+      )
+    } else if (!isWorker && currentUser != null && gigs == null) {
+      getApplicationsByCompanyId(currentUser.uid)
+    }
+  }, [])
+
+
+  return (
+    <div>
+      {gigs != null && console.log('appliedgigs length: ' + gigs.length)}
+      <div id="HeaderTexts"> Applications</div>
+      <div style={{ height: '10px' }}></div>
+      {(gigs != null && gigs.length != 0 && isWorker) && gigs.map(gig =>
+        <ApplicationsTile jobTitle={gig.title}
+          companyName={gig.companyData.name}
+          companyLogo={gig.companyData.profilePicture}
+          companyCity={gig.companyData.location.city}
+          payAmt={gig.dailyPay}
+          payFor={(gig.endDate - gig.startDate) / 3600 / 24}
+          companyId={gig.companyId}
+          gigStatus={gig.status}
+          gigId={gig.id}
+        />
+      )
+      }
+
+      {(gigs != null && gigs.length != 0 && !isWorker) && gigs.map(gig =>
+        <ApplicationsTile jobTitle={gig.title}
+          companyName={gig.companyData.name}
+          companyLogo={gig.companyData.profilePicture}
+          companyCity={gig.companyData.location.city}
+          payAmt={gig.dailyPay}
+          payFor={(gig.endDate - gig.startDate) / 3600 / 24}
+          companyId={gig.companyId}
+          gigStatus={gig.status}
+          gigId={gig.id}
+          workerName={gig.workerName}
+          workerId={gig.workerId}
+        />
+      )
+      }
+    </div>
+  )
 }
 
 export default MyApplications

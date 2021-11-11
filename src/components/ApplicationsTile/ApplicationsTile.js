@@ -11,6 +11,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+import LogoBox from "../LogoBox/index"
+
 import {
   AlertIcon
 } from '@primer/octicons-react';
@@ -111,8 +113,8 @@ const ApplicationsTile = (props) => {
         <Col id="MainColumn2" >
           <Row>
 
-            <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
-              <img src={logo} id="LogoImg" />
+            <div onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
+              <LogoBox src={companyLogo} name={companyName} />
             </div>
             <Col>
               <div id="CompanyName2" onClick={() => history.push("/view_company", { companyId: companyId.id })} >
