@@ -11,6 +11,7 @@ import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
 import LogoBox from "../LogoBox/index"
+import { accessDB } from "../../database/firebase"
 import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs, getWorker, getApplicationData, setApplicationStatus } from "../../database/firebaseFunctions";
 
 
@@ -35,7 +36,7 @@ const GigDetails = (props) => {
   const location = useLocation().state
   const history = useHistory()
 
-  const { gigId, focusWorkerId, reviewable, extraReviewDataGigRef } = location
+  const { gigId, focusWorkerId } = location
 
   let mode = ''
 
@@ -84,6 +85,8 @@ const GigDetails = (props) => {
     taken: '',
     companyId: ''
   })
+
+  const gigRef = accessDB.collection('activeGigs').doc(gigId)
 
   const fetchFocusWorker = async () => {
     const focusWorkersData = await getWorker(focusWorkerId)
@@ -368,12 +371,12 @@ const GigDetails = (props) => {
                     ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
 
-                  {reviewable != null && reviewable ? <div>
+                  {focusApplicationData.pendingReview ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
 
                   {/* Company POV */}
                   {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
-                    <div>
+                    <div className="GDButtons">
                       <Button text="Edit" forceWidth="90px" type="PRIMARY" />
                     </div>
                   ) : (<span></span>)}
@@ -381,62 +384,59 @@ const GigDetails = (props) => {
                   {!isWorker && mode == 'companyPovFocusWorker' && details.companyId == currentUserId ? (
                     <div>
                       <hr></hr>
-
-                      <Row>
-                        <Col>
-                          <span className="GDSectionTitle">Application Status: <span className="GDAppStatus">{focusApplicationData.status}</span></span>
-                        </Col>
-                      </Row>
-
-                      <Row className="spacingRow">
-                        <Col></Col>
-                      </Row>
-
-                      <Row className="GDApplicant" onClick={() => history.push("/view_profile", { userId: focusWorkerId, userType: 'worker' })}>
-                        <Col sm={2}>
-                          <div className="GDHeaderLogo" >
-                            <LogoBox src={focusWorkerData.profilePicture} name={focusWorkerData.name} />
+                      <div className="GDBar">
+                        <Row>
+                          <div>
+                            <span className="GDSectionTitle">Application Status: <span className="GDAppStatus">{focusApplicationData.status}</span></span>
                           </div>
-                        </Col>
-                        <Col sm={10} className="GDHeader">
-                          <span className="GDName1">Applicant Name: </span><br></br>
-                          <span className="GDName2">{focusWorkerData.name}</span>
-                        </Col>
-                      </Row>
+                        </Row>
 
-                      <Row className="spacingRow">
-                        <Col></Col>
-                      </Row>
+                        <Row className="spacingRow">
+                          <Col></Col>
+                        </Row>
 
-                      <Row>
-                        <Col>
-                          <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: focusWorkerId, companyId: currentUserId })} />
-                        </Col>
-                      </Row>
-
-                      <Row className="spacingRow">
-                        <Col></Col>
-                      </Row>
-
-                      {focusApplicationData.status == 'Applied' ? (
-                        <Row>
-                          <Col sm={5}>
-                            <Button text="OFFER" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Offered")} />
+                        <Row className="GDApplicant" onClick={() => history.push("/view_profile", { userId: focusWorkerId, userType: 'worker' })}>
+                          <Col sm={2}>
+                            <div className="GDHeaderLogo" >
+                              <LogoBox src={focusWorkerData.profilePicture} name={focusWorkerData.name} />
+                            </div>
                           </Col>
-                          <Col>
-                            <Button text="REJECT" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Rejected")} />
+                          <Col sm={10} className="GDHeader">
+                            <span className="GDName1">Applicant Name: </span><br></br>
+                            <span className="GDName2">{focusWorkerData.name}</span>
                           </Col>
                         </Row>
-                      ) : (<span></span>)}
 
-                      {focusApplicationData.status == 'Assigned' ? (
-                        <Row>
-                          <Col>
-                            <Button text="CLOSE" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Closed")} />
-                          </Col>
+                        <Row className="spacingRow">
+                          <Col></Col>
                         </Row>
-                      ) : (<span></span>)}
 
+                        <Row>
+                          <div className="GDButtons">
+                            <Button text="Chat" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/gig_chat", { gigId: gigId, workerId: focusWorkerId, companyId: currentUserId })} />
+                          </div>
+                        </Row>
+
+                        {focusApplicationData.status == 'Applied' ? (
+                          <Row>
+                            <div className="GDButtons">
+                              <Button text="OFFER" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Offered")} />
+                            </div>
+                            <div className="GDButtons">
+                              <Button text="REJECT" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Rejected")} />
+                            </div>
+                          </Row>
+                        ) : (<span></span>)}
+
+                        {focusApplicationData.status == 'Assigned' ? (
+                          <Row>
+                            <div className="GDButtons">
+                              <Button text="CLOSE" forceWidth="90px" type="PRIMARY" onClick={() => setApplicationStatus(focusWorkerId, gigId, "Closed")} />
+                            </div>
+                          </Row>
+                        ) : (<span></span>)}
+
+                      </div>
                     </div>
                   ) : (<span></span>)}
                 </div>
@@ -490,7 +490,7 @@ const GigDetails = (props) => {
                   <DialogContent>
                     <DialogContentText>
 
-                      <CreateReviewTile gigRef={extraReviewDataGigRef} companyId={details.companyId} />
+                      <CreateReviewTile gigRef={gigRef} companyId={details.companyId} />
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>

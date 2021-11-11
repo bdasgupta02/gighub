@@ -139,13 +139,17 @@ export async function getApplicationData(workerId, gigId) {
 
 export async function setApplicationStatus(workerId, gigId, newStatus) {
   const applicationRef = accessDB.collection("workers").doc(workerId).collection("appliedGigs").doc(gigId)
-  applicationRef.update({
-    status: newStatus
-  }).then(() => {
-    
-  }).catch(error => {
-    alert(error)
-  })
+  if (newStatus === "Closed") {
+    applicationRef.update({
+      status: newStatus,
+      pendingReview: true,
+      pendingCompanyReview: true
+    })
+  } else {
+    applicationRef.update({
+      status: newStatus
+    })
+  }
 }
 
 export async function getWorkerArchivedGigs(workerId) {
