@@ -176,6 +176,7 @@ export default function SearchGigs(props) {
                 <Row className="SearchSpacer" />
                 <Row>
                     {cleanedGigs.map(e => {
+                        console.log(e)
                         const convertedParams = {
                             // change this to real values
                             isNew: false,
@@ -188,7 +189,7 @@ export default function SearchGigs(props) {
                             payFor: e.unit,
                             companyName: e.company.name,
                             companyCity: e.company.location.city,
-                            companyLogo: e.company.profileLogo
+                            companyLogo: e.company.profilePicture
                         }
 
                         return (
