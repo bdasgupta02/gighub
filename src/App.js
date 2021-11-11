@@ -60,7 +60,7 @@ const NavSwitcher = () => {
           <PrivateRoute exact path="/create_gig" component={CreateGig} />
           <PrivateRoute exact path="/view_company" component={CompanyDetails} />
           <PrivateRoute exact path="/company_applications" component={CompanyApplications} />
-          <Route exact path="/gig_chat" component={GigChat} />
+          <PrivateRoute exact path="/gig_chat" component={GigChat} />
 
           <Route path="/signin" component={SignInPage} />
         </Switch>

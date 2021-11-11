@@ -9,6 +9,7 @@ import ChatItem from './ChatItem'
 import firebase from '@firebase/app-compat'
 import Button from '../../components/Button'
 import { PaperAirplaneIcon } from '@primer/octicons-react'
+import { useLocation } from 'react-router'
 import './gigChat.css'
 
 /**
@@ -28,9 +29,8 @@ import './gigChat.css'
  * - cross testing (after all of the above are done)
  */
 function GigChat(props) {
-    // props needed: gigId, workerId
-
-    //const { currentUserId, isWorker } = useAuth()
+    const { currentUserId, isWorker } = useAuth()
+    const { gigId, workerId } = useLocation().state
 
 
     // new message
@@ -48,17 +48,6 @@ function GigChat(props) {
     const [messages, setMessages] = useState([])
     const [gig, setGig] = useState({})
     const messageEl = useRef(null)
-
-
-
-
-
-
-    // Hardcoded
-    const gigId = '22eTmjT1E2lSjMsQ7fIX'
-    const workerId = 'JXoSVOEbbeeTxnUOkurEgENA7kg1'
-    const isWorker = false
-    const currentUserId = 'ZoIU928Y1AaMb3AEtYtKedh0cwv2'
 
 
 
