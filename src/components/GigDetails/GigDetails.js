@@ -11,7 +11,7 @@ import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
 import LogoBox from "../LogoBox/index"
-import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs } from "../../database/firebaseFunctions";
+import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs,getWorker } from "../../database/firebaseFunctions";
 
 
 import Dialog from "@material-ui/core/Dialog";
@@ -33,8 +33,22 @@ const GigDetails = (props) => {
   const { currentUser, currentUserId, isWorker } = useAuth()
 
   const location = useLocation().state
-  const { gigId, reviewable, extraReviewDataGigRef } = location
+  const { gigId, focusWorkerId, reviewable, extraReviewDataGigRef } = location
 
+  let mode = ''
+
+  if (isWorker) {
+    mode = 'workerPov'
+  } else {
+    if (focusWorkerId != null) {
+      mode = 'companyPovFocusWorker'
+    } else {
+      mode = 'companyPov'
+    }
+  }
+
+  const [focusWorkerData, setFocusWorkerData] = useState()
+  const [focusApplicationData, setFocusApplicationData] = useState()
   const [hasApplied, setHasApplied] = useState(false)
   const [appliedGigs, setAppliedGigs] = useState([])
   const [applyDetails, setApplyDetails] = useState('')
@@ -59,6 +73,13 @@ const GigDetails = (props) => {
     taken: '',
     companyId: ''
   })
+
+  const fetchFocusWorker = async () => {
+    const focusWorkerData = await getWorker(focusWorkerId)
+    setFocusWorkerData(focusWorkerData[0])
+
+    // get application data
+  }
 
   // DB
   const fetch = async () => {
@@ -116,6 +137,10 @@ const GigDetails = (props) => {
   useEffect(() => {
     fetch()
     fetchApplicationStatus()
+
+    if (mode == 'companyPovFocusWorker') {
+      fetchFocusWorker()
+    }
   }, [])
 
   const handleApplyDetails = (e) => {
@@ -273,27 +298,38 @@ const GigDetails = (props) => {
             <Row>
               <Col>
                 <div className="extraVerticalPadding">
+
+                  {/* Worker POV */}
                   {isWorker ? (<span>
                     {hasApplied ? (<Button text="Applied" onClick={() => alert("You have already applied for this position!")} type="SECONDARY" forceWidth="90px" />) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
 
                   {reviewable != null && reviewable ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth={50} type='GREEN' /> </div> : null}
-                  <Dialog open={isOpenReview} onClose={() => { setIsOpenReview(false) }}>
-                    <DialogContent>
-                      <DialogContentText>
 
-                        <CreateReviewTile gigRef={extraReviewDataGigRef} companyId={details.companyId} />
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={() => { setIsOpenReview(false) }}
-                        color="primary" autoFocus text="Close"
-                      />
-                    </DialogActions>
-                  </Dialog>
+                  {/* Company POV */}
+                  {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
+                    <div>
+                      <Button text="Edit" forceWidth="90px" type="PRIMARY" />
+                    </div>
+                  ) : (<span></span>)}
+
+                  {!isWorker && mode == 'companyPovFocusWorker' && details.companyId == currentUserId ? (
+                    <div>
+                      <div>
+                        <Button text="Chat" forceWidth="90px" type="PRIMARY" />
+                      </div>
+                      <div>
+                        <Button text="Worker Profile" forceWidth="90px" type="PRIMARY" />
+                      </div>
+                      <div>
+                        <Button text="Change Status" forceWidth="90px" type="PRIMARY" />
+                      </div>
+                    </div>
+                  ) : (<span></span>)}
 
                 </div>
+
                 <ReactModal isOpen={applyTabIsOpen} className="GDModal" overlayClassName="GDModalOverlay">
                   <Row align="center" justify="center" className="GDModalBase">
                     <Col sm={4} className="GDModalCol">
@@ -338,6 +374,20 @@ const GigDetails = (props) => {
                     </Col>
                   </Row>
                 </ReactModal>
+
+                <Dialog open={isOpenReview} onClose={() => { setIsOpenReview(false) }}>
+                  <DialogContent>
+                    <DialogContentText>
+
+                      <CreateReviewTile gigRef={extraReviewDataGigRef} companyId={details.companyId} />
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => { setIsOpenReview(false) }}
+                      color="primary" autoFocus text="Close"
+                    />
+                  </DialogActions>
+                </Dialog>
               </Col>
             </Row>
 
