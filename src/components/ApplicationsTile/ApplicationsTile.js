@@ -70,6 +70,7 @@ const ApplicationsTile = (props) => {
   let contactNum = props.contactNum ?? "No information input."
   let companyId = props.companyId ?? null;
   let gigStatus = props.gigStatus ?? 'Processing...'
+  let gigId = props.gigId ?? null
 
   const companyNameLimit = 15
   const companyCityLimit = 22
@@ -95,7 +96,7 @@ const ApplicationsTile = (props) => {
 
       <AnimatedContainer className="TileText2" id="TileBackground2" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="MainColumn2" >
-          <Row onClick={() => history.push("/view_company", { companyId: companyId.id })} >
+          <Row>
 
             <div id="LogoBox2" onClick={() => history.push({ pathname: "/view_company", state: { companyId: companyId.id } })}>
               <img src={logo} id="LogoImg" />
@@ -117,15 +118,21 @@ const ApplicationsTile = (props) => {
               <span className="PayText2">{payAmt}/</span>
               <span id="PayForText2">{payFor}</span>
             </Col>
-            <Col xs={1}>
-              {gigStatus}
+
+            <Col>
+              <Row justify="center">
+                {gigStatus}
+              </Row>
+              <Row justify="center" align="center">
+                <div id="linkText" onClick={() => history.push({ pathname: "/view_gig", state: { gigId: gigId } })}> View gig to respond</div>
+              </Row>
             </Col>
           </Row>
         </Col>
 
-      </AnimatedContainer>
+      </AnimatedContainer >
 
-    </div>
+    </div >
   )
 }
 
