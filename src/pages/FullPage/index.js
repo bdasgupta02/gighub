@@ -8,12 +8,12 @@ function FullPage(props) {
         <div id="FPageStyle" {...props.style}>
             <div id="FPPadding">
                 <div style={{ marginLeft: '36px' }}>
-                    <Row id="FPPageHeader">
+                    <div id="FPPageHeader">
                         {props.header}
-                    </Row>
-                    <Row>
+                    </div>
+                    <div>
                         {props.children}
-                    </Row>
+                    </div>
                 </div>
             </div>
         </div>
