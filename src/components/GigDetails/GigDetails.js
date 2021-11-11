@@ -10,6 +10,7 @@ import Highlight from "../GigListingTile/Highlight"
 import FullPage from "../../pages/FullPage"
 import Keyword from "../Keyword/Keyword"
 import LoadingIndicator from '../../components/LoadingIndicator'
+import LogoBox from "../LogoBox/index"
 import { getActiveGig, getCompany, applyToGig, getWorkerAppliedGigs } from "../../database/firebaseFunctions";
 
 import ReactModal from "react-modal"
@@ -148,8 +149,7 @@ const GigDetails = (props) => {
             <Row>
               <Col sm={2}>
                 <div className="GDHeaderLogo" >
-                  {/*TODO: Dynamic rendering of logo*/}
-                  <img className="GDCompanyLogo" src={details.companyLogo} />
+                  <LogoBox src={details.companyLogo} name={details.companyName} />
                 </div>
               </Col>
               <Col sm={10} className="GDHeader">

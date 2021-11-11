@@ -33,15 +33,7 @@
 }
 
 .GDHeaderLogo {
-    box-shadow: inset 4px 10px 40px white;
-    background-color: white;
-    height: 50px;
-    width: 50px;
-    border-radius: 6px;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
+  margin-left: -15px;
 }
 
 .GDHeaderSub1 {
