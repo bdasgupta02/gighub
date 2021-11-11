@@ -6,6 +6,7 @@ import LogoBox from '../LogoBox';
 import { useHistory } from 'react-router';
 import LogoGenerator from '../LogoGenerator';
 import './notificationList.css'
+import { formatTimestamp } from "../../auxiliary/Auxiliary"
 
 // TODO: default props
 // TODO: need to check if phone taps behave the same with hover
@@ -17,6 +18,9 @@ const NotificationTile = (props) => {
     const isGigUpdate = props.isGigUpdate
     const isNewBooked = props.isNewBooked
     const [company, setCompany] = useState()
+
+    let review = props.review;
+    let bookedGig = props.bookedGig
 
 
     // placeholders for now:
@@ -47,6 +51,7 @@ const NotificationTile = (props) => {
 
     const tileBackgroundAnimated = useSpring({
         backgroundColor: isHovering ? "#DBD8D8" : "#FFFFFFA6",
+        height: '100px',
         config: config.default
     })
 
@@ -55,11 +60,22 @@ const NotificationTile = (props) => {
     return (
         <div onClick={() => { history.push("/my_profile") }}>
             <AnimatedContainer className="GLTileText" id="GLTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
+                {review != null &&
+                    <Col id="GLMainColumn">
+                        <span> A new <span style={{ fontWeight: 'bold' }}>review</span> was added for one of your gigs!
+                    You got <span style={{ fontWeight: 'bold' }}> {review.numStars}</span> stars. </span>
+                        <span> {review != null && formatTimestamp(review.date)} </span>
+                    </Col>
+                }
 
-                <Col id="GLMainColumn">
-                    <span> hi </span>
-                </Col>
+                {bookedGig != null &&
+                    <Col id="GLMainColumn">
+                        <span>  Congratulations! You have a new <span style={{ fontWeight: 'bold' }}>booked gig!</span> </span>
 
+                        <span> {bookedGig != null && formatTimestamp(bookedGig.dateBooked)} </span>
+                    </Col>
+
+                }
             </AnimatedContainer>
         </div>)
 

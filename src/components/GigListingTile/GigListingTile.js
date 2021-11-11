@@ -14,12 +14,13 @@ const GigListingTile = (props) => {
     const history = useHistory()
     const [isHovering, setIsHovering] = useState(false)
 
+    console.log(props)
 
     // placeholders for now:
     let companyName = props.companyName ?? "Google"
 
     let companyCity = props.companyCity ?? "Singapore"
-    let jobTitle = props.jobTitle ?? "Freelance designer"
+    let jobTitle = props.title ?? "Freelance designer"
     let jobDesc = props.jobDesc ?? "Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
     let pendingReview = props.pendingReview ?? false;
     const payAmt = props.payAmt ?? "S$ 1,000"

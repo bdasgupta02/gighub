@@ -27,9 +27,11 @@ function ListedGigs() {
         setLoading(true)
         const postedGigsCache = []
         const postedGigsGet = await accessDB.collection('companies').doc(currentUserId).collection('postedGigs').get()
+        console.log(postedGigsGet)
         for (let i = 0; i < postedGigsGet.docs.length; i++) {
             const postedGigRef = postedGigsGet.docs[i].data()
             const postedGigGet = await postedGigRef.gig.get()
+            console.log(postedGigGet.data())
             let postedGig = postedGigGet.data()
             postedGig = { ...postedGig, id: postedGig.id, isArchived: false, company: currentUserDB }
             postedGigsCache.push(postedGig)
@@ -54,6 +56,7 @@ function ListedGigs() {
         fetch()
     }, [])
 
+    console.log(postedGigs)
     return (
         <FullPage header="Listed gigs">
             <div style={{ width: '100%', height: '10px' }} />
@@ -61,9 +64,10 @@ function ListedGigs() {
 
             <div style={{ width: '100%', height: '50px' }} />
             <div className="LGSubTitle">
-                Active
+                Currently listed
             </div>
             {postedGigs.map((e) => {
+                console.log(e)
                 const convertedParams = {
 
                     // check if these need changing
@@ -81,7 +85,7 @@ function ListedGigs() {
 
                 return (
                     <div style={{ marginRight: '16px', marginTop: '16px' }}>
-                        <GigListingTile {...convertedParams} />
+                        <GigListingTile {...convertedParams} title="override" />
                     </div>
                 )
             })}
@@ -89,7 +93,7 @@ function ListedGigs() {
 
             <div style={{ width: '100%', height: '50px' }} />
             <div className="LGSubTitle">
-                Archived
+                Old
             </div>
             {archivedGigs.map((e) => {
                 const convertedParams = {

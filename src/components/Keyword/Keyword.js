@@ -15,6 +15,7 @@ const Keyword = (props) => {
 
 
     return (
+        <div>
         <Container id="Keyword">
             <Row id="KeywordRow">
                 <Col id="KeywordCol">
@@ -28,6 +29,7 @@ const Keyword = (props) => {
                 )}
             </Row>
         </Container>
+        </div>
     )
 }
 

@@ -101,6 +101,7 @@ const CreateReviewTile = (props) => {
                     "numStars": numStars,
                     "reviewTags": selectedTags,
                     "date": new Date(),
+                    "wasViewed": false,
                     "gig": gigRef
                 }
                 console.log("company id being passed: " + companyId);
