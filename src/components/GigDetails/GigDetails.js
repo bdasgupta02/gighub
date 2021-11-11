@@ -178,7 +178,7 @@ const GigDetails = (props) => {
 
   const handleApply = () => {
     console.log(gigId, currentUserId)
-    applyToGig(gigId, currentUserId)
+    applyToGig(gigId, currentUserId, applyDetails)
     setApplyTabIsOpen(false)
   }
 

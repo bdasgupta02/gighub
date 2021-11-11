@@ -6,6 +6,7 @@ import { VPDetails } from './VPDetails';
 import { VPPicture } from './VPPicture';
 import '../Profile/profile.css';
 import { getCompany, getWorker } from '../../database/firebaseFunctions';
+import { VPContactDetails } from './VPContactDetails';
 
 function ViewProfile(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,10 +60,12 @@ function ViewProfile(props) {
           isWorker={isWorker}
           userName={userInfo.name}
           resumeLink={userInfo.resume ?? ''}
+          UEN={userInfo.UEN}
           dob={userInfo.dob}
           workerSkills={userInfo.skills}
           location={userInfo.location}
         />
+        <VPContactDetails email={userInfo.email ?? 'No email registered'} phoneNumber={userInfo.phone ?? 'No phone number registered'}/>
       </div>
     );
   }

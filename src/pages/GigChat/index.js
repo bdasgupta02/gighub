@@ -46,7 +46,6 @@ function GigChat(props) {
         name: '',
     })
     const [messages, setMessages] = useState([])
-    const [gig, setGig] = useState({})
     const messageEl = useRef(null)
 
 
