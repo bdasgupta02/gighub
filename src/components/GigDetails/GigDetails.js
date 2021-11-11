@@ -93,8 +93,8 @@ const GigDetails = (props) => {
     })
   }
 
-  const fetchApplicationData = async () => {
-    const focusApplicationData = await getApplicationData(focusWorkerId, gigId)
+  const fetchApplicationData = async (inputWorkerId) => {
+    const focusApplicationData = await getApplicationData(inputWorkerId, gigId)
 
     setFocusApplicationData({
       dateApplied: formatTimestamp(focusApplicationData.dateApplied),
@@ -162,11 +162,12 @@ const GigDetails = (props) => {
     fetch()
     if (mode == 'workerPov') {
       fetchApplicationStatus()
+      fetchApplicationData(currentUserId)
     }
 
     if (mode == 'companyPovFocusWorker') {
       fetchFocusWorker()
-      fetchApplicationData()
+      fetchApplicationData(focusWorkerId)
     }
   }, [])
 
