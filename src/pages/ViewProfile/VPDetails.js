@@ -24,7 +24,7 @@ export function VPDetails(props) {
 
   let dateString;
   if (props.dob !== undefined) {
-    let dob = new Date(props.dob.seconds);
+    let dob = new Date(props.dob.seconds*1000);
     dateString =
       dob.getDate() +
       ' ' +
