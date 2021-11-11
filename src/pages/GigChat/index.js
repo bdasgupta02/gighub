@@ -65,9 +65,6 @@ function GigChat(props) {
         // create chat: check if need to create beforehand or would add message suffice
 
         // get data
-        const gigRef = await accessDB.collection(constants.ACTIVE_GIGS).doc(gigId).get()
-        const gigData = gigRef.data()
-
         const workerRef = await accessDB.collection(constants.WORKERS).doc(workerId).get()
         const workerData = workerRef.data()
 
@@ -83,7 +80,6 @@ function GigChat(props) {
         setCompany(companyData)
         setWorker(workerData)
         setMessages(messagesData)
-        setGig(gigData)
     }
 
     const handleAddMessage = async () => {
