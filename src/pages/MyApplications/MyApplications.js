@@ -31,7 +31,7 @@ function MyApplications() {
         if (gig.companyId.id === companyId) {
           gig['workerId'] = workerId
           gig['workerName'] = name
-
+          // zzz
           const innerCompany = await getCompanyByRef(gig.companyId)
           gig['companyData'] = innerCompany
           temp.push(gig)
