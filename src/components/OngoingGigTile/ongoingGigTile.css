@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 16px;
+    padding: 10px;
 }
 
 #TileBackground2:hover {
@@ -59,9 +59,16 @@
 }
 
 #CompanyName2 {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: bold;
     color: #545454;
+    margin-top: 3px;
+}
+
+#CompanyName2:hover {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00A9B4;
     margin-top: 3px;
 }
 

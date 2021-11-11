@@ -90,10 +90,10 @@ const SignIn = (props) => {
                 </Row>
                 <div className="SpacerBig" />
                 <Row>
-                    <Button text="Sign-in" onClick={onSignIn} type="PRIMARY" forceWidth="120px" />
+                    <Button text="Sign-in" onClick={onSignIn} type="PRIMARY" forceWidth="180px" />
                 </Row>
                 <Row style={{ marginTop: '8px' }}>
-                    <Button text="Or sign-up instead" onClick={onSignUpSwitch} type="SECONDARY" forceWidth="120px" />
+                    <Button text="Or sign-up instead" onClick={onSignUpSwitch} type="SECONDARY" forceWidth="180px" />
                 </Row>
                 <div className="Spacer" />
                 {loading && <LoadingIndicator />}
