@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 import { useAuth } from '../../contexts/AuthContext';
+import DashApplicationTile from './DashApplicationTile';
 
-import DashGoalTile from '../DashGoalTile/index';
 import DashHighlightsTile from '../DashHighlightsTile/index';
-import DashListingTile from '../DashListingTile/index';
+import DashListingTile from '../DashListingTile/DashListingTile';
 
 import Button from '../Button/index';
-
-import './companyDashboard.css';
+import '../CompanyDashboard/companyDashboard.css';
 import {
   getApplicationsByCompanyId,
   getCompany,
   getCompanyPostedGigs,
 } from '../../database/firebaseFunctions';
+import { useHistory } from 'react-router';
 
 const CompanyDashboard = (props) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,9 +23,12 @@ const CompanyDashboard = (props) => {
   const [applicationData, setApplicationData] = useState([]);
   let { currentUserId } = useAuth();
 
+  let history = useHistory();
+
   let collectedUserContainer = [];
   let collectedGigContainer = [];
   let collectedApplicationsContainer = [];
+  
   useEffect(() => {
     getCompany(currentUserId).then((retrievedData) => {
       collectedUserContainer.push(retrievedData[0]);
@@ -34,15 +37,20 @@ const CompanyDashboard = (props) => {
         getApplicationsByCompanyId(currentUserId).then(
           (retrievedApplications) => {
             collectedApplicationsContainer.push(retrievedApplications);
-            setUserData(collectedUserContainer);
+            
             setGigData(collectedGigContainer);
             setApplicationData(collectedApplicationsContainer);
+            setUserData(collectedUserContainer);
             setIsLoading(false);
           }
         );
       });
     });
   }, []);
+
+  function redirectToAllGigs() {
+    history.push('/listed_gigs');
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -51,7 +59,7 @@ const CompanyDashboard = (props) => {
     let userInfo = userData[0];
     console.log(userInfo)
     let username = userInfo.name;
-    let message = "Your listed jobs at a glance";
+    let message = 'Your listed jobs at a glance';
     console.log('userData');
     console.log(userData);
 
@@ -81,7 +89,7 @@ const CompanyDashboard = (props) => {
                   <Col></Col>
                 </Row>
                 <Row>
-                {gigData[0]
+                  {gigData[0]
                     .sort((x, y) => y.completeBy.seconds - x.completeBy.seconds)
                     .slice(0, 3)
                     .map((jsonObj) => (
@@ -99,22 +107,17 @@ const CompanyDashboard = (props) => {
                         />
                       </div>
                     ))}
-                  {/* <div className="CDSectionTile">
-                    <DashListingTile />
-                  </div>
-                  <div className="CDSectionTile">
-                    <DashListingTile />
-                  </div>
-                  <div className="CDSectionTile">
-                    <DashListingTile />
-                  </div> */}
                 </Row>
                 <Row className="emptyRow">
                   <Col></Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Button text="View all gigs" forceWidth="180px" />
+                    <Button
+                      text="View all gigs"
+                      forceWidth="180px"
+                      onClick={redirectToAllGigs}
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -123,34 +126,35 @@ const CompanyDashboard = (props) => {
             <Row id="CDSectionBG">
               <Col>
                 <Row>
-                  <Col>Goals</Col>
+                  <Col>Applications</Col>
                 </Row>
-                <Row className="spacer">
+                <Row className="emptyRow">
                   <Col></Col>
                 </Row>
                 <Row>
-                  <Col className="CDGoalsTile" xs={7}>
-                    <DashGoalTile />
-                  </Col>
+                  {applicationData[0]
+                    .filter((x) => true)
+                    .slice(0, 3)
+                    .map((jsonObj) => (
+                      <div className="WDSectionTile">
+                        {console.log(jsonObj)}
+                        <DashApplicationTile
+                          jobTitle={jsonObj.title}
+                          payAmt={jsonObj.pay}
+                          unit={jsonObj.unit}
+                          gigId={jsonObj.id}
+                          workerId={jsonObj.workerId}
+                        />
+                      </div>
+                    ))}
                 </Row>
-                <Row className="spacer">
+                <Row className="emptyRow">
                   <Col></Col>
                 </Row>
                 <Row>
-                  <Col className="CDGoalsTile" xs={7}>
-                    <DashGoalTile />
+                  <Col>
+                    <Button text="View all gigs" forceWidth="120px" onClick={redirectToAllGigs}/>
                   </Col>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
-                </Row>
-                <Row>
-                  <Col className="CDGoalsTile" xs={7}>
-                    <DashGoalTile />
-                  </Col>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
                 </Row>
               </Col>
             </Row>

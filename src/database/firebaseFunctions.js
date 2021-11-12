@@ -23,6 +23,7 @@ import { load } from 'dotenv';
 import states from '../enum/GigStates'
 import firebase from '@firebase/app-compat';
 import GigStates from '../enum/GigStates'
+import { update } from '@react-spring/core';
 
 
 /*
@@ -326,6 +327,20 @@ export async function createWorker(workerDetails) {
   await addDoc(collection(db, constants.WORKERS), workerDetails);
 }
 
+export async function editWorker(uid, newName, newDOB) {
+  console.log('updating worker details: ' + newName + newDOB + uid)
+  const ref = accessDB.collection(constants.WORKERS).doc(uid)
+  try {
+    if (newName != null && newDOB != null) {
+
+      await ref.update({ name: newName, dob: newDOB });
+    }
+  } catch (err) {
+    console.log(err)
+    alert('Could not change details because ' + err);
+  }
+
+}
 /**
  *
  * @param {json_object} companyDetails should contain in json:

@@ -176,8 +176,12 @@ const WorkerTwo = (props) => {
             <Row id="TitleText">
                 Create an account
             </Row>
+
             <Row>
                 <input className="InputText" type="text" placeholder="Enter your skills" value={keywordCache} onChange={event => handleInputChange(event)} onKeyPress={handleAdd} />
+            </Row>
+            <Row style={{ 'color': 'grey', 'fontSize': '13px', 'fontStyle': 'italic' }}>
+                Be sure to press ENTER after typing skill!
             </Row>
             <div className="Spacer" />
             <div style={{ width: '100%' }}>
