@@ -8,6 +8,7 @@ import { ProfileHeader } from './ProfileHeader';
 import { ProfilePicture } from './ProfilePicture';
 import { ProfileDetails } from './ProfileDetails';
 import { ProfileSignInDetails } from './ProfileSignInDetails';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import ReactModal from 'react-modal';
 import EditProfile from './EditProfile';
 import FullPage from '../FullPage';
@@ -51,8 +52,11 @@ export default function Profile(props) {
 
   // let hasProfilePic = profilePicLink !== '';
   if (isLoading) {
-    console.log('loading');
-    return <div>Loading...</div>;
+    return (
+      <div style={{ marginLeft: '45px', marginTop: '20px' }}>
+        <LoadingIndicator />
+      </div>
+    );
   } else {
     console.log(userData[0]);
     let userInfo = userData[0];
@@ -86,7 +90,7 @@ export default function Profile(props) {
           dob={userInfo.dob}
           userId={currentUserId}
           workerSkills={userInfo.skills}
-          location = {userInfo.location}
+          location={userInfo.location}
         />
         <ProfileSignInDetails
           userEmail={userInfo.email}
