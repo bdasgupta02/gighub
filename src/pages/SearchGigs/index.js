@@ -12,13 +12,6 @@ import './searchGigs.css'
 
 
 
-
-/**
- * TODO:
- * - handle isNew and match with filtering and data handling
- * - check isWorker or not for match % (edit gig listing tile and make new auth context thing)
- * - need to check if deadline date has past for active gigs (if so, move to archived gigs)
- */
 export default function SearchGigs(props) {
     const [gigsDB, setGigs] = useState([])
     const [skills, setSkills] = useState(null)
