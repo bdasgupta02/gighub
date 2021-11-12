@@ -6,9 +6,7 @@ import { PencilIcon, TrashIcon } from '@primer/octicons-react'
 import './dashGoalTile.css'
 
 const DashGoalTile = (props) => {
-    let goalNo = "1"
-    let goalDetails = "Hustle for $200 this month"
-    let goalDeadline = "20/10/2021"
+    const { description, achieveBy, onDelete } = props
 
     const [isHovering, setIsHovering] = useState(false)
 
@@ -22,25 +20,17 @@ const DashGoalTile = (props) => {
     return (<AnimatedContainer className="DashLTileText" id="DashLDashTileBackground" onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} style={tileBackgroundAnimated}>
         <Col id="DashLMainColumn">
             <Row className="DashLGoalRow">
-                <div id="DashLGoalNo">
-                    #{goalNo}
-                </div>
-            </Row>
-            <Row className="DashLGoalRow">
                 <div id="DashLGoalDetails">
-                    {goalDetails}
+                    {description}
                 </div>
             </Row>
             <Row className="DashLGoalRow" id="DashLBottomRow">
                 <div id="DashLGoalDeadline">
-                    Achieve by {goalDeadline}
+                    Achieve by {achieveBy}
                 </div>
                 <Col>
                     <div id="DashLGoalOptions">
-                        <span className="DashLButtons">
-                            <PencilIcon size={18} />
-                        </span>
-                        <span className="DashLButtons">
+                        <span className="DashLButtons" style={{ cursor: 'pointer' }} onClick={onDelete}>
                             <TrashIcon size={18} />
                         </span>
                     </div>

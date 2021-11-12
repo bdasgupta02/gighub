@@ -5,6 +5,7 @@ import FullPage from '../FullPage'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import style from 'react-big-calendar/lib/css/react-big-calendar.css';
+import GigStates from '../../enum/GigStates'
 
 const localizer = momentLocalizer(moment)
 
@@ -24,7 +25,9 @@ function CalendarPage() {
         for (let i = 0; i < gigGet.docs.length; i++) {
             const gigData = gigGet.docs[i].data()
             const innerGigGet = await gigData.gig.get()
-            tempGigs.push(innerGigGet.data())
+            if (innerGigGet.data().status === GigStates.ASSIGNED) {
+                tempGigs.push(innerGigGet.data())
+            }
         }
 
         let eventCache = []

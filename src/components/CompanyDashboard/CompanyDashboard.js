@@ -47,7 +47,9 @@ const CompanyDashboard = (props) => {
   if (isLoading) {
     return <div>Loading...</div>;
   } else {
+    
     let userInfo = userData[0];
+    console.log(userInfo)
     let username = userInfo.name;
     let message = "Your listed jobs at a glance";
     console.log('userData');
@@ -69,26 +71,6 @@ const CompanyDashboard = (props) => {
         </Row>
         <Row id="CDBody">
           <Col>
-            <Row id="CDHighlightsBG">
-              <div className="CDHighlightsTile">
-                <DashHighlightsTile
-                  value="3"
-                  desc="contracts signed this week"
-                />
-              </div>
-              <div className="CDHighlightsTile">
-                <DashHighlightsTile
-                  value="2"
-                  desc="contracts completed & paid this week"
-                />
-              </div>
-              <div className="CDHighlightsTile">
-                <DashHighlightsTile
-                  value="6"
-                  desc="pending payments to be made"
-                />
-              </div>
-            </Row>
 
             <Row id="CDSectionBG">
               <Col>
@@ -132,7 +114,7 @@ const CompanyDashboard = (props) => {
                 </Row>
                 <Row>
                   <Col>
-                    <Button text="View all gigs" forceWidth="120px" />
+                    <Button text="View all gigs" forceWidth="180px" />
                   </Col>
                 </Row>
               </Col>
