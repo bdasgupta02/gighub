@@ -29,10 +29,10 @@ export function ProfilePicture(props) {
   }
   const [newProfilePicFile, setNewProfilePicture] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [profilePicLink, setProfilePicLink] = useState(profilePicTemp)
-  const [hasProfilePic, setHasProfilePic] = useState(hasProfilePicTemp)
+  const [profilePicLink, setProfilePicLink] = useState(profilePicTemp);
+  const [hasProfilePic, setHasProfilePic] = useState(hasProfilePicTemp);
   useEffect(() => {
-    console.log(props.userId);
+    //console.log(props.userId);
     if (newProfilePicFile !== null) {
       changePicture(newProfilePicFile);
     }
@@ -44,8 +44,6 @@ export function ProfilePicture(props) {
       id: userId,
       profilePicture: '',
     };
-    //console.log(userId);
-    //console.log('picture removed');
     if (props.isWorker) {
       updateWorkerDetails(update);
     } else {
@@ -68,6 +66,8 @@ export function ProfilePicture(props) {
         } else {
           updateCompanyDetails(update);
         }
+
+        setHasProfilePic(true);
         setProfilePicLink(url);
       });
     }
@@ -91,7 +91,7 @@ export function ProfilePicture(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className='ProfileModalStyle'
+        className="ProfileModalStyle"
         contentLabel="Change picture"
       >
         <FileUploader
