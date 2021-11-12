@@ -373,9 +373,9 @@ const GigDetails = (props) => {
                     ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
 
-                  {focusApplicationData.pendingReview ? <div>
+                  {isWorker && hasApplied && focusApplicationData.pendingReview ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
-                  {focusApplicationData.pendingCompanyReview ? <div>
+                  {!isWorker && mode == 'companyPovFocusWorker' && currentUserId == details.companyId && focusApplicationData.pendingCompanyReview ? <div>
                     <Button onClick={() => { setIsOpenCompanyReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
 
                   {/* Company POV */}
