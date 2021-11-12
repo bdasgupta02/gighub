@@ -43,7 +43,7 @@ export default function SearchGigs(props) {
         let i = 0, len = gigsData.length
         while (i < len) {
             const company = await getCompany(gigsData[i].companyId.id)
-            gigsData[i] = { ...gigsData[i], company: company[0], isGoodMatch: isWorker && isGoodMatch(gigsData[i].requirements, currentUserDB.skills) }
+            gigsData[i] = { ...gigsData[i], company: company[0], isGoodMatch: isWorker && isGoodMatch(gigsData[i].requirements, currentUserDB.skills), isNew: new Date(new Date().getTime()+(5*24*60*60*1000)) > new Date(gigsData[i].dateAdded * 1000) }
             i++
         }
         setGigs(gigsData)
@@ -117,6 +117,7 @@ export default function SearchGigs(props) {
             ...filters,
             [filterIn]: val
         })
+        console.log(filterIn)
     }
 
     const handleKeyword = (event, text, isDel) => {
@@ -142,13 +143,13 @@ export default function SearchGigs(props) {
     }
 
     if (!(filters.new === false && filters.match === false && filters.flexible === false && filters.fixed === false)) {
-        //TODO:
-        // if (filters.new === true) {
-        //     gigs = gigs.filter(e => e.isNew === true)
-        // }
-        // if (filters.match === true) {
-        //     gigs = gigs.filter(e => e.isGoodMatch === true)
-        // }
+        
+        if (filters.new === true) {
+            gigs = gigs.filter(e => e.isNew === true)
+        }
+        if (filters.match === true) {
+            gigs = gigs.filter(e => e.isGoodMatch === true)
+        }
         if (filters.flexible === true) {
             gigs = gigs.filter(e => e.isFlexible === true)
         }
