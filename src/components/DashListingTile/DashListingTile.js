@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { animated, useSpring, config } from 'react-spring';
 import { Container, Row, Col } from 'react-grid-system';
-import logo from '../../assets/google.svg';
 import './dashListingTile.css';
 import { getCompany } from '../../database/firebaseFunctions';
 import LogoBox from '../LogoBox';
