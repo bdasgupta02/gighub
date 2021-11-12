@@ -674,6 +674,10 @@ export async function createWorkerReview(reviewDetails, workerId) {
       transaction.update(workerDocRef, { numReviews: newNumReviews });
       transaction.set(reviewRef, reviewDetails);
     });
+
+    const workerGigDoc = accessDB.collection(constants.WORKERS + '/' + workerId + '/' + constants.APPLIED_GIGS).doc(reviewDetails.gig.id)
+    await workerGigDoc.update({ pendingCompanyReview: false })
+
     console.log('Transaction successfully committed!');
   } catch (e) {
     console.log('Transaction failed: ', e);

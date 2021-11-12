@@ -47,7 +47,7 @@ function ProfileTile(props) {
                     <div id="PLAvgReview" style={isReviewed ? { color: '#fcba03' } : null}>
                         {isReviewed ? (
                             <div>
-                                <StarFillIcon /> {'user.avgReview'}
+                                <StarFillIcon /> {user.avgReview}
                             </div>
                         ) : 'Not reviewed'}
                     </div>
