@@ -3,7 +3,7 @@ export function formatTimestamp(ts) {
 
   var day = date.getDate()
   var month = date.getMonth() + 1
-  var year = date.getFullYear()
+  var year = '2021'
   var hours = date.getHours()
   var minutes = "0" + date.getMinutes()
 
