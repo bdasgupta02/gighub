@@ -48,7 +48,7 @@ export function ProfileDetails(props) {
     let dob = new Date(props.dob.seconds * 1000);
     //console.log(dob);
     dateString =
-      dob.getDate() +
+      ('0' + dob.getDate()).slice(-2) +
       ' ' +
       getNamedMonth(dob.getMonth()) +
       ' ' +
@@ -269,30 +269,20 @@ export function ProfileDetails(props) {
 }
 
 function getNamedMonth(month) {
-  switch (month) {
-    case 0:
-      return 'Jan';
-    case 1:
-      return 'Feb';
-    case 2:
-      return 'Mar';
-    case 3:
-      return 'Apr';
-    case 4:
-      return 'May';
-    case 5:
-      return 'Jun';
-    case 6:
-      return 'Jul';
-    case 7:
-      return 'Aug';
-    case 8:
-      return 'Sep';
-    case 9:
-      return 'Oct';
-    case 10:
-      return 'Nov';
-    case 11:
-      return 'Dec';
+  let monthDict = {
+    0 : 'Jan',
+    1 : 'Feb',
+    2 : 'Mar',
+    3 : 'Apr',
+    4 : 'May',
+    5 : 'Jun',
+    6 : 'Jul',
+    7 : 'Aug',
+    8 : 'Sep',
+    9 : 'Oct',
+    10 : 'Nov',
+    11 : 'Dec'
   }
+  
+  return monthDict[month];
 }
