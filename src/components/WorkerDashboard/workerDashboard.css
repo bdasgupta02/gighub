@@ -9,7 +9,10 @@
 }
 
 .WDGoalsTile {
-
+  width: 100%;
+  display: inline-block;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 #WDBase {

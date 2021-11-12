@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'react-grid-system';
 import DashGoalTile from '../DashGoalTile/index';
 import DashHighlightsTile from '../DashHighlightsTile/index';
 import DashListingTile from '../DashListingTile/index';
+import { accessDB } from '../../database/firebase';
+import { PlusIcon } from '@primer/octicons-react';
 
 import Button from '../Button/index';
 
@@ -19,11 +21,34 @@ const WorkerDashboard = (props) => {
   const [userData, setUserData] = useState([]);
   const [gigData, setGigData] = useState([]);
 
+  // goals
+  const [newGoalModalVisible, setNewGoalModalVisible] = useState(false)
+  const [goals, setGoals] = useState([])
+  const [newGoal, setNewGoal] = useState({
+    achieveBy: null,
+    description: ''
+  })
+
   let { currentUserId } = useAuth();
+
+
+  const fetchGoals = async () => {
+    let goalsCache = []
+    const goalsGet = await accessDB.collection('workers').doc(currentUserId).collection('goals').get()
+    for (let i = 0; i < goalsGet.docs.length; i++) {
+      let goal = goalsGet.docs[i].data()
+      goal = { ...goal, id: goalsGet.docs[i].id }
+      goalsCache.push(goal)
+    }
+
+    setGoals(goalsCache)
+  }
+
 
   let collectedUserContainer = [];
   let collectedGigContainer = [];
   useEffect(() => {
+    fetchGoals()
     getWorker(currentUserId).then((retrievedData) => {
       collectedUserContainer.push(retrievedData[0]);
       getWorkerAppliedGigs(currentUserId).then((retrievedGigs) => {
@@ -67,17 +92,6 @@ const WorkerDashboard = (props) => {
         </Row>
         <Row id="WDBody">
           <Col>
-            <Row id="WDHighlightsBG">
-              <div className="WDHighlightsTile">
-                <DashHighlightsTile value="S$350.00" desc="earned this week" />
-              </div>
-              <div className="WDHighlightsTile">
-                <DashHighlightsTile value="1" desc="job completed this week" />
-              </div>
-              <div className="WDHighlightsTile">
-                <DashHighlightsTile value="2" desc="jobs due soon" />
-              </div>
-            </Row>
 
             <Row id="WDSectionBG">
               <Col>
@@ -113,7 +127,7 @@ const WorkerDashboard = (props) => {
                 </Row>
                 <Row>
                   <Col>
-                    <Button text="View all gigs" forceWidth="120px" />
+                    <Button text="View all gigs" forceWidth="180px" />
                   </Col>
                 </Row>
               </Col>
@@ -152,46 +166,35 @@ const WorkerDashboard = (props) => {
                 </Row>
                 <Row>
                   <Col>
-                    <Button text="View all applications" forceWidth="120px" />
+                    <Button text="View all applications" forceWidth="180px" />
                   </Col>
                 </Row>
               </Col>
             </Row>
 
-            <Row id="WDSectionBG">
-              <Col>
-                <Row>
-                  <Col>Goals</Col>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
-                </Row>
-                <Row>
+            <div id="WDSectionBG">
+              <div>
+                <div style={{ width: '100%' }}>Goals</div>
+                <div className="spacer" />
+                    
+                <Button type="PRIMARY" forceWidth="180px" text="Create a new goal" icon={<PlusIcon size={16} />} />
+                
+                <div className="spacer" />
+
+                <div className="WDGoalsTile">
+                  <DashGoalTile description="Hustle for $200 this month" achieveBy="20/10/2021" />
+                </div>
+                <div className="spacer">
+                </div>
+                <div>
                   <div className="WDGoalsTile">
-                    <DashGoalTile />
+                    <DashGoalTile description="Hustle for $200 this month" achieveBy="20/10/2021" />
                   </div>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
-                </Row>
-                <Row>
-                  <div className="WDGoalsTile">
-                    <DashGoalTile />
-                  </div>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
-                </Row>
-                <Row>
-                  <div className="WDGoalsTile">
-                    <DashGoalTile />
-                  </div>
-                </Row>
-                <Row className="spacer">
-                  <Col></Col>
-                </Row>
-              </Col>
-            </Row>
+                </div>
+                <div className="spacer">
+                </div>
+              </div>
+            </div>
           </Col>
         </Row>
       </div>

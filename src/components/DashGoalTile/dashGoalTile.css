@@ -12,8 +12,10 @@
 }
 
 #DashLDashTileBackground {
-    height: 129px;
-    width: 1050px;
+    float: left;
+    align-self: flex-start;
+    height: fit-content;
+    min-width: 70%;
     border-radius: 12px;
     user-select: none;
     -moz-user-select: none;
@@ -29,10 +31,6 @@
     padding: 16px;
 }
 
-#DashLDashTileBackground:hover {
-    cursor: pointer;
-}
-
 #DashLGoalNo {
     font-family: Roboto;
     font-style: normal;
@@ -46,6 +44,7 @@
     font-style: normal;
     font-weight: normal;
     color: #545454;
+    width: 90%;
 }
 
 #DashLBottomRow {

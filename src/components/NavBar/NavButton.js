@@ -23,6 +23,11 @@ height: 48px;
 font-size:  14px;
 margin: 10px;
 cursor: pointer;
+-webkit-transition: background-color 200ms linear;
+    -moz-transition: background-color 200ms linear;
+    -o-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
 &:hover {
   color: #545454;
   box-shadow: 4px 10px 15px #00000026;

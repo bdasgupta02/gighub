@@ -6,7 +6,7 @@ import FullPage from '../FullPage'
 export default function Dashboard(props) {
   const { isWorker } = useAuth()
 
-  
+  console.log(isWorker)
   if (isWorker) {
     return (
       <div>
