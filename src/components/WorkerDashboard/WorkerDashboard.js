@@ -5,9 +5,13 @@ import DashGoalTile from '../DashGoalTile/index';
 import DashHighlightsTile from '../DashHighlightsTile/index';
 import DashListingTile from '../DashListingTile/index';
 import { accessDB } from '../../database/firebase';
-import { PlusIcon } from '@primer/octicons-react';
+import { PlusIcon, XIcon } from '@primer/octicons-react';
+import LoadingIndicator from '../../components/LoadingIndicator'
+import DatePicker from 'react-date-picker'
+import ReactModal from 'react-modal';
 
 import Button from '../Button/index';
+
 
 import './workerDashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
@@ -40,7 +44,7 @@ const WorkerDashboard = (props) => {
       goal = { ...goal, id: goalsGet.docs[i].id }
       goalsCache.push(goal)
     }
-
+    goalsCache.sort((a, b) => b.achieveBy.seconds < a.achieveBy.seconds ? 1 : -1)
     setGoals(goalsCache)
   }
 
@@ -60,6 +64,37 @@ const WorkerDashboard = (props) => {
     });
   }, []);
 
+
+  const handleDeleteGoal = async (id) => {
+    await accessDB.collection('workers').doc(currentUserId).collection('goals').doc(id).delete()
+    fetchGoals()
+  }
+
+  const handleNewGoalDescChange = (event) => {
+    setNewGoal({
+      ...newGoal,
+      description: event.target.value
+    })
+  }
+
+  const handleNewGoalABChange = (date) => {
+    setNewGoal({
+      ...newGoal,
+      achieveBy: date
+    })
+  }
+
+  const handleCreateGoal = async () => {
+    //validation
+    if (newGoal.description === '' || newGoal.achieveBy === null) {
+      alert('Error: one or more value(s) are empty')
+    } else {
+      await accessDB.collection('workers').doc(currentUserId).collection('goals').add(newGoal)
+      fetchGoals()
+      setNewGoalModalVisible(false)
+    }
+  }
+
   if (isLoading) {
     return (
       <div id="WDBase">
@@ -68,6 +103,7 @@ const WorkerDashboard = (props) => {
             <span id="WDHeaderTitle">Please wait</span> <br />
             <span id="WDHeaderSubtitle">We're loading your information</span>
           </div>
+          <LoadingIndicator />
           <Row id="WDBody">
             <Col>
               <Row id="WDHighlightsBG"></Row>
@@ -176,23 +212,53 @@ const WorkerDashboard = (props) => {
               <div>
                 <div style={{ width: '100%' }}>Goals</div>
                 <div className="spacer" />
-                    
-                <Button type="PRIMARY" forceWidth="180px" text="Create a new goal" icon={<PlusIcon size={16} />} />
-                
+
+                <Button type="PRIMARY" forceWidth="180px" text="Create a new goal" icon={<PlusIcon size={16} />} onClick={() => setNewGoalModalVisible(true)} />
+
                 <div className="spacer" />
 
-                <div className="WDGoalsTile">
-                  <DashGoalTile description="Hustle for $200 this month" achieveBy="20/10/2021" />
-                </div>
-                <div className="spacer">
-                </div>
-                <div>
-                  <div className="WDGoalsTile">
-                    <DashGoalTile description="Hustle for $200 this month" achieveBy="20/10/2021" />
+                {goals.map(goal => (
+                  <div>
+                    <div className="WDGoalsTile">
+                      <DashGoalTile description={goal.description} achieveBy={new Date(goal.achieveBy.seconds * 1000).toDateString()} id={goal.id} onDelete={handleDeleteGoal} />
+                    </div>
+                    <div className="spacer" />
                   </div>
-                </div>
-                <div className="spacer">
-                </div>
+                ))}
+
+                <ReactModal isOpen={newGoalModalVisible} ariaHideApp>
+                  <div className="WDModalTitle">
+                    Create a new goal
+                  </div>
+
+                  <div>
+                    <form>
+                      <Col>
+                        <div className="WDLabel">What is your goal?</div>
+                        <Row>
+                          <input className="WDInputText" value={newGoal.description} onChange={handleNewGoalDescChange} type="text" placeholder="Description" />
+                        </Row>
+                        <div style={{ width: '100%', height: '10px' }} />
+                        <div className="WDLabel">By when do you aim to achieve this goal?</div>
+                        <Row>
+                          <div style={{ marginLeft: '20px' }}>
+                            <DatePicker value={newGoal.achieveBy} onChange={(date) => handleNewGoalABChange(date)} />
+                          </div>
+                        </Row>
+                        <div style={{ width: '100%', height: '10px' }} />
+                      </Col>
+                    </form>
+                  </div>
+
+                  <div style={{ width: '100%', height: '60px' }} />
+
+                  <div style={{ marginLeft: '20px' }}>
+                    <Button type="PRIMARY" forceWidth="180px" text="Create" icon={<PlusIcon size={16} />} onClick={handleCreateGoal} />
+                    <div style={{ width: '100%', height: '10px' }} />
+                    <Button type="SECONDARY" forceWidth="180px" text="Cancel" icon={<XIcon size={16} />} onClick={() => setNewGoalModalVisible(false)} />
+                  </div>
+
+                </ReactModal>
               </div>
             </div>
           </Col>

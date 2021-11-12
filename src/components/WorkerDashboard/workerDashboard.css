@@ -94,3 +94,32 @@
   margin-right: 20px;
   width: fit-content;
 }
+
+.WDModalTitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #1E1E1E;
+  margin-left: 8px;
+  margin-top: 25px;
+  margin-bottom: 50px;
+}
+
+.WDLabel {
+  font-size: 12px;
+  color: #1E1E1E;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.WDInputText {
+  font-size: 14px;
+  width: 600px;
+  height: 30px;
+  outline: none;
+  border: 0;
+  background-color: #ebebeb;
+  border-radius: 8px;
+  padding-left: 8px;
+  margin-left: 20px;
+}
