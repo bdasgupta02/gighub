@@ -51,6 +51,8 @@ const GigDetails = (props) => {
     }
   }
 
+  // 123
+
   const [focusWorkerData, setFocusWorkerData] = useState({
     name: '',
     profilePicture: ''
@@ -372,7 +374,7 @@ const GigDetails = (props) => {
                       </div>
                     ) : (<Button text="Apply" onClick={() => setApplyTabIsOpen(true)} type="PRIMARY" forceWidth="90px" />)}
                   </span>) : (<span></span>)}
-
+                  
                   {isWorker && hasApplied && focusApplicationData.pendingReview ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
                   {!isWorker && mode == 'companyPovFocusWorker' && currentUserId == details.companyId && focusApplicationData.pendingCompanyReview ? <div>
