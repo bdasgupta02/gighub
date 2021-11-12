@@ -140,6 +140,7 @@ const CreateReviewTile = (props) => {
                             onSearch={function noRefCheck() { }}
                             onSelect={onSelect}
                             selectionLimit={3}
+                            placeholder={'Select up to 3 tags'}
                         />
                     </Row>
                     <div className="Spacer" />
@@ -152,7 +153,7 @@ const CreateReviewTile = (props) => {
                             type="text"
                             placeholder="Write your review here..."
                             onChange={handleTextChange} value={textReview}
-                            style={{ height: '400px' }}
+                            style={{ height: '200px' }}
                         />
                     </Row>
                     <Row>
