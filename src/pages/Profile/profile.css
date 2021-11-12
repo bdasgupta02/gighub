@@ -97,3 +97,10 @@
 .ProfileGap {
     width: 5px
 }
+
+.EditIcon{
+    margin-left: 10px;
+}
+.EditIcon:hover{
+    color:#00A9B4;
+}
