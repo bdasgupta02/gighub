@@ -25,9 +25,7 @@ function CalendarPage() {
         for (let i = 0; i < gigGet.docs.length; i++) {
             const gigData = gigGet.docs[i].data()
             const innerGigGet = await gigData.gig.get()
-            if (innerGigGet.data().status === GigStates.ASSIGNED) {
                 tempGigs.push(innerGigGet.data())
-            }
         }
 
         let eventCache = []
@@ -52,7 +50,7 @@ function CalendarPage() {
     return (
         <FullPage header="Calendar">
             <div style={{ width: '100%' }}>
-                All the gigs you're currently assigned to!
+                All the gigs you have applied for or assigned to!
             </div>
             <div style={{ width: '100%', height: '60px' }} />
             <Calendar
