@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { auth } from "../database/firebase";
 import { createWorker, createCompany } from "../database/firebaseFunctions";
 import { accessDB } from "../database/firebase";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 // check current user changes
 import "firebase/auth";
@@ -95,9 +96,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     if (pending) {
-
-        //TODO: change loading indicator
-        return <div>Loading...</div>
+        return <div>
+            <LoadingIndicator />
+        </div>
     }
 
     const value = {
