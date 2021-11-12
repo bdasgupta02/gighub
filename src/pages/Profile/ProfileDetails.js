@@ -111,6 +111,7 @@ export function ProfileDetails(props) {
       try {
         await editWorker(currentUserId, userName, DOB);
         setSubmitError("Successfully changed details!")
+        setIsEditingDetails(false)
       } catch (e) {
         // if (e.message.includes('user-not-found')) {
         //     setSubmitError('Sign-in failed: Email does not exist!')
