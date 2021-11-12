@@ -36,7 +36,21 @@ const WorkerDashboard = (props) => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div id="WDBase">
+        <Row id="WDHeader">
+          <div id="WDHeaderTexts">
+            <span id="WDHeaderTitle">Please wait</span> <br />
+            <span id="WDHeaderSubtitle">We're loading your information</span>
+          </div>
+          <Row id="WDBody">
+            <Col>
+              <Row id="WDHighlightsBG"></Row>
+            </Col>
+          </Row>
+        </Row>
+      </div>
+    );
   } else {
     let userInfo = userData[0];
     let username = userInfo.name;
