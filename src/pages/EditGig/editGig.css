@@ -1,0 +1,37 @@
+.CGInputText {
+  border: 0 none;
+  outline: 0;
+  height: 30px;
+  margin-top: 8px;
+  width: 70%;
+  border-radius: 8px;
+  padding-left: 8px;
+}
+
+.CGInputTextArea {
+  font-family: 'Roboto', sans-serif;
+  height: 150px;
+  padding-top: 8px;
+  resize: none;
+}
+
+.CGInputBox {
+  width: 100%;
+}
+
+.CGInputBoxSmall {
+  width: 200px;
+}
+
+.CGLabel {
+  font-size: 14px;
+  margin-top: 26px;
+  font-weight: bold;
+  color: #545454;
+}
+
+.CGSubLabel {
+  font-size: 12px;
+  font-weight: bold;
+  color: #8f8f8f;
+}

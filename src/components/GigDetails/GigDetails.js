@@ -21,6 +21,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import CreateReviewTile from '../CreateReviewTile/CreateReviewTile';
+import CreateCompanyReviewTile from '../CreateReviewTile/CreateCompanyReviewTile';
 
 import ReactModal from "react-modal"
 
@@ -66,6 +67,7 @@ const GigDetails = (props) => {
   const [applyDetails, setApplyDetails] = useState('')
   const [loading, setLoading] = useState(false)
   const [isOpenReview, setIsOpenReview] = useState(false)
+  const [isOpenCompanyReview, setIsOpenCompanyReview] = useState(false)
   const [applyTabIsOpen, setApplyTabIsOpen] = useState(false)
   const [details, setDetails] = useState({
     title: '',
@@ -128,7 +130,7 @@ const GigDetails = (props) => {
       isFlexible: gigData.isFlexible,
       isVariable: gigData.isVariable,
       pay: gigData.pay,
-      unit: gigData.pay,
+      unit: gigData.unit,
       completeBy: gigData.completeBy,
       startDate: gigData.startDate,
       endDate: gigData.endDate,
@@ -373,11 +375,13 @@ const GigDetails = (props) => {
 
                   {focusApplicationData.pendingReview ? <div>
                     <Button onClick={() => { setIsOpenReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
+                  {focusApplicationData.pendingCompanyReview ? <div>
+                    <Button onClick={() => { setIsOpenCompanyReview(true) }} text={'Review!'} forceWidth="50px" type='GREEN' /> </div> : null}
 
                   {/* Company POV */}
                   {!isWorker && mode == 'companyPov' && details.companyId == currentUserId ? (
                     <div className="GDButtons">
-                      <Button text="Edit" forceWidth="90px" type="PRIMARY" />
+                      <Button text="Edit" forceWidth="90px" type="PRIMARY" onClick={() => history.push("/edit_gig", { gigId: gigId })}/>
                     </div>
                   ) : (<span></span>)}
 
@@ -405,6 +409,17 @@ const GigDetails = (props) => {
                             <span className="GDName1">Applicant Name: </span><br></br>
                             <span className="GDName2">{focusWorkerData.name}</span>
                           </Col>
+                        </Row>
+
+                        <Row className="spacingRow">
+                          <Col></Col>
+                        </Row>
+
+                        <Row>
+                          <div className="GDButtons">
+                            Optional comments:<br></br>
+                            <span className="GDComment">{focusApplicationData.optionalComments == "" ? ("N/A") : (focusApplicationData.optionalComments)}</span>
+                          </div>
                         </Row>
 
                         <Row className="spacingRow">
@@ -495,6 +510,20 @@ const GigDetails = (props) => {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => { setIsOpenReview(false) }}
+                      color="primary" autoFocus text="Close"
+                    />
+                  </DialogActions>
+                </Dialog>
+
+                <Dialog open={isOpenCompanyReview} onClose={() => { setIsOpenCompanyReview(false) }}>
+                  <DialogContent>
+                    <DialogContentText>
+
+                      <CreateCompanyReviewTile gigRef={gigRef} workerId={focusWorkerId} />
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => { setIsOpenCompanyReview(false) }}
                       color="primary" autoFocus text="Close"
                     />
                   </DialogActions>
