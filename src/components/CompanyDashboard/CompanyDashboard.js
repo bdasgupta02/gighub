@@ -6,6 +6,8 @@ import DashApplicationTile from './DashApplicationTile';
 
 import DashHighlightsTile from '../DashHighlightsTile/index';
 import DashListingTile from '../DashListingTile/DashListingTile';
+import LoadingIndicator from '../../components/LoadingIndicator'
+import { accessDB } from '../../database/firebase';
 
 import Button from '../Button/index';
 import '../CompanyDashboard/companyDashboard.css';
@@ -28,6 +30,25 @@ const CompanyDashboard = (props) => {
   let collectedUserContainer = [];
   let collectedGigContainer = [];
   let collectedApplicationsContainer = [];
+
+  const fetchApplicationData = async () => {
+    let applicationsCache = []
+    const workerGet = await accessDB.collection('workers').get()
+    for (let i = 0; i < workerGet.docs.length; i ++) {
+      const workerId = workerGet.docs[i].id
+      const workerGigsGet = await accessDB.collection('workers').doc(workerId).collection('appliedGigs').get()
+      for (let j = 0; j < workerGigsGet.docs.length; j++) {
+        const innerGigGet = await workerGigsGet.docs[j].data().gig.get()
+        let gig = innerGigGet.data()
+        gig = { workerId: workerId, ...gig }
+        if (gig.companyId.id === currentUserId) {
+          applicationsCache.push(gig)
+        }
+      }
+    }
+
+    setApplicationData(applicationsCache)
+  }
   
   useEffect(() => {
     getCompany(currentUserId).then((retrievedData) => {
@@ -39,13 +60,13 @@ const CompanyDashboard = (props) => {
             collectedApplicationsContainer.push(retrievedApplications);
             
             setGigData(collectedGigContainer);
-            setApplicationData(collectedApplicationsContainer);
             setUserData(collectedUserContainer);
             setIsLoading(false);
           }
         );
       });
     });
+    fetchApplicationData()
   }, []);
 
   function redirectToAllGigs() {
@@ -53,7 +74,9 @@ const CompanyDashboard = (props) => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>
+      <LoadingIndicator />
+    </div>;
   } else {
     
     let userInfo = userData[0];
@@ -132,7 +155,7 @@ const CompanyDashboard = (props) => {
                   <Col></Col>
                 </Row>
                 <Row>
-                  {applicationData[0]
+                  {applicationData
                     .filter((x) => true)
                     .slice(0, 3)
                     .map((jsonObj) => (
@@ -153,7 +176,7 @@ const CompanyDashboard = (props) => {
                 </Row>
                 <Row>
                   <Col>
-                    <Button text="View all gigs" forceWidth="120px" onClick={redirectToAllGigs}/>
+                    <Button text="View all gigs" forceWidth="180px" onClick={redirectToAllGigs}/>
                   </Col>
                 </Row>
               </Col>

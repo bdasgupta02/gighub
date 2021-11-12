@@ -4,6 +4,7 @@ import ApplicationsTile from '../../components/ApplicationsTile'
 import { useAuth } from '../../contexts/AuthContext'
 import { getCompanyByRef, getWorkerAppliedGigs } from '../../database/firebaseFunctions'
 import states from '../../enum/GigStates'
+import LoadingIndicator from '../../components/LoadingIndicator'
 import { accessDB } from '../../database/firebase'
 
 
@@ -12,12 +13,14 @@ function MyApplications() {
 
     const { isWorker, currentUser, currentUserId } = useAuth()
     const [gigs, setGigs] = useState()
+    const [isLoading, setIsLoading] = useState(false)
 
     const getApplicationsByCompanyId = async (companyId) => {
         //getWorkerAppliedGigs for all workers --> each is an array of gigs. check gig.id == gig.id in the gig.id of the company's posted gigs
         //add gig[workerId] = worker.id
         //add to temp = []
         //return that
+        setIsLoading(true)
         let temp = []
 
 
@@ -64,9 +67,11 @@ function MyApplications() {
         // })
 
         setGigs(temp)
+        setIsLoading(false)
     }
 
     const fetchWorkerGigs = async () => {
+        setIsLoading(true)
         let temp = []
         const workerRefGet = await accessDB.collection('workers').doc(currentUserId).collection('appliedGigs').get()
         for (let i = 0; i < workerRefGet.docs.length; i++) {
@@ -77,8 +82,8 @@ function MyApplications() {
             gig = { ...gig, id: workerRefGet.docs[i].id, companyData: companyGet.data(), status: workerRefGet.docs[i].data().status }
             temp.push(gig)
         }
-        console.log(temp)
         setGigs(temp)
+        setIsLoading(false)
     }
 
 
@@ -117,6 +122,13 @@ function MyApplications() {
         <div>
             {gigs != null && console.log('appliedgigs length: ' + gigs.length)}
             <div id="HeaderTexts"> Applications</div>
+
+            {isLoading && (
+                <div style={{ marginLeft: '45px', marginTop: '20px' }}>
+                    <LoadingIndicator />
+                </div>
+            )}
+            
             <div style={{ height: '10px' }}></div>
             {(gigs != null && gigs.length != 0 && isWorker) && gigs.map(gig =>
                 <ApplicationsTile jobTitle={gig.title}
